@@ -1,32 +1,29 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import SaludoProfe from './components/SaludoProfe.vue'
-</script>
-
 <template>
-  <SaludoProfe />
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <!-- contenedor padre a 80% y centrado -->
+  <div id="app">
+    <NavBar /> <!-- Fijo arriba, pero dentro del 80% -->
+    <main class="flex-grow-1 overflow-auto">
+      <GestionClientes />
+    </main>
+    <FooTer class="mt-auto" /> <!-- Fijo abajo, pero dentro del 80% -->
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
+
+<script setup>
+import NavBar from './components/NavBar.vue'
+import FooTer from './components/FooTer.vue'
+import GestionClientes from './components/GestionClientes.vue'
+</script>
+
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+#app {
+  max-width: 80%;
+  margin: 0 auto;
+  /* centra horizontalmente */
+  height: 100vh;
+  /* equivalente a vh-100 */
+  display: flex;
+  flex-direction: column;
 }
 </style>
