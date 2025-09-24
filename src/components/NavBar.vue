@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
     <div class="container-fluid">
       <!-- Marca o logo -->
       <a class="navbar-brand" href="#">EmpresaTeis</a>
