@@ -137,8 +137,8 @@
             @change="filtrarMunicipios"
           >
             <option disabled value="">Seleccione provincia</option>
-            <option v-for="prov in provincias" :key="prov" :value="prov">
-              {{ prov }}
+            <option v-for="prov in provincias" :key="prov" :value="prov.nm">
+              {{ prov.nm }}
             </option>
           </select>
         </div>
@@ -154,8 +154,8 @@
             class="form-select flex-grow-1 w-auto"
           >
             <option disabled value="">Seleccione municipio</option>
-            <option v-for="mun in municipiosFiltrados" :key="mun" :value="mun">
-              {{ mun }}
+            <option v-for="mun in municipiosFiltrados" :key="mun" :value="mun.nm">
+              {{ mun.nm }}
             </option>
           </select>
         </div>
@@ -223,6 +223,7 @@
 
 <script setup>
 import { ref } from "vue";
+import provmuniData from "@/data/provmuni.json";
 
 /* =================================== SCRIPT CRUD =================================== */
 
@@ -307,9 +308,7 @@ const capitalizarTexto = (campo) => {
     .join(" ");
 };
 
-
-// Validar email 
-
+// Validar email
 const emailValido = ref(true);
 const validarEmail = () => {
   const email = nuevoCliente.value.email.trim();
@@ -325,21 +324,47 @@ const movilRegex = /^[67]\d{8}$/;
 const validarMovil = () => {
   const movil = nuevoCliente.value.movil.trim();
 
-  if (movil === '') {
+  if (movil === "") {
     movilValido.value = true; // Vacío = válido (opcional)
     return true;
   }
 
-  if (movil.charAt(0) === '6' || movil.charAt(0) === '7') {
+  if (movil.charAt(0) === "6" || movil.charAt(0) === "7") {
     movilValido.value = movilRegex.test(movil);
     return movilValido.value;
   } else {
     movilValido.value = false;
     return false;
   }
-  };
+};
 
+// Provincias y municipios
+const provincias = ref(provmuniData.provincias); // Array de provincias
+const municipios = ref(provmuniData.municipios); // Array de municipios para filtrarlos
+const municipiosFiltrados = ref([]); // vacío pero contendrá los municipios filtrados
 
+const filtrarMunicipios = () => {
+  // nombre de la provincia elegida en el <select>
+  const nombreProv = nuevoCliente.value.provincia;
+
+  // 1️⃣ buscar en provincias el objeto con ese nombre
+  const prov = provincias.value.find((p) => p.nm === nombreProv);
+  if (!prov) {
+    municipiosFiltrados.value = [];
+    return;
+  }
+
+  // 2️⃣ los dos primeros dígitos del id de la provincia
+  const codigoProv = prov.id.slice(0, 2);
+
+  // 3️⃣ filtrar los municipios cuyo id empiece por esos dos dígitos
+  municipiosFiltrados.value = municipios.value.filter((m) =>
+    m.id.startsWith(codigoProv)
+  );
+
+  // 4️⃣ opcional: resetear el municipio si ya no corresponde
+  nuevoCliente.value.municipio = "";
+};
 </script>
 
 <style scoped>
