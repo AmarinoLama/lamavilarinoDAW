@@ -222,8 +222,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import provmuniData from "@/data/provmuni.json";
+import Swal from "sweetalert2";
+import { getClientes } from '@/api/clientes.js'
 
 /* =================================== SCRIPT CRUD =================================== */
 
