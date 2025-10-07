@@ -68,7 +68,7 @@
             type="text"
             id="apellidos"
             v-model="nuevoCliente.apellidos"
-            class="form-control flex-grow-1"
+            class="form-control flex-grow-1 ms-1"
             @blur="capitalizarTexto('apellidos')"
             required
           />
@@ -103,7 +103,7 @@
             id="movil"
             v-model="nuevoCliente.movil"
             @blur="validarMovil"
-            class="form-control flex-grow-1 text-center"
+            class="form-control flex-grow-1 text-center ms-4"
             :class="{ 'is-invalid': !movilValido }"
           />
         </div>
@@ -154,7 +154,11 @@
             class="form-select flex-grow-1 w-auto"
           >
             <option disabled value="">Seleccione municipio</option>
-            <option v-for="mun in municipiosFiltrados" :key="mun" :value="mun.nm">
+            <option
+              v-for="mun in municipiosFiltrados"
+              :key="mun"
+              :value="mun.nm"
+            >
               {{ mun.nm }}
             </option>
           </select>
@@ -176,7 +180,12 @@
 
       <!-- Botón centrado -->
       <div class="text-center">
-        <button type="submit" class="btn btn-primary">Grabar</button>
+        <button
+          type="submit"
+          class="btn btn-primary border-0 shadow-none rounded-0"
+        >
+          Grabar
+        </button>
       </div>
     </form>
     <!-- Lista de Clientes -->
@@ -203,13 +212,17 @@
             <td class="align-middle text-center">
               <button
                 @click="eliminarCliente(index)"
-                class="btn btn-danger btn-sm"
+                class="btn btn-danger btn-sm me-2 border-0 shadow-none rounded-0"
+                title="Eliminar cliente"
+                aria-label="Eliminar cliente"
               >
                 <i class="bi bi-trash"></i>
               </button>
               <button
-                @click="modificarCliente(index)"
-                class="btn btn-warning btn-sm ms-2"
+                @click="editarCliente(cliente.movil)"
+                class="btn btn-warning btn-sm border-0 shadow-none rounded-0"
+                title="Editar cliente"
+                aria-label="Editar cliente"
               >
                 <i class="bi bi-pencil"></i>
               </button>
@@ -225,7 +238,7 @@
 import { ref, onMounted } from "vue";
 import provmuniData from "@/data/provmuni.json";
 import Swal from "sweetalert2";
-import { getClientes } from '@/api/clientes.js'
+import { getClientes } from "@/api/clientes.js";
 
 /* =================================== SCRIPT CRUD =================================== */
 
@@ -242,7 +255,23 @@ const nuevoCliente = ref({
   historico: false,
 });
 
+const editando = ref(false);
+const clienteEditandoId = ref(null);
+
+// Función Listar Clientes con get
+
 const clientes = ref([]);
+
+// Cargar clientes al montar el componente
+onMounted(async () => {
+  clientes.value = await getClientes();
+  Swal.fire({
+    icon: "success",
+    title: "Listando Clientes...",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+});
 
 const agregarCliente = () => {
   clientes.value.push({ ...nuevoCliente.value });
@@ -259,6 +288,30 @@ const agregarCliente = () => {
     fechaAlta: "",
     historico: false,
   };
+};
+
+// Función Editar Cliente (carga datos en el formulario)
+const editarCliente = (movil) => {
+  const cliente = clientes.value.find((c) => c.movil === movil);
+  if (!cliente) {
+    Swal.fire({
+      icon: "error",
+      title: "Cliente no encontrado",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    return;
+  }
+
+  // Copiar datos al formulario
+  nuevoCliente.value = { ...cliente }; // 🔁 Aquí cargas el formulario con los datos
+  editando.value = true;
+  // Formatear fecha para el input type="date"
+  nuevoCliente.value.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
+  // Actualiza municipios filtrados según la provincia seleccionada
+  filtrarMunicipios();
+  nuevoCliente.value.municipio = cliente.municipio; // 🟢 Ahora estamos en modo edición
+  clienteEditandoId.value = cliente.id;
 };
 
 const eliminarCliente = (index) => {
@@ -366,6 +419,18 @@ const filtrarMunicipios = () => {
 
   // 4️⃣ opcional: resetear el municipio si ya no corresponde
   nuevoCliente.value.municipio = "";
+};
+
+// conversor fecha
+const formatearFechaParaInput = (fecha) => {
+  if (!fecha) return "";
+  const partes = fecha.split("/");
+  if (partes.length !== 3) return "";
+  // partes = [dd, mm, yyyy]
+  return `${partes[2]}-${partes[1].padStart(2, "0")}-${partes[0].padStart(
+    2,
+    "0"
+  )}`;
 };
 </script>
 
