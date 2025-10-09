@@ -10,3 +10,8 @@ export const getClientes = () => {
   return axios.get(`${API_URL}?_sort=apellidos&_order=asc`)
               .then(res => res.data)
 }
+
+export const deleteCliente = (id) => {
+  return axios.patch(`${API_URL}/${id}`, {historico: false})
+              .then(res => res.data)
+}
