@@ -2,7 +2,7 @@
   "clientes": [
     {
       "dni": "73289465B",
-      "fecha_alta": "14/02/2022",
+      "fecha_alta": "2022-02-14",
       "nombre": "Laura",
       "apellidos": "López Sánchez",
       "email": "laura.lopez@example.com",
@@ -12,25 +12,27 @@
       "municipio": "Alcalá de Henares",
       "historico": false,
       "lopd": true,
-      "password": ""
+      "password": "",
+      "id": "7169"
     },
     {
       "dni": "X3456789G",
-      "fecha_alta": "05/07/2023",
+      "fecha_alta": "2023-07-05",
       "nombre": "José",
       "apellidos": "Martín Pérez",
       "email": "jose.martin@example.com",
-      "movil": "678901234",
+      "movil": "678901222",
       "direccion": "Calle Fernández 95",
       "provincia": "Barcelona",
       "municipio": "Badalona",
       "historico": true,
       "lopd": false,
-      "password": ""
+      "password": "",
+      "id": "a079"
     },
     {
       "dni": "45678912S",
-      "fecha_alta": "20/11/2021",
+      "fecha_alta": "2021-11-20",
       "nombre": "Ana",
       "apellidos": "García Gómez",
       "email": "ana.garcia@example.com",
@@ -40,11 +42,12 @@
       "municipio": "Utrera",
       "historico": false,
       "lopd": true,
-      "password": ""
+      "password": "",
+      "id": "56df"
     },
     {
       "dni": "78912345N",
-      "fecha_alta": "08/03/2024",
+      "fecha_alta": "2024-03-08",
       "nombre": "Antonio",
       "apellidos": "Pérez López",
       "email": "antonio.perez@example.com",
@@ -54,11 +57,12 @@
       "municipio": "Torrent",
       "historico": true,
       "lopd": true,
-      "password": ""
+      "password": "",
+      "id": "c356"
     },
     {
       "dni": "90123456A",
-      "fecha_alta": "27/06/2022",
+      "fecha_alta": "2022-06-27",
       "nombre": "María",
       "apellidos": "Fernández Martín",
       "email": "maria.fernandez@example.com",
@@ -68,11 +72,12 @@
       "municipio": "Ronda",
       "historico": false,
       "lopd": false,
-      "password": ""
+      "password": "",
+      "id": "960a"
     },
     {
       "dni": "Z2345678M",
-      "fecha_alta": "15/04/2023",
+      "fecha_alta": "2023-04-15",
       "nombre": "Javier",
       "apellidos": "Sánchez García",
       "email": "javier.sanchez@example.com",
@@ -82,11 +87,12 @@
       "municipio": "Calatayud",
       "historico": true,
       "lopd": false,
-      "password": ""
+      "password": "",
+      "id": "eda8"
     },
     {
       "dni": "34567891H",
-      "fecha_alta": "09/09/2021",
+      "fecha_alta": "2021-09-09",
       "nombre": "Carmen",
       "apellidos": "Rodríguez Martínez",
       "email": "carmen.rodriguez@example.com",
@@ -96,11 +102,12 @@
       "municipio": "Cartagena",
       "historico": false,
       "lopd": true,
-      "password": ""
+      "password": "",
+      "id": "39b2"
     },
     {
       "dni": "56789123F",
-      "fecha_alta": "11/01/2024",
+      "fecha_alta": "2024-01-11",
       "nombre": "Luis",
       "apellidos": "Martínez Fernández",
       "email": "luis.martinez@example.com",
@@ -110,11 +117,12 @@
       "municipio": "Motril",
       "historico": true,
       "lopd": true,
-      "password": ""
+      "password": "",
+      "id": "d6a9"
     },
     {
       "dni": "23456789D",
-      "fecha_alta": "22/05/2022",
+      "fecha_alta": "2022-05-22",
       "nombre": "Isabel",
       "apellidos": "Gómez López",
       "email": "isabel.gomez@example.com",
@@ -124,11 +132,12 @@
       "municipio": "Chiclana de la Frontera",
       "historico": false,
       "lopd": false,
-      "password": ""
+      "password": "",
+      "id": "0f47"
     },
     {
       "dni": "67891234H",
-      "fecha_alta": "03/08/2023",
+      "fecha_alta": "2023-08-03",
       "nombre": "Carlos",
       "apellidos": "Martín García",
       "email": "carlos.martin@example.com",
@@ -138,11 +147,12 @@
       "municipio": "Getxo",
       "historico": true,
       "lopd": false,
-      "password": ""
+      "password": "",
+      "id": "1955"
     },
     {
       "dni": "78945612K",
-      "fecha_alta": "29/12/2021",
+      "fecha_alta": "2021-12-29",
       "nombre": "Ana",
       "apellidos": "López Fernández",
       "email": "ana.lopez@example.com",
@@ -150,13 +160,14 @@
       "direccion": "Calle García 33",
       "provincia": "Madrid",
       "municipio": "Getafe",
-      "historico": false,
+      "historico": true,
       "lopd": true,
-      "password": ""
+      "password": "",
+      "id": "1b52"
     },
     {
       "dni": "X9876543K",
-      "fecha_alta": "17/03/2024",
+      "fecha_alta": "2024-03-17",
       "nombre": "Javier",
       "apellidos": "Sánchez Gómez",
       "email": "javier.sanchez@example.com",
@@ -166,11 +177,12 @@
       "municipio": "Terrassa",
       "historico": true,
       "lopd": false,
-      "password": ""
+      "password": "",
+      "id": "58cf"
     },
     {
       "dni": "34561278Y",
-      "fecha_alta": "05/06/2022",
+      "fecha_alta": "2022-06-05",
       "nombre": "Luis",
       "apellidos": "Pérez Martínez",
       "email": "luis.perez@example.com",
@@ -180,25 +192,27 @@
       "municipio": "Écija",
       "historico": false,
       "lopd": true,
-      "password": ""
+      "password": "",
+      "id": "e406"
     },
     {
       "dni": "Y1234567X",
-      "fecha_alta": "21/09/2023",
-      "nombre": "María",
+      "fecha_alta": "2025-09-07",
+      "nombre": "María Del Mar",
       "apellidos": "Gómez Rodríguez",
       "email": "maria.gomez@example.com",
       "movil": "645678901",
       "direccion": "Calle García 21",
       "provincia": "Valencia",
-      "municipio": "Gandia",
+      "municipio": "Gandía",
       "historico": true,
       "lopd": true,
-      "password": ""
+      "password": "",
+      "id": "ba17"
     },
     {
       "dni": "56712389R",
-      "fecha_alta": "12/11/2021",
+      "fecha_alta": "2021-11-12",
       "nombre": "Carlos",
       "apellidos": "Martín Sánchez",
       "email": "carlos.martin@example.com",
@@ -208,11 +222,12 @@
       "municipio": "Marbella",
       "historico": false,
       "lopd": false,
-      "password": ""
+      "password": "",
+      "id": "b1f4"
     },
     {
       "dni": "X4567891E",
-      "fecha_alta": "14/01/2022",
+      "fecha_alta": "2022-01-14",
       "nombre": "Ana",
       "apellidos": "Fernández López",
       "email": "ana.fernandez@example.com",
@@ -222,11 +237,12 @@
       "municipio": "Móstoles",
       "historico": false,
       "lopd": true,
-      "password": ""
+      "password": "",
+      "id": "76d6"
     },
     {
       "dni": "Y2345678Z",
-      "fecha_alta": "09/03/2023",
+      "fecha_alta": "2023-03-09",
       "nombre": "Carlos",
       "apellidos": "Martínez Sánchez",
       "email": "carlos.martinez@example.com",
@@ -236,11 +252,12 @@
       "municipio": "Sabadell",
       "historico": true,
       "lopd": false,
-      "password": ""
+      "password": "",
+      "id": "66fd"
     },
     {
       "dni": "Z9876543A",
-      "fecha_alta": "22/07/2021",
+      "fecha_alta": "2021-07-22",
       "nombre": "José",
       "apellidos": "Pérez Gómez",
       "email": "jose.perez@example.com",
@@ -250,11 +267,12 @@
       "municipio": "Dos Hermanas",
       "historico": false,
       "lopd": true,
-      "password": ""
+      "password": "",
+      "id": "4d3e"
     },
     {
       "dni": "12345678Z",
-      "fecha_alta": "30/09/2022",
+      "fecha_alta": "2022-09-30",
       "nombre": "Laura",
       "apellidos": "Gómez Fernández",
       "email": "laura.gomez@example.com",
@@ -262,13 +280,14 @@
       "direccion": "Calle Sánchez 18",
       "provincia": "Valencia",
       "municipio": "Xàtiva",
-      "historico": true,
+      "historico": false,
       "lopd": true,
-      "password": ""
+      "password": "",
+      "id": "bacd"
     },
     {
       "dni": "87654321X",
-      "fecha_alta": "17/12/2023",
+      "fecha_alta": "2023-12-17",
       "nombre": "Luis",
       "apellidos": "López Martín",
       "email": "luis.lopez@example.com",
@@ -278,11 +297,12 @@
       "municipio": "Antequera",
       "historico": false,
       "lopd": false,
-      "password": ""
+      "password": "",
+      "id": "9115"
     },
     {
       "dni": "X3456789G",
-      "fecha_alta": "05/05/2024",
+      "fecha_alta": "2024-05-05",
       "nombre": "Isabel",
       "apellidos": "Martín Pérez",
       "email": "isabel.martin@example.com",
@@ -292,7 +312,113 @@
       "municipio": "Ejea de los Caballeros",
       "historico": true,
       "lopd": false,
-      "password": ""
+      "password": "",
+      "id": "82f2"
+    },
+    {
+      "id": "971c",
+      "dni": "00000000T",
+      "nombre": "Sonia",
+      "apellidos": "Abalos Martínez",
+      "eemail": "sonia@gmil.com",
+      "movil": "654789465",
+      "direccion": "Avda. De Galicia, 101",
+      "provincia": "Cuenca",
+      "municipio": "Alconchel de la Estrella",
+      "fecha_alta": "2025-10-02",
+      "historico": true
+    },
+    {
+      "id": "9afd",
+      "dni": "99999999R",
+      "nombre": "Francisco",
+      "apellidos": "Alonso Gil",
+      "eemail": "gil@gil.com",
+      "movil": "654654654",
+      "direccion": "Avenida Del Puente, 80",
+      "provincia": "Pontevedra",
+      "municipio": "Vigo",
+      "fecha_alta": "2025-02-10",
+      "historico": false,
+      "email": "asdf@asdf.ok"
+    },
+    {
+      "id": "c9ee",
+      "dni": "39390917J",
+      "nombre": "Paula",
+      "apellidos": "Gil Santos",
+      "eemail": "email@correo.com",
+      "movil": "654784315",
+      "direccion": "Avenida Del Puerto, 1",
+      "provincia": "Guadalajara",
+      "municipio": "Driebes",
+      "fecha_alta": "2025-10-03",
+      "historico": false
+    },
+    {
+      "id": "ec7e",
+      "dni": "Y1362780K",
+      "nombre": "Alicia",
+      "apellidos": "Suárez Gómez",
+      "eemail": "alicia@email.ru",
+      "movil": "658451248",
+      "direccion": "Calle Principal, 12",
+      "provincia": "Girona",
+      "municipio": "Arbúcies",
+      "fecha_alta": "2025-10-03",
+      "historico": true
+    },
+    {
+      "id": "a1b9",
+      "dni": "X4841619G",
+      "nombre": "Marta",
+      "apellidos": "Abril López",
+      "email": "marta.a@gmail.com",
+      "movil": "631546975",
+      "direccion": "Calle Rúa, 14 4ºa",
+      "provincia": "Huelva",
+      "municipio": "Alájar",
+      "fecha_alta": "2025-10-09",
+      "historico": true
+    },
+    {
+      "id": "68a1",
+      "dni": "94016002Y",
+      "nombre": "Amancio",
+      "apellidos": "Ara Sol",
+      "email": "sol@mail.com",
+      "movil": "652145786",
+      "direccion": "Calle Sol, 25",
+      "provincia": "Huelva",
+      "municipio": "Cerro de Andévalo, El",
+      "fecha_alta": "2025-10-08",
+      "historico": true
+    },
+    {
+      "id": "b38d",
+      "dni": "Z4268144Q",
+      "nombre": "Santiago",
+      "apellidos": "Aldo Santos",
+      "email": "aldo@gao.es",
+      "movil": "654213658",
+      "direccion": "Calle Luna, 34",
+      "provincia": "Tarragona",
+      "municipio": "Calafell",
+      "fecha_alta": "2025-10-14",
+      "historico": true
+    },
+    {
+      "id": "2d28",
+      "dni": "77550032N",
+      "nombre": "Victor",
+      "apellidos": "Dawdawawdadwawd",
+      "email": "dawawd@gmail.com",
+      "movil": "654987987",
+      "direccion": "Dawdawd",
+      "provincia": "Albacete",
+      "municipio": "Albatana",
+      "fecha_alta": "2025-10-24",
+      "historico": true
     }
   ]
 }
