@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="210mm"
+   viewBox="0 0 210 210"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e94, 2025-05-08)"
+   sodipodi:docname="logoCochesTeis.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.50835204"
+     inkscape:cx="118.02844"
+     inkscape:cy="518.34158"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient257"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop257" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop258" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient252"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#808080;stop-opacity:1;"
+         offset="0"
+         id="stop253" />
+      <stop
+         style="stop-color:#2c2c2c;stop-opacity:1;"
+         offset="0.5"
+         id="stop255" />
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="1"
+         id="stop254" />
+    </linearGradient>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath5">
+      <rect
+         style="fill:#000000;stroke:#000000;stroke-width:0;stroke-linejoin:bevel;paint-order:stroke markers fill;stop-color:#000000"
+         id="rect5-4"
+         width="20"
+         height="200"
+         x="530"
+         y="595" />
+    </clipPath>
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#Wave"
+       preserveAspectRatio="xMidYMid"
+       id="pattern87"
+       patternTransform="matrix(1.3593489,0,0,1.3605769,-35.864417,-35.927621)"
+       x="0"
+       y="0" />
+    <pattern
+       patternUnits="userSpaceOnUse"
+       width="24"
+       height="10"
+       preserveAspectRatio="xMidYMid"
+       id="Wave"
+       style="fill:#000000"
+       x="0"
+       y="0"
+       inkscape:collect="always"
+       inkscape:isstock="true"
+       inkscape:label="Onda">
+      <g
+         id="wave_g"
+         style="display:inline">
+        <path
+           d="M 12,-2 C 9.1666695,-2 7.1679672,-0.56445187 5.4179687,0.68554687 3.6679703,1.9355456 2.1666645,3 0,3 V 5 C 2.8333305,5 4.8320328,3.5644519 6.5820312,2.3144531 8.3320297,1.0644544 9.8333355,0 12,0 14.166665,0 15.667971,1.0644544 17.417969,2.3144531 19.167967,3.5644519 21.166669,5 24,5 V 3 C 21.833335,3 20.332029,1.9355456 18.582031,0.68554687 16.832033,-0.56445189 14.833331,-2 12,-2 Z"
+           id="path3" />
+        <path
+           d="M 12,3 C 9.1666695,3 7.1679672,4.4355481 5.4179687,5.6855469 3.6679703,6.9355456 2.1666645,8 0,8 v 2 C 2.8333305,10 4.8320328,8.5644519 6.5820312,7.3144531 8.3320297,6.0644544 9.8333355,5 12,5 14.166665,5 15.667971,6.0644544 17.417969,7.3144531 19.167967,8.5644519 21.166669,10 24,10 V 8 C 21.833335,8 20.332029,6.9355456 18.582031,5.6855469 16.832033,4.4355481 14.833331,3 12,3 Z"
+           id="path4" />
+        <path
+           d="M 12,8 C 9.1666695,8 7.1679672,9.4355481 5.4179687,10.685547 3.6679703,11.935546 2.1666645,13 0,13 v 2 C 2.8333305,15 4.8320328,13.564452 6.5820312,12.314453 8.3320297,11.064454 9.8333355,10 12,10 c 2.166665,0 3.667971,1.064454 5.417969,2.314453 C 19.167967,13.564452 21.166669,15 24,15 V 13 C 21.833335,13 20.332029,11.935546 18.582031,10.685547 16.832033,9.4355481 14.833331,8 12,8 Z"
+           id="path5" />
+      </g>
+    </pattern>
+    <linearGradient
+       id="swatch74">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop74" />
+    </linearGradient>
+    <symbol
+       id="AigaSymbols.svg:CarRental">
+      <title
+         id="title177">Car Rental</title>
+      <g
+         style="fill-rule:evenodd;stroke:none"
+         id="g178">
+        <!-- Key -->
+        <path
+           d="m 34.5,10 a 9.25,9.25 0 1 0 0,9 h 5 l 2.5,-2.5 2,2 2,-2 2,2 2,-2 2,2 4,-4 c 0.24,-0.24 0.24,-0.76 0,-1 L 52.5,10 Z M 25,14.5 a 2.5,2.5 0 0 1 -5,0 2.5,2.5 0 0 1 5,0 z"
+           id="path177" />
+        <!-- Car -->
+        <path
+           d="m 45.5,27 c 3,0 4.26,1.5 5,3.5 L 54,40 c 1.5,0 4,1.8 4,5 v 12 h -3 v 4 a 3.5,3.5 0 0 1 -7,0 V 57 H 24 v 4 a 3.5,3.5 0 0 1 -7,0 V 57 H 14 V 45 c 0,-3.2 2.5,-5 4,-5 l 3.5,-9.5 c 0.74,-2 2,-3.5 5,-3.5 z m 5,13 h -29 l 2.75,-7.5 c 0.36,-1 1,-2 2.25,-2 h 19 c 1.25,0 1.89,1 2.25,2 z m -27,7 a 3,3 0 1 1 -6,0 3,3 0 1 1 6,0 z m 31,0 a 3,3 0 1 1 -6,0 3,3 0 1 1 6,0 z"
+           id="path178" />
+      </g>
+    </symbol>
+    <symbol
+       id="AigaSymbols.svg:CarRental_Inv">
+      <title
+         id="title178">Car Rental</title>
+      <rect
+         x="0.5"
+         y="0.5"
+         width="71"
+         height="71"
+         ry="6"
+         style="stroke:#ffffff"
+         id="rect178" />
+      <g
+         style="fill:#ffffff;fill-rule:evenodd;stroke:none"
+         id="g180">
+        <!-- Key -->
+        <path
+           d="m 34.5,10 a 9.25,9.25 0 1 0 0,9 h 5 l 2.5,-2.5 2,2 2,-2 2,2 2,-2 2,2 4,-4 c 0.24,-0.24 0.24,-0.76 0,-1 L 52.5,10 Z M 25,14.5 a 2.5,2.5 0 0 1 -5,0 2.5,2.5 0 0 1 5,0 z"
+           id="path179" />
+        <!-- Car -->
+        <path
+           d="m 45.5,27 c 3,0 4.26,1.5 5,3.5 L 54,40 c 1.5,0 4,1.8 4,5 v 12 h -3 v 4 a 3.5,3.5 0 0 1 -7,0 V 57 H 24 v 4 a 3.5,3.5 0 0 1 -7,0 V 57 H 14 V 45 c 0,-3.2 2.5,-5 4,-5 l 3.5,-9.5 c 0.74,-2 2,-3.5 5,-3.5 z m 5,13 h -29 l 2.75,-7.5 c 0.36,-1 1,-2 2.25,-2 h 19 c 1.25,0 1.89,1 2.25,2 z m -27,7 a 3,3 0 1 1 -6,0 3,3 0 1 1 6,0 z m 31,0 a 3,3 0 1 1 -6,0 3,3 0 1 1 6,0 z"
+           id="path180" />
+      </g>
+    </symbol>
+    <symbol
+       id="AigaSymbols.svg:Telephone">
+      <title
+         id="title2">Telephone</title>
+      <g
+         style="stroke:none"
+         id="g2">
+        <path
+           d="m 23,36 c 0,24 11,30 13,30 V 49 c -3,0 -3,-8 -3,-13 0,-5 0,-13 3,-13 V 6 C 33,6 23,12 23,36 Z"
+           id="path2" />
+        <path
+           id="ear1"
+           d="m 42,23 a 2,2 0 0 0 2,-2 V 8 A 2,2 0 0 0 42,6 h -4 v 17 z" />
+        <use
+           y="43"
+           xlink:href="#ear1"
+           id="use2" />
+      </g>
+    </symbol>
+    <symbol
+       id="AigaSymbols.svg:Smoking">
+      <title
+         id="title233">Smoking</title>
+      <rect
+         x="8"
+         y="46"
+         height="8"
+         width="48"
+         style="stroke:none"
+         id="rect233" />
+      <rect
+         x="57.75"
+         y="46"
+         width="2.5"
+         height="8"
+         style="stroke:none"
+         id="rect234" />
+      <rect
+         x="61.75"
+         y="46"
+         width="2.5"
+         height="8"
+         style="stroke:none"
+         id="rect235" />
+      <path
+         d="m 59,44 v -5 a 3.5,3.5 0 0 0 -3.5,-3.5 h -9 A 5,5 0 0 1 42,28 6.5,6.5 0 0 1 42,15"
+         style="fill:none;stroke-width:2.5"
+         id="path235" />
+      <path
+         d="M 63,44 V 38 A 9,9 0 0 0 54,29 H 49 A 6.5,6.5 0 0 0 44,18"
+         style="fill:none;stroke-width:2.5"
+         id="path236" />
+    </symbol>
+    <symbol
+       id="AigaSymbols.svg:DepartingFlights">
+      <title
+         id="title229">Departing Flights</title>
+      <g
+         style="stroke:none"
+         id="g230">
+        <path
+           d="M 56,11 42,25 12,17 7,22 32,35 22,45 l -8,-1 -4,4 9,5 5,9 4,-4 -1,-8 10,-10 13,25 5,-5 -8,-30 14,-14 a 3.54,3.54 0 0 0 -5,-5 z"
+           id="path230" />
+      </g>
+    </symbol>
+    <symbol
+       id="AigaSymbols.svg:Immigration">
+      <title
+         id="title225">Immigration</title>
+      <g
+         style="stroke:none"
+         id="g227">
+        <!-- Passport -->
+        <path
+           d="m 14,15 v 13 l 6.25,4.75 C 21.12,33.37 22,32.62 22,31.5 V 28 h 1 a 2,2 0 0 0 2,-2 v -9 a 2,2 0 0 0 -2,-2 z m 2.5,1.25 H 23 A 0.75,0.75 0 0 1 23.75,17 v 9 A 0.75,0.75 0 0 1 23,26.75 H 22 V 21.5 c 0,-0.6 0,-1.4 -0.5,-1.75 z"
+           id="path226" />
+        <!-- Official -->
+        <path
+           d="m 37,19 -2.5,3 h 3 A 6.25,6.25 0 0 0 50,22 v -3 z m 13,-6 v 4.5 H 37 L 34,13 Z M 49.25,30 H 35 a 5.2,5.3 0 0 0 -4,1.8 L 25.75,38.75 18.5,33 A 2.82,2.82 0 0 0 15,37.4 l 9.5,7.6 a 3,3 0 0 0 4,-0.5 L 35,36 V 49 Z M 57,34 V 60 H 35 V 53 H 51 V 50 H 38 L 53,30 a 4,4 0 0 1 4,4 z"
+           id="path227" />
+      </g>
+    </symbol>
+    <symbol
+       id="sjjb-amenity.svg:telephone"
+       viewBox="0 0 398.47855 496.37918">
+      <title
+         id="title30">Telephone</title>
+      <path
+         d="M 307.97537,0.00183017 C 262.31401,0.25687717 183.20779,27.282395 89.92263,157.61121 -46.79629,348.62509 7.203038,446.51097 29.080828,461.11511 L 117.8074,333.8534 c -17.75835,-12.38119 -7.84978,-34.20969 15.9082,-76.9336 15.72111,-28.26929 37.7216,-61.49108 63.83398,-91.55664 18.32399,-21.09423 38.07816,-40.38431 56.67579,-27.41797 L 345.0613,7.4139402 C 338.59019,3.9004034 325.84285,-0.09796963 307.97537,0.00183137 Z M 355.02419,14.361205 264.07302,144.81239 c 0,0 35.92248,25.12809 35.97266,25.11914 l 0.0762,0.0156 c 8.22588,5.73511 18.79876,3.14534 24.03516,-4.36524 l 0.0996,-0.0176 c 0,0 71.09092,-102.090295 71.13281,-102.150375 5.48576,-7.86823 3.4326,-18.517291 -4.31641,-23.919933 L 355.02419,14.361196 Z M 127.61404,340.53505 38.657008,468.1249 c 0,0 35.92443,25.12811 35.97461,25.11915 l 0.0762,0.0156 c 8.22588,5.73513 18.79875,3.14535 24.03515,-4.36523 l 0.0996,-0.0176 c 0,0 69.094832,-99.22897 69.136722,-99.28906 5.48576,-7.86822 3.43456,-18.51533 -4.31445,-23.91797 l -36.05078,-25.13476 z"
+         id="path31" />
+    </symbol>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient252"
+       id="linearGradient255"
+       x1="89.389008"
+       y1="100.74399"
+       x2="112.74956"
+       y2="100.74399"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient257"
+       id="linearGradient258"
+       x1="84.453529"
+       y1="98.349846"
+       x2="104.35477"
+       y2="98.349846"
+       gradientUnits="userSpaceOnUse" />
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath10">
+      <ellipse
+         style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.285501;stroke-opacity:1"
+         id="ellipse10"
+         cx="101.06928"
+         cy="100.74397"
+         inkscape:label="path257"
+         rx="11.548384"
+         ry="11.548383" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath11">
+      <ellipse
+         style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.285501;stroke-opacity:1"
+         id="ellipse11"
+         cx="101.06928"
+         cy="100.67892"
+         inkscape:label="path257"
+         rx="11.548384"
+         ry="11.548383" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath12">
+      <ellipse
+         style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.285501;stroke-opacity:1"
+         id="ellipse12"
+         cx="101.06928"
+         cy="100.67892"
+         inkscape:label="path257"
+         rx="11.548384"
+         ry="11.548383" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath13">
+      <ellipse
+         style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.285501;stroke-opacity:1"
+         id="ellipse13"
+         cx="101.06928"
+         cy="100.67892"
+         inkscape:label="path257"
+         rx="11.548384"
+         ry="11.548383" />
+    </clipPath>
+  </defs>
+  <circle
+     style="fill:url(#linearGradient255);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.264583;stroke-opacity:1"
+     id="path39"
+     r="11.547987"
+     cy="100.74399"
+     cx="101.06928"
+     clip-path="url(#clipPath13)"
+     transform="matrix(8.909587,0,0,8.909587,-794.4718,-791.90463)" />
+  <circle
+     style="fill:#999999;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.248813;stroke-opacity:1"
+     id="path41"
+     r="9.238389"
+     cy="100.71149"
+     cx="101.16687"
+     clip-path="url(#clipPath12)"
+     transform="matrix(8.909587,0,0,8.909587,-794.4718,-791.90463)" />
+  <ellipse
+     style="fill:url(#pattern87);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.359824"
+     id="path42"
+     ry="9.2058601"
+     rx="9.1975527"
+     cy="100.74399"
+     cx="101.12601"
+     clip-path="url(#clipPath11)"
+     transform="matrix(8.909587,0,0,8.909587,-794.4718,-791.90463)" />
+  <path
+     sodipodi:type="star"
+     style="fill:url(#linearGradient258);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.264583;stroke-opacity:1"
+     id="path40"
+     inkscape:flatsided="false"
+     sodipodi:sides="5"
+     sodipodi:cx="94.791084"
+     sodipodi:cy="97.718742"
+     sodipodi:r1="10.537362"
+     sodipodi:r2="5.2686806"
+     sodipodi:arg1="0.43327022"
+     sodipodi:arg2="1.0615887"
+     inkscape:rounded="0"
+     inkscape:randomized="0"
+     d="m 104.35477,102.14276 -6.99528,0.17623 -3.820555,5.86245 -2.329266,-6.59844 -6.756141,-1.82197 5.555714,-4.254296 -0.354969,-6.98849 5.762886,3.969148 6.536761,-2.497158 -1.994058,6.707364 z"
+     inkscape:transform-center-x="3.4474399"
+     inkscape:transform-center-y="5.62284"
+     transform="matrix(8.909587,0,0,8.909587,-794.4718,-792.48428)"
+     clip-path="url(#clipPath10)" />
+</svg>

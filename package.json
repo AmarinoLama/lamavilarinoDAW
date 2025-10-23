@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "json-server": "json-server --watch ./src/data/clientes.json --port 3000"
+    "json-clientes": "json-server --watch ./src/data/clientes.json --port 3000",
+    "json-noticias": "json-server --watch ./src/data/noticias.json --port 3001",
+    "json-server": "concurrently \"json-server --watch ./src/data/clientes.json --port 3000\" \"json-server --watch ./src/data/noticias.json --port 3001\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.0.1",
@@ -21,6 +23,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
-    "vite": "^7.1.2"
+    "vite": "^7.1.2",
+    "concurrently": "^8.2.0"
   }
 }

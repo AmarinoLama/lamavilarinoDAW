@@ -1,26 +1,40 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
       <!-- Marca o logo -->
-      <a class="navbar-brand" href="#">EmpresaTeis</a>
+      <router-link to="/" class="navbar-brand">
+        <img src="@/assets/logoCochesTeis.svg" alt="Coches Teis" class="logo" />
+      </router-link>
 
       <!-- Botón de hamburguesa en pantallas pequeñas -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <!-- Links de navegación -->
-      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <div
+        class="collapse navbar-collapse justify-content-center"
+        id="navbarNav"
+      >
         <ul class="navbar-nav d-flex justify-content-center w-100">
           <li class="nav-item">
-            <router-link class="nav-link" aria-current="page" to="/">Inicio</router-link>
+            <router-link class="nav-link" aria-current="page" to="/"
+              >Inicio</router-link
+            >
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/clientes">Clientes</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/#">Noticias</router-link>
+            <router-link class="nav-link" to="/noticias">Noticias</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/#">Contacto</router-link>
@@ -53,5 +67,12 @@
 
 .nav-link {
   text-align: center;
+}
+
+.logo {
+  height: 45px;
+  margin-left: 15px;
+  width: auto;
+  display: block;
 }
 </style>
