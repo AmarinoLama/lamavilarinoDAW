@@ -420,5 +420,37 @@
       "fecha_alta": "2025-10-24",
       "historico": true
     }
+  ],
+  "noticias": [
+    {
+      "titulo": "El Apocalipsis De Los Coches",
+      "contenido": "Llego el apocalipsis de los coches",
+      "fecha_publicacion": "2022-02-14",
+      "id": "1"
+    },
+    {
+      "titulo": "El Pedropi De Los Coches",
+      "contenido": "Llego el Pedropi de los coches",
+      "fecha_publicacion": "2021-02-14",
+      "id": "3"
+    },
+    {
+      "id": "fff8",
+      "titulo": "noticia corta?",
+      "contenido": "aaaaaaaaaaaaaaaaaaaaaaaaa dssssssssssa asd a d a d asd asd aaaaaaaaaaaaaaaaaaaaaaaaaaaa hhhhhhhhhhhhhhhhhhhhhhhh jjjjjjjjjjjjjjjjjjjjjjjjjjj ss             q    q ds ssssssssssssssssssssssssssssssssss ccccccccccccccccccc aaaaaaaaaaaaaaaaaaaaaaaaa dssssssssssa asd a d a d asd asd aaaaaaaaaaaaaaaaaaaaaaaaaaaa hhhhhhhhhhhhhhhhhhhhhhhh jjjjjjjjjjjjjjjjjjjjjjjjjjj ss             q    q ds ssssssssssssssssssssssssssssssssss ccccccccccccccccccc aaaaaaaaaaaaaaaaaaaaaaaaa dssssssssssa asd a d a d asd asd aaaaaaaaaaaaaaaaaaaaaaaaaaaa hhhhhhhhhhhhhhhhhhhhhhhh jjjjjjjjjjjjjjjjjjjjjjjjjjj ss             q    q ds ssssssssssssssssssssssssssssssssss ccccccccccccccccccc aaaaaaaaaaaaaaaaaaaaaaaaa dssssssssssa asd a d a d asd asd aaaaaaaaaaaaaaaaaaaaaaaaaaaa hhhhhhhhhhhhhhhhhhhhhhhh jjjjjjjjjjjjjjjjjjjjjjjjjjj ss             q    q ds ssssssssssssssssssssssssssssssssss ccccccccccccccccccc",
+      "fecha_publicacion": "2025-10-24"
+    },
+    {
+      "id": "220a",
+      "titulo": "su´per ultra noticia",
+      "contenido": "a",
+      "fecha_publicacion": ""
+    },
+    {
+      "id": "04a2",
+      "titulo": "nueva noticia",
+      "contenido": "a",
+      "fecha_publicacion": "2025-10-24"
+    }
   ]
 }

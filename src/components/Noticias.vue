@@ -1,16 +1,8 @@
 <template>
   <div class="container py-4">
-    <!-- Encabezado -->
-    <div class="text-center mb-4">
-      <h2 class="fw-bold text-primary">Gestión de Noticias</h2>
-      <hr class="mx-auto" style="width: 60%; border-color: #4a6cf7" />
-    </div>
-
     <!-- Formulario de creación -->
     <form @submit.prevent="guardarNoticia" class="mb-4">
       <div class="card shadow-sm p-4 mb-5">
-        <h4 class="mb-3">Nueva Noticia</h4>
-
         <div class="mb-3">
           <label class="form-label fw-semibold">Título:</label>
           <input
@@ -34,36 +26,75 @@
         </div>
 
         <div class="text-center">
-          <button type="submit" class="btn btn-primary fw-bold">GRABAR</button>
+          <button type="submit" class="btn btn-primary fw-bold">
+            {{ editando ? "Modificar" : "Grabar" }}
+          </button>
         </div>
       </div>
     </form>
-
-    <!-- Listado de noticias -->
-    <div class="text-center mb-3">
-      <h5 class="fw-semibold">Noticias publicadas</h5>
-      <p class="text-muted small mb-1">
-        ORDENADAS EN ORDEN DECRECIENTE POR FECHA
-      </p>
-    </div>
 
     <!-- Noticias dinámicas -->
     <div
       v-for="noticia in noticias"
       :key="noticia.id"
       class="card mb-3 shadow-sm"
+      @click="toggleNoticia(noticia.id)"
+      :aria-expanded="String(expandidas.has(noticia.id))"
+      role="button"
+      tabindex="0"
     >
+      <div
+        class="card-header d-flex justify-content-between align-items-center bg-white border-bottom"
+      >
+        <h5 class="mb-0 text-primary fw-semibold">{{ noticia.titulo }}</h5>
+        <small class="text-muted text-nowrap ms-3">
+          <i class="bi bi-calendar-event me-1"></i>
+          {{ formatearFecha(noticia.fecha_publicacion) }}
+        </small>
+      </div>
       <div class="card-body">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <h6 class="fw-bold">{{ noticia.titulo }}</h6>
-            <p class="mb-2">{{ noticia.contenido }}</p>
-          </div>
-          <span class="text-muted small">{{ noticia.fecha_publicacion }}</span>
+        <transition name="fade" mode="out-in">
+          <p
+            :key="String(expandidas.has(noticia.id))"
+            class="card-text mb-0 text-secondary lh-base"
+          >
+            {{
+              expandidas.has(noticia.id)
+                ? noticia.contenido
+                : truncarTexto(noticia.contenido, 256)
+            }}
+          </p>
+        </transition>
+
+        <div
+          v-if="noticia.contenido && noticia.contenido.length > 256"
+          class="text-end mt-2"
+        >
+          <button
+            class="btn btn-link p-0 text-primary fw-bold"
+            @click.stop="toggleNoticia(noticia.id)"
+            :aria-expanded="String(expandidas.has(noticia.id))"
+          >
+            {{ expandidas.has(noticia.id) ? "Ver menos ▲" : "Ver más ▼" }}
+          </button>
         </div>
         <div class="d-flex justify-content-end gap-2 mt-2">
-          <button class="btn btn-sm btn-outline-secondary">Editar</button>
-          <button class="btn btn-sm btn-outline-danger">Eliminar</button>
+          <button
+            @click.stop="editarNoticia(noticia.id)"
+            class="btn btn-warning btn-sm border-0 shadow-none rounded-1"
+            title="Editar noticia"
+            aria-label="Editar noticia"
+          >
+            <i class="bi bi-pencil"></i>
+          </button>
+          <button
+            @click.stop="eliminarNoticia(noticia.id)"
+            class="btn btn-danger btn-sm ms-4 me-2 border-0 shadow-none rounded-1"
+            title="Eliminar noticia"
+            aria-label="Eliminar noticia"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -78,40 +109,103 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import Swal from "sweetalert2";
-import { getNoticias } from "@/api/noticias.js";
+import { getNoticias, addNoticia, deleteNoticia, updateNoticia } from "@/api/noticias.js";
 
 const noticias = ref([]);
+const expandidas = ref(new Set());
+
+const editando = ref(false);
+const noticiaEditandoId = ref(null);
 
 const nuevaNoticia = ref({
   titulo: "",
   contenido: "",
+  fecha_publicacion: "",
 });
 
 onMounted(async () => {
-  try {
-    noticias.value = await getNoticias();
-  } catch (error) {
-    console.error("Error al cargar las noticias:", error);
-  }
+  await cargarNoticias();
 });
 
-const guardarNoticia = async () => {
-  try {
-    //const noticiaAgregada = await addNoticia(nuevaNoticia.value);
-    noticias.value.push(noticiaAgregada);
-    Swal.fire({
-      icon: "success",
-      title: "Noticia agregada",
-      showConfirmButton: false,
-      timer: 1500,
+const updateTabla = async () => {
+  await getNoticias().then((data) => {
+    noticias.value = data.sort((a, b) => {
+      const fechaA = new Date(a.fecha_publicacion);
+      const fechaB = new Date(b.fecha_publicacion);
+      return fechaB - fechaA; // Descendente: más nueva primero
     });
+  });
+};
 
-    nuevaNoticia.value = {
-      titulo: "",
-      contenido: "",
-    };
+const cargarNoticias = async () => {
+  await updateTabla();
+  Swal.fire({
+    icon: "success",
+    title: "Listando Noticias...",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+};
 
-    noticias.value = await getNoticias();
+const toggleNoticia = (id) => {
+  if (expandidas.value.has(id)) expandidas.value.delete(id);
+  else expandidas.value.add(id);
+  expandidas.value = new Set(expandidas.value);
+};
+
+const formatearFecha = (fecha) => {
+  if (!fecha) return "Sin fecha";
+  const date = new Date(fecha);
+  const opciones = { year: "numeric", month: "long", day: "numeric" };
+  return date.toLocaleDateString("es-ES", opciones);
+};
+
+const truncarTexto = (texto, maxCaracteres) => {
+  if (!texto || texto.length <= maxCaracteres) return texto;
+  return texto.substring(0, maxCaracteres) + "...";
+};
+
+const guardarNoticia = async () => {
+  const result = await Swal.fire({
+    title: editando.value
+      ? "¿Desea modificar esta noticia?"
+      : "¿Desea grabar esta noticia?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: editando.value ? "Modificar" : "Grabar",
+    cancelButtonText: "Cancelar",
+  });
+
+  if (!result.isConfirmed) return;
+
+  try {
+    if (editando.value) {
+
+      await updateNoticia(noticiaEditandoId.value, nuevaNoticia.value);
+
+      Swal.fire({
+        icon: "success",
+        title: "Noticia modificada correctamente",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      const hoy = new Date();
+      nuevaNoticia.value.fecha_publicacion = hoy.toISOString().split("T")[0];
+      await addNoticia(nuevaNoticia.value);
+
+      Swal.fire({
+        icon: "success",
+        title: "Noticia agregada correctamente",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+
+    nuevaNoticia.value = { titulo: "", contenido: "", fecha_publicacion: "" };
+    editando.value = false;
+    noticiaEditandoId.value = null;
+    await updateTabla();
   } catch (error) {
     console.error("Error al guardar la noticia:", error);
     Swal.fire({
@@ -123,6 +217,77 @@ const guardarNoticia = async () => {
     });
   }
 };
+
+const editarNoticia = (id) => {
+  const noticia = noticias.value.find((n) => n.id === id);
+
+  if (!noticia) {
+    Swal.fire({
+      icon: "error",
+      title: "Noticia no encontrada",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    return;
+  }
+
+  nuevaNoticia.value = { ...noticia };
+  editando.value = true;
+  noticiaEditandoId.value = noticia.id;
+};
+
+const eliminarNoticia = async (id) => {
+  noticias.value = await getNoticias();
+  const noticiaAEliminar = noticias.value.find((noticia) => noticia.id === id);
+
+  if (!noticiaAEliminar) {
+    Swal.fire({
+      icon: "error",
+      title: "Noticia no encontrada",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    return;
+  }
+
+  const result = await Swal.fire({
+    title: `¿Eliminar la noticia ${noticiaAEliminar.titulo}?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+  });
+
+  if (!result.isConfirmed) return;
+
+  await deleteNoticia(noticiaAEliminar.id);
+  noticias.value = await getNoticias();
+
+  Swal.fire({
+    icon: "success",
+    title: "Noticia eliminada",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+};
+
+function formatearFechaParaInput(fecha) {
+  if (!fecha) return "";
+
+  // Detecta formato dd/mm/yyyy
+  if (fecha.includes("/")) {
+    const [dd, mm, yyyy] = fecha.split("/");
+    return `${yyyy}-${mm.padStart(2, "0")}-${dd.padStart(2, "0")}`;
+  }
+
+  // Detecta formato yyyy-mm-dd
+  if (fecha.includes("-")) {
+    const partes = fecha.split("-");
+    if (partes.length === 3) return fecha; // ya formato ISO
+  }
+
+  return "";
+}
 </script>
 
 <style scoped>
@@ -134,13 +299,29 @@ const guardarNoticia = async () => {
   background-color: #4a6cf7;
   border: none;
 }
-
 .btn-primary:hover {
   background-color: #3a5de0;
 }
 
 .card {
-  border-radius: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 24, 40, 0.12);
+  background: #fff;
+  overflow: hidden;
+}
+
+.card + .card {
+  margin-top: 1rem;
+}
+
+.card-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(16, 24, 40, 0.12);
+  padding: 0.85rem 1rem;
+}
+
+.card-body {
+  padding: 1rem;
 }
 
 textarea,
