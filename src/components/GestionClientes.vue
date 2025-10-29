@@ -1,6 +1,8 @@
 <template>
   <div class="my-1 p-3 border rounded-0 shadow-sm bg-light">
-    <h3 class="text-center my-2">Gestión de Clientes</h3>
+    <h4 class="text-center my-2 bg-info text-white p-3 rounded mb-4">
+      <i class="bi bi-person-fill me-2"></i> Registro de Clientes
+    </h4>
     <!-- Formulario -->
     <form @submit.prevent="guardarCliente" class="mb-4">
       <!-- DNI con validación visual -->
@@ -15,7 +17,11 @@
               v-model="nuevoCliente.dni"
               @blur="validarDni"
               class="form-control w-auto w-25 text-center ms-2"
-              :class="{ 'is-invalid': !dniValido }"
+              :class="[
+                { 'is-invalid': !dniValido },
+                { 'readonly-input': editando },
+              ]"
+              :readonly="editando"
               required
               oninvalid="this.setCustomValidity('Por favor, rellene este campo')"
               oninput="this.setCustomValidity('')"
@@ -24,19 +30,18 @@
               type="button"
               class="btn btn btn-primary ms-3 border-0 shadow-none rounded-0"
               @click="buscarClientePorDNI(nuevoCliente.dni)"
+              :disabled="editando"
+              :aria-disabled="String(editando)"
+              title="Buscar por DNI"
             >
               <i class="bi bi-search"></i>
             </button>
-
-            <div v-if="!dniValido" class="invalid-feedback">
-              DNI o NIE inválido.
-            </div>
           </div>
         </div>
 
         <!-- Columna Fecha de Alta a la derecha -->
-        <div class="col-md-4 ms-auto d-flex align-items-center">
-          <label for="fecha_alta" class="form-label me-2 mb-0 text-nowrap"
+        <div class="col-md-7 ms-auto d-flex align-items-center">
+          <label for="fecha_alta" class="form-label ms-5 me-3 mb-0 text-nowrap"
             >Fecha de Alta:</label
           >
           <input
@@ -48,6 +53,15 @@
             oninvalid="this.setCustomValidity('Por favor, rellene este campo')"
             oninput="this.setCustomValidity('')"
           />
+
+          <button
+            type="button"
+            class="btn btn btn-primary ms-3 border-0 shadow-none rounded-0"
+            @click="refrescarPagina"
+            title="Refrescar Página"
+          >
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
         </div>
       </div>
 
@@ -135,8 +149,8 @@
         </div>
 
         <!-- Provincia -->
-        <div class="col-md-3 d-flex align-items-center">
-          <label for="provincia" class="form-label me-2 ms-5 mb-0 text-nowrap"
+        <div class="col-md-3 d-flex align-items-center me-5">
+          <label for="provincia" class="form-label me-4 ms-5 mb-0 text-nowrap"
             >Provincia:</label
           >
           <select
@@ -175,7 +189,7 @@
       </div>
 
       <!-- Histórico -->
-      <div class="d-flex justify-content-end mb-2 form-switch">
+      <div class="d-flex justify-content-end mb-2 form-switch me-5">
         <input
           type="checkbox"
           id="historico"
@@ -183,8 +197,25 @@
           class="form-check-input"
           @change="cargarClientes"
         />
-        <label for="historico" class="form-check-label ms-3 me-5 mb-0"
+        <label for="historico" class="form-check-label ms-3 me-4 mb-0"
           >Histórico</label
+        >
+      </div>
+
+      <!-- Aceptar condiciones y términos -->
+      <div class="text-center mb-4">
+        <input
+          type="checkbox"
+          id="avisoLegal"
+          class="form-check-input"
+          v-model="nuevoCliente.lopd"
+          required
+        />
+        <label for="historico" class="form-check-label ms-3 me-5 mb-0"
+          >Aceptar términos y condiciones:
+          <a target="_blank" class="text-decoration-none" href="/aviso-legal"
+            >Aviso Legal</a
+          ></label
         >
       </div>
 
@@ -297,6 +328,21 @@ const nuevoCliente = ref({
   municipio: "",
   fecha_alta: "",
   historico: true,
+  lopd: false,
+});
+
+const clienteVacio = ref({
+  dni: "",
+  nombre: "",
+  apellidos: "",
+  email: "",
+  movil: "",
+  direccion: "",
+  provincia: "",
+  municipio: "",
+  fecha_alta: "",
+  historico: true,
+  lopd: false,
 });
 
 const editando = ref(false);
@@ -410,7 +456,9 @@ const guardarCliente = async () => {
       municipio: "",
       fecha_alta: "",
       historico: true,
+      lopd: false,
     };
+
     editando.value = false;
     clienteEditandoId.value = null;
 
@@ -655,6 +703,16 @@ const totalPages = computed(() => {
   return Math.ceil(numClientes.value / clientesPorPage);
 });
 
+const refrescarPagina = computed(() => {
+  nuevoCliente.value = { ...clienteVacio };
+  editando.value = false;
+  clienteEditandoId.value = null;
+
+  dniValido.value = true;
+  movilValido.value = true;
+  emailValido.value = true;
+});
+
 // Función única: capitaliza y asigna en el mismo paso
 const capitalizarTexto = (campo) => {
   const texto = nuevoCliente.value[campo] ?? "";
@@ -757,5 +815,12 @@ function formatearFechaParaInput(fecha) {
 }
 .invalid-feedback {
   display: block;
+}
+
+/* Visual for readonly/locked inputs when editing a cliente */
+.readonly-input {
+  background-color: #eef2f6 !important; /* soft gray */
+  cursor: not-allowed;
+  color: #495057; /* slightly muted text color */
 }
 </style>

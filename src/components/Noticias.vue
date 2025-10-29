@@ -29,6 +29,15 @@
           <button type="submit" class="btn btn-primary fw-bold">
             {{ editando ? "Modificar" : "Grabar" }}
           </button>
+
+          <button
+            type="button"
+            class="btn btn btn-primary ms-3 border-0 shadow-none rounded-0"
+            @click="refrescarPagina"
+            title="Refrescar Página"
+          >
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
         </div>
       </div>
     </form>
@@ -109,7 +118,12 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import Swal from "sweetalert2";
-import { getNoticias, addNoticia, deleteNoticia, updateNoticia } from "@/api/noticias.js";
+import {
+  getNoticias,
+  addNoticia,
+  deleteNoticia,
+  updateNoticia,
+} from "@/api/noticias.js";
 
 const noticias = ref([]);
 const expandidas = ref(new Set());
@@ -118,6 +132,12 @@ const editando = ref(false);
 const noticiaEditandoId = ref(null);
 
 const nuevaNoticia = ref({
+  titulo: "",
+  contenido: "",
+  fecha_publicacion: "",
+});
+
+const noticiaVacia = ref({
   titulo: "",
   contenido: "",
   fecha_publicacion: "",
@@ -165,6 +185,12 @@ const truncarTexto = (texto, maxCaracteres) => {
   return texto.substring(0, maxCaracteres) + "...";
 };
 
+const refrescarPagina = async () => {
+  editando.value = false;
+  noticiaEditandoId.value = null;
+  nuevaNoticia.value = {...noticiaVacia};
+};
+
 const guardarNoticia = async () => {
   const result = await Swal.fire({
     title: editando.value
@@ -180,7 +206,6 @@ const guardarNoticia = async () => {
 
   try {
     if (editando.value) {
-
       await updateNoticia(noticiaEditandoId.value, nuevaNoticia.value);
 
       Swal.fire({
