@@ -1,8 +1,11 @@
 <template>
   <div class="my-1 p-3 border rounded-0 shadow-sm bg-light">
-    <h4 class="text-center my-2 bg-info text-white p-3 rounded mb-4">
+    <h4
+      class="text-center my-2 bg-primary-subtle text-primary p-3 rounded mb-4"
+    >
       <i class="bi bi-person-fill me-2"></i> Registro de Clientes
     </h4>
+
     <!-- Formulario -->
     <form @submit.prevent="guardarCliente" class="mb-4">
       <!-- DNI con validación visual -->
@@ -40,7 +43,7 @@
         </div>
 
         <!-- Columna Fecha de Alta a la derecha -->
-        <div class="col-md-7 ms-auto d-flex align-items-center">
+        <div class="col-md-3 d-flex align-items-center">
           <label for="fecha_alta" class="form-label ms-5 me-3 mb-0 text-nowrap"
             >Fecha de Alta:</label
           >
@@ -48,15 +51,42 @@
             type="date"
             id="fecha_alta"
             v-model="nuevoCliente.fecha_alta"
-            class="form-control w-auto"
+            class="form-control w-auto me-5"
             required
             oninvalid="this.setCustomValidity('Por favor, rellene este campo')"
             oninput="this.setCustomValidity('')"
           />
+        </div>
 
+        <!-- RadioButtons -->
+        <div class="col-md-3 d-flex align-items-center ms-4">
+          <label for="tipoCliente" class="form-label me-4 ms-5 mb-0 text-nowrap"
+            >Tipo Cliente:</label
+          >
+          <input
+            type="radio"
+            name="tipoCliente"
+            id="tipoCliente"
+            value="particular"
+            class="me-1"
+            v-model="nuevoCliente.tipoCliente"
+            checked
+          />
+          <label class="me-4">Particular</label>
+          <input
+            type="radio"
+            name="tipoCliente"
+            id="tipoCliente"
+            value="empresa"
+            class="me-1"
+            v-model="nuevoCliente.tipoCliente"
+          />
+          <label>Empresa</label>
+        </div>
+        <div class="col-md-1 ms-auto d-flex align-items-center">
           <button
             type="button"
-            class="btn btn btn-primary ms-3 border-0 shadow-none rounded-0"
+            class="btn btn btn-primary me-4 border-0 shadow-none rounded-0"
             @click="refrescarPagina"
             title="Refrescar Página"
           >
@@ -149,7 +179,7 @@
         </div>
 
         <!-- Provincia -->
-        <div class="col-md-3 d-flex align-items-center me-5">
+        <div class="col-md-3 d-flex align-items-center me-1">
           <label for="provincia" class="form-label me-4 ms-5 mb-0 text-nowrap"
             >Provincia:</label
           >
@@ -188,45 +218,62 @@
         </div>
       </div>
 
-      <!-- Histórico -->
-      <div class="d-flex justify-content-end mb-2 form-switch me-5">
-        <input
-          type="checkbox"
-          id="historico"
-          v-model="mostrarHistorico"
-          class="form-check-input"
-          @change="cargarClientes"
-        />
-        <label for="historico" class="form-check-label ms-3 me-4 mb-0"
-          >Histórico</label
-        >
-      </div>
+      <!-- Aceptar condiciones + Grabar + Histórico -->
+      <div class="mb-4 container">
+        <div class="row align-items-center text-center">
+          <!-- Aceptar condiciones y términos (izquierda) -->
+          <div class="col-12 col-md-4 text-md-start mb-2 mb-md-0">
+            <div
+              class="form-check d-flex align-items-center justify-content-md-start justify-content-center"
+            >
+              <input
+                type="checkbox"
+                id="avisoLegal"
+                class="form-check-input me-2"
+                v-model="nuevoCliente.lopd"
+                required
+              />
+              <label for="avisoLegal" class="form-check-label mb-0">
+                Aceptar términos y condiciones:
+                <a
+                  target="_blank"
+                  class="text-decoration-none"
+                  href="/aviso-legal"
+                >
+                  Aviso Legal
+                </a>
+              </label>
+            </div>
+          </div>
 
-      <!-- Aceptar condiciones y términos -->
-      <div class="text-center mb-4">
-        <input
-          type="checkbox"
-          id="avisoLegal"
-          class="form-check-input"
-          v-model="nuevoCliente.lopd"
-          required
-        />
-        <label for="historico" class="form-check-label ms-3 me-5 mb-0"
-          >Aceptar términos y condiciones:
-          <a target="_blank" class="text-decoration-none" href="/aviso-legal"
-            >Aviso Legal</a
-          ></label
-        >
-      </div>
+          <!-- Botón centrado (centro) -->
+          <div class="col-12 col-md-4 my-2 my-md-0">
+            <button
+              type="submit"
+              class="btn btn-primary border-0 shadow-none rounded-0"
+            >
+              {{ editando ? "Modificar Cliente" : "Guardar" }}
+            </button>
+          </div>
 
-      <!-- Botón centrado -->
-      <div class="text-center">
-        <button
-          type="submit"
-          class="btn btn-primary border-0 shadow-none rounded-0"
-        >
-          {{ editando ? "Modificar Cliente" : "Guardar Cliente" }}
-        </button>
+          <!-- Histórico (derecha) -->
+          <div class="col-12 col-md-4 text-md-end">
+            <div
+              class="form-switch d-flex align-items-center justify-content-md-end justify-content-center"
+            >
+              <input
+                type="checkbox"
+                id="historico"
+                v-model="mostrarHistorico"
+                class="form-check-input me-2"
+                @change="cargarClientes"
+              />
+              <label for="historico" class="form-check-label mb-0"
+                >Histórico</label
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </form>
     <!-- Lista de Clientes -->
@@ -317,7 +364,7 @@ import {
 
 /* =================================== SCRIPT CRUD =================================== */
 
-const nuevoCliente = ref({
+const clienteVacio = {
   dni: "",
   nombre: "",
   apellidos: "",
@@ -328,22 +375,11 @@ const nuevoCliente = ref({
   municipio: "",
   fecha_alta: "",
   historico: true,
+  tipoCliente: "",
   lopd: false,
-});
+};
 
-const clienteVacio = ref({
-  dni: "",
-  nombre: "",
-  apellidos: "",
-  email: "",
-  movil: "",
-  direccion: "",
-  provincia: "",
-  municipio: "",
-  fecha_alta: "",
-  historico: true,
-  lopd: false,
-});
+const nuevoCliente = ref({ ...clienteVacio });
 
 const editando = ref(false);
 const mostrarHistorico = ref(false);
@@ -445,19 +481,7 @@ const guardarCliente = async () => {
     }
 
     // Reset formulario y estado
-    nuevoCliente.value = {
-      dni: "",
-      nombre: "",
-      apellidos: "",
-      email: "",
-      movil: "",
-      direccion: "",
-      provincia: "",
-      municipio: "",
-      fecha_alta: "",
-      historico: true,
-      lopd: false,
-    };
+    nuevoCliente.value = ref({ ...clienteVacio });
 
     editando.value = false;
     clienteEditandoId.value = null;
@@ -822,5 +846,9 @@ function formatearFechaParaInput(fecha) {
   background-color: #eef2f6 !important; /* soft gray */
   cursor: not-allowed;
   color: #495057; /* slightly muted text color */
+}
+
+#fecha_alta + button {
+  margin-left: auto !important;
 }
 </style>

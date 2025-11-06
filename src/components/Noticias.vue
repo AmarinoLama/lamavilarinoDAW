@@ -1,5 +1,10 @@
 <template>
   <div class="container py-4">
+    <h4
+      class="text-center my-2 bg-primary-subtle text-primary p-3 rounded mb-4"
+    >
+      <i class="bi bi-newspaper"></i> Noticias
+    </h4>
     <!-- Formulario de creación -->
     <form @submit.prevent="guardarNoticia" class="mb-4">
       <div class="card shadow-sm p-4 mb-5">
@@ -27,7 +32,7 @@
 
         <div class="text-center">
           <button type="submit" class="btn btn-primary fw-bold">
-            {{ editando ? "Modificar" : "Grabar" }}
+            {{ editando ? "Modificar" : "Publicar" }}
           </button>
 
           <button
@@ -56,10 +61,20 @@
         class="card-header d-flex justify-content-between align-items-center bg-white border-bottom"
       >
         <h5 class="mb-0 text-primary fw-semibold">{{ noticia.titulo }}</h5>
-        <small class="text-muted text-nowrap ms-3">
-          <i class="bi bi-calendar-event me-1"></i>
-          {{ formatearFecha(noticia.fecha_publicacion) }}
-        </small>
+        <div>
+          <button
+            @click.stop="eliminarNoticia(noticia.id)"
+            class="btn btn-outline-danger btn-sm shadow-none rounded m-10"
+            title="Eliminar noticia"
+            aria-label="Eliminar noticia"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+          <small class="text-muted text-nowrap ms-3">
+            <i class="bi bi-calendar-event me-1"></i>
+            {{ formatearFecha(noticia.fecha_publicacion) }}
+          </small>
+        </div>
       </div>
       <div class="card-body">
         <transition name="fade" mode="out-in">
@@ -87,24 +102,7 @@
             {{ expandidas.has(noticia.id) ? "Ver menos ▲" : "Ver más ▼" }}
           </button>
         </div>
-        <div class="d-flex justify-content-end gap-2 mt-2">
-          <button
-            @click.stop="editarNoticia(noticia.id)"
-            class="btn btn-warning btn-sm border-0 shadow-none rounded-1"
-            title="Editar noticia"
-            aria-label="Editar noticia"
-          >
-            <i class="bi bi-pencil"></i>
-          </button>
-          <button
-            @click.stop="eliminarNoticia(noticia.id)"
-            class="btn btn-danger btn-sm ms-4 me-2 border-0 shadow-none rounded-1"
-            title="Eliminar noticia"
-            aria-label="Eliminar noticia"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+        <div class="d-flex justify-content-end gap-2 mt-2"></div>
       </div>
     </div>
 
@@ -188,7 +186,7 @@ const truncarTexto = (texto, maxCaracteres) => {
 const refrescarPagina = async () => {
   editando.value = false;
   noticiaEditandoId.value = null;
-  nuevaNoticia.value = {...noticiaVacia};
+  nuevaNoticia.value = { ...noticiaVacia };
 };
 
 const guardarNoticia = async () => {

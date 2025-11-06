@@ -327,7 +327,9 @@
       "municipio": "Alconchel de la Estrella",
       "fecha_alta": "2025-10-02",
       "historico": true,
-      "email": "asdadsa@asda.com"
+      "email": "asdadsa@asda.com",
+      "tipoCliente": "particular",
+      "lopd": true
     },
     {
       "id": "9afd",

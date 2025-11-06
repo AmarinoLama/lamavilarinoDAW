@@ -12,7 +12,7 @@
           >
         </li>
         <li class="list-inline-item">
-          <a href="#" class="text-light text-decoration-none"
+          <a href="/politica-privacidad" class="text-light text-decoration-none"
             >Política de privacidad</a
           >
         </li>
