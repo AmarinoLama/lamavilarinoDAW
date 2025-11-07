@@ -1,6 +1,7 @@
 {
   "clientes": [
     {
+      "tipo": "user",
       "dni": "73289465B",
       "fecha_alta": "2022-02-14",
       "nombre": "Laura",
@@ -16,6 +17,7 @@
       "id": "7169"
     },
     {
+      "tipo": "user",
       "dni": "X3456789G",
       "fecha_alta": "2023-07-05",
       "nombre": "José",
@@ -31,6 +33,7 @@
       "id": "a079"
     },
     {
+      "tipo": "user",
       "dni": "45678912S",
       "fecha_alta": "2021-11-20",
       "nombre": "Ana",
@@ -46,6 +49,7 @@
       "id": "56df"
     },
     {
+      "tipo": "user",
       "dni": "78912345N",
       "fecha_alta": "2024-03-08",
       "nombre": "Antonio",
@@ -61,6 +65,7 @@
       "id": "c356"
     },
     {
+      "tipo": "user",
       "dni": "90123456A",
       "fecha_alta": "2022-06-27",
       "nombre": "María",
@@ -76,6 +81,7 @@
       "id": "960a"
     },
     {
+      "tipo": "user",
       "dni": "Z2345678M",
       "fecha_alta": "2023-04-15",
       "nombre": "Javier",
@@ -91,6 +97,7 @@
       "id": "eda8"
     },
     {
+      "tipo": "user",
       "dni": "34567891H",
       "fecha_alta": "2021-09-09",
       "nombre": "Carmen",
@@ -106,6 +113,7 @@
       "id": "39b2"
     },
     {
+      "tipo": "user",
       "dni": "56789123F",
       "fecha_alta": "2024-01-11",
       "nombre": "Luis",
@@ -121,6 +129,7 @@
       "id": "d6a9"
     },
     {
+      "tipo": "user",
       "dni": "23456789D",
       "fecha_alta": "2022-05-22",
       "nombre": "Isabel",
@@ -136,6 +145,7 @@
       "id": "0f47"
     },
     {
+      "tipo": "user",
       "dni": "67891234H",
       "fecha_alta": "2023-08-03",
       "nombre": "Carlos",
@@ -151,6 +161,7 @@
       "id": "1955"
     },
     {
+      "tipo": "user",
       "dni": "78945612K",
       "fecha_alta": "2021-12-29",
       "nombre": "Ana",
@@ -166,6 +177,7 @@
       "id": "1b52"
     },
     {
+      "tipo": "user",
       "dni": "X9876543K",
       "fecha_alta": "2024-03-17",
       "nombre": "Javier",
@@ -181,6 +193,7 @@
       "id": "58cf"
     },
     {
+      "tipo": "user",
       "dni": "34561278Y",
       "fecha_alta": "2022-06-05",
       "nombre": "Luis",
@@ -196,6 +209,7 @@
       "id": "e406"
     },
     {
+      "tipo": "user",
       "dni": "Y1234567X",
       "fecha_alta": "2025-09-07",
       "nombre": "María Del Mar",
@@ -211,6 +225,7 @@
       "id": "ba17"
     },
     {
+      "tipo": "user",
       "dni": "56712389R",
       "fecha_alta": "2021-11-12",
       "nombre": "Carlos",
@@ -226,6 +241,7 @@
       "id": "b1f4"
     },
     {
+      "tipo": "user",
       "dni": "X4567891E",
       "fecha_alta": "2022-01-14",
       "nombre": "Ana",
@@ -241,6 +257,7 @@
       "id": "76d6"
     },
     {
+      "tipo": "user",
       "dni": "Y2345678Z",
       "fecha_alta": "2023-03-09",
       "nombre": "Carlos",
@@ -256,6 +273,7 @@
       "id": "66fd"
     },
     {
+      "tipo": "user",
       "dni": "Z9876543A",
       "fecha_alta": "2021-07-22",
       "nombre": "José",
@@ -271,6 +289,7 @@
       "id": "4d3e"
     },
     {
+      "tipo": "user",
       "dni": "12345678Z",
       "fecha_alta": "2022-09-30",
       "nombre": "Laura",
@@ -286,6 +305,7 @@
       "id": "bacd"
     },
     {
+      "tipo": "user",
       "dni": "87654321X",
       "fecha_alta": "2023-12-17",
       "nombre": "Luis",
@@ -301,6 +321,7 @@
       "id": "9115"
     },
     {
+      "tipo": "user",
       "dni": "X3456789G",
       "fecha_alta": "2024-05-05",
       "nombre": "Isabel",
@@ -317,6 +338,7 @@
     },
     {
       "id": "971c",
+      "tipo": "user",
       "dni": "00000000T",
       "nombre": "Sonia",
       "apellidos": "Abalos Martínez",
@@ -333,6 +355,7 @@
     },
     {
       "id": "9afd",
+      "tipo": "user",
       "dni": "99999999R",
       "nombre": "Francisco",
       "apellidos": "Alonso Gil",
@@ -347,6 +370,7 @@
     },
     {
       "id": "c9ee",
+      "tipo": "user",
       "dni": "39390917J",
       "nombre": "Paula",
       "apellidos": "Gil Santos",
@@ -360,6 +384,7 @@
     },
     {
       "id": "ec7e",
+      "tipo": "user",
       "dni": "Y1362780K",
       "nombre": "Alicia",
       "apellidos": "Suárez Gómez",
@@ -373,6 +398,7 @@
     },
     {
       "id": "a1b9",
+      "tipo": "user",
       "dni": "X4841619G",
       "nombre": "Marta",
       "apellidos": "Abril López",
@@ -386,6 +412,7 @@
     },
     {
       "id": "68a1",
+      "tipo": "user",
       "dni": "94016002Y",
       "nombre": "Amancio",
       "apellidos": "Ara Sol",
@@ -399,6 +426,7 @@
     },
     {
       "id": "b38d",
+      "tipo": "user",
       "dni": "Z4268144Q",
       "nombre": "Santiago",
       "apellidos": "Aldo Santos",
@@ -412,6 +440,7 @@
     },
     {
       "id": "2d28",
+      "tipo": "user",
       "dni": "77550032N",
       "nombre": "Victor",
       "apellidos": "Dawdawawdadwawd",
