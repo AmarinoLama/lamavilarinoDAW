@@ -215,7 +215,7 @@ const guardarNoticia = async () => {
     } else {
       const hoy = new Date();
       nuevaNoticia.value.fecha_publicacion = hoy.toISOString().split("T")[0];
-      await addNoticia(nuevaNoticia.value);
+      await addNoticia(nuevaNoticia.value); 
 
       Swal.fire({
         icon: "success",

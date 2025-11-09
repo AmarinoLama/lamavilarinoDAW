@@ -37,10 +37,13 @@
             <router-link class="nav-link" to="/noticias">Noticias</router-link>
           </li>
           <li class="nav-item">
+            <router-link class="nav-link" to="/coches">Coches</router-link>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link" to="/#">Contacto</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/#">Coches</router-link>
+            <router-link class="nav-link" to="/#">Pablo</router-link>
           </li>
         </ul>
       </div>
