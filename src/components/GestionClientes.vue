@@ -42,24 +42,8 @@
           </div>
         </div>
 
-        <!-- Columna Fecha de Alta a la derecha -->
-        <div class="col-md-3 d-flex align-items-center">
-          <label for="fecha_alta" class="form-label ms-5 me-3 mb-0 text-nowrap"
-            >Fecha de Alta:</label
-          >
-          <input
-            type="date"
-            id="fecha_alta"
-            v-model="nuevoCliente.fecha_alta"
-            class="form-control w-auto me-5"
-            required
-            oninvalid="this.setCustomValidity('Por favor, rellene este campo')"
-            oninput="this.setCustomValidity('')"
-          />
-        </div>
-
         <!-- RadioButtons -->
-        <div class="col-md-3 d-flex align-items-center ms-4">
+        <div class="col-md-3 d-flex align-items-center me-5">
           <label for="tipoCliente" class="form-label me-4 ms-5 mb-0 text-nowrap"
             >Tipo Cliente:</label
           >
@@ -71,6 +55,7 @@
             class="me-1"
             v-model="nuevoCliente.tipoCliente"
             checked
+            required
           />
           <label class="me-4">Particular</label>
           <input
@@ -80,10 +65,29 @@
             value="empresa"
             class="me-1"
             v-model="nuevoCliente.tipoCliente"
+            required
           />
           <label>Empresa</label>
         </div>
-        <div class="col-md-1 ms-auto d-flex align-items-center">
+
+        <!-- Columna Fecha de Alta a la derecha -->
+        <div class="col-md-3 d-flex align-items-center">
+          <label for="fecha_alta" class="form-label ms-5 me-3 mb-0 text-nowrap"
+            >Fecha de Alta:
+          </label>
+          <input
+            type="date"
+            id="fecha_alta"
+            v-model="nuevoCliente.fecha_alta"
+            class="form-control w-auto"
+            required
+            oninvalid="this.setCustomValidity('Por favor, rellene este campo')"
+            oninput="this.setCustomValidity('')"
+          />
+        </div>
+
+        <!-- Botón recargar -->
+        <div class="col-md-1 ms-auto d-flex align-items-center me-3">
           <button
             type="button"
             class="btn btn btn-primary me-4 border-0 shadow-none rounded-0"
@@ -218,14 +222,15 @@
         </div>
       </div>
 
-      <!-- Aceptar condiciones + Grabar + Histórico -->
-      <div class="mb-4 container">
-        <div class="row align-items-center text-center">
-          <!-- Aceptar condiciones y términos (izquierda) -->
-          <div class="col-12 col-md-4 text-md-start mb-2 mb-md-0">
-            <div
-              class="form-check d-flex align-items-center justify-content-md-start justify-content-center"
-            >
+      <!-- Aceptar condiciones + Histórico -->
+      <div class="mb-4">
+        <div class="d-flex align-items-center justify-content-between position-relative">
+          <!-- Espacio izquierdo vacío para equilibrar -->
+          <div style="flex: 1"></div>
+          
+          <!-- Aceptar condiciones y términos (centro absoluto) -->
+          <div class="position-absolute start-50 translate-middle-x">
+            <div class="form-check d-flex align-items-center">
               <input
                 type="checkbox"
                 id="avisoLegal"
@@ -233,7 +238,7 @@
                 v-model="nuevoCliente.lopd"
                 required
               />
-              <label for="avisoLegal" class="form-check-label mb-0">
+              <label for="avisoLegal" class="form-check-label mb-0 text-nowrap">
                 Aceptar términos y condiciones:
                 <a
                   target="_blank"
@@ -246,21 +251,9 @@
             </div>
           </div>
 
-          <!-- Botón centrado (centro) -->
-          <div class="col-12 col-md-4 my-2 my-md-0">
-            <button
-              type="submit"
-              class="btn btn-primary border-0 shadow-none rounded-0"
-            >
-              {{ editando ? "Modificar Cliente" : "Guardar" }}
-            </button>
-          </div>
-
           <!-- Histórico (derecha) -->
-          <div class="col-12 col-md-4 text-md-end">
-            <div
-              class="form-switch d-flex align-items-center justify-content-md-end justify-content-center"
-            >
+          <div class="ms-auto me-5">
+            <div class="form-switch d-flex align-items-center">
               <input
                 type="checkbox"
                 id="historico"
@@ -275,6 +268,16 @@
           </div>
         </div>
       </div>
+
+      <!-- Botón centrado (centro) -->
+      <div class="d-flex justify-content-center align-items-center">
+        <button
+          type="submit"
+          class="btn btn-primary border-0 shadow-none rounded-0"
+        >
+          {{ editando ? "Modificar Cliente" : "Guardar" }}
+        </button>
+      </div>
     </form>
     <!-- Lista de Clientes -->
     <div class="table-responsive">
@@ -287,7 +290,7 @@
             <th class="text-center">Nombre</th>
             <th class="text-center">Móvil</th>
             <th class="text-center">Municipio</th>
-            <th class="text-center">Acciones</th>
+            <th class="text-center" style="width: 170px">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -297,7 +300,7 @@
             <td>{{ cliente.nombre }}</td>
             <td class="text-center">{{ cliente.movil }}</td>
             <td class="text-center">{{ cliente.municipio }}</td>
-            <td>
+            <td class="text-nowrap text-start">
               <button
                 @click="eliminarCliente(cliente.movil)"
                 class="btn btn-danger btn-sm ms-4 me-2 border-0 shadow-none rounded-1"
@@ -408,12 +411,25 @@ const cargarClientes = () => {
     icon: "success",
     title: "Listando Clientes...",
     showConfirmButton: false,
-    timer: 1500,
+    timer: 1500,  
   });
 };
 
 const guardarCliente = async () => {
-  // Validar duplicados solo si estás creando (no si editando)
+
+  validarDni();
+  validarEmail();
+  validarMovil();
+
+  if (!dniValido.value || !emailValido.value || !movilValido.value) {
+    Swal.fire({
+      icon: "error",
+      title: "Hay campos inválidos",
+      text: "Corrija DNI, móvil o email antes de guardar",
+      showConfirmButton: true,
+    });
+    return; // Salir de la función si hay errores
+  }
 
   if (!editando.value) {
     const duplicado = clientes.value.find(
@@ -480,8 +496,8 @@ const guardarCliente = async () => {
       });
     }
 
-    // Reset formulario y estado
-    nuevoCliente.value = ref({ ...clienteVacio });
+  // Reset formulario y estado
+  nuevoCliente.value = { ...clienteVacio };
 
     editando.value = false;
     clienteEditandoId.value = null;
@@ -727,7 +743,7 @@ const totalPages = computed(() => {
   return Math.ceil(numClientes.value / clientesPorPage);
 });
 
-const refrescarPagina = computed(() => {
+const refrescarPagina = () => {
   nuevoCliente.value = { ...clienteVacio };
   editando.value = false;
   clienteEditandoId.value = null;
@@ -735,7 +751,7 @@ const refrescarPagina = computed(() => {
   dniValido.value = true;
   movilValido.value = true;
   emailValido.value = true;
-});
+};
 
 // Función única: capitaliza y asigna en el mismo paso
 const capitalizarTexto = (campo) => {
@@ -837,6 +853,7 @@ function formatearFechaParaInput(fecha) {
   border-color: #f28b82 !important;
   background-color: #ffe6e6;
 }
+
 .invalid-feedback {
   display: block;
 }

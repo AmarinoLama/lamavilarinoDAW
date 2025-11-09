@@ -19,7 +19,7 @@
     {
       "tipo": "user",
       "dni": "X3456789G",
-      "fecha_alta": "2023-07-05",
+      "fecha_alta": "2025-11-09",
       "nombre": "José",
       "apellidos": "Martín Pérez",
       "email": "jose.martin@example.com",
@@ -28,7 +28,7 @@
       "provincia": "Barcelona",
       "municipio": "Badalona",
       "historico": true,
-      "lopd": false,
+      "lopd": true,
       "password": "",
       "id": "a079"
     },
@@ -340,7 +340,7 @@
       "id": "971c",
       "tipo": "user",
       "dni": "00000000T",
-      "nombre": "Sonia",
+      "nombre": "Sonia1",
       "apellidos": "Abalos Martínez",
       "eemail": "sonia@gmil.com",
       "movil": "654789465",
@@ -349,7 +349,7 @@
       "municipio": "Alconchel de la Estrella",
       "fecha_alta": "2025-10-02",
       "historico": true,
-      "email": "asdadsa@asda.com",
+      "email": "asdadsa@gmail.com",
       "tipoCliente": "particular",
       "lopd": true
     },
@@ -408,7 +408,9 @@
       "provincia": "Huelva",
       "municipio": "Alájar",
       "fecha_alta": "2025-10-09",
-      "historico": true
+      "historico": true,
+      "lopd": true,
+      "tipoCliente": "empresa"
     },
     {
       "id": "68a1",
@@ -436,7 +438,9 @@
       "provincia": "Tarragona",
       "municipio": "Calafell",
       "fecha_alta": "2025-10-14",
-      "historico": true
+      "historico": true,
+      "lopd": true,
+      "tipoCliente": "particular"
     },
     {
       "id": "2d28",
@@ -451,6 +455,36 @@
       "municipio": "Albatana",
       "fecha_alta": "2025-10-24",
       "historico": true
+    },
+    {
+      "id": "45c2",
+      "dni": "45814248L",
+      "nombre": "Amán2",
+      "apellidos": "Lama Vilariño2",
+      "email": "amarinolama2@com",
+      "movil": "222222222",
+      "direccion": "Fondo Da Vila2",
+      "provincia": "Huesca",
+      "municipio": "Agüero",
+      "fecha_alta": "2023-11-09",
+      "historico": true,
+      "tipoCliente": "empresa",
+      "lopd": true
+    },
+    {
+      "id": "2c67",
+      "dni": "79436252W",
+      "nombre": "Asdasda",
+      "apellidos": "Asdasda",
+      "email": "aaaa@com",
+      "movil": "33333333",
+      "direccion": "Asdasd",
+      "provincia": "Barcelona",
+      "municipio": "Castellfollit de Riubregós",
+      "fecha_alta": "2025-11-09",
+      "historico": true,
+      "tipoCliente": "particular",
+      "lopd": true
     }
   ],
   "noticias": [
