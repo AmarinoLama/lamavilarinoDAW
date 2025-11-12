@@ -529,7 +529,7 @@
       "descripcion": "1111",
       "fecha_alta": "2023-11-09",
       "ITV": true,
-      "roto": false
+      "roto": true
     }
   ]
 }

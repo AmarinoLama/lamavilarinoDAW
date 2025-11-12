@@ -25,7 +25,7 @@ export const updateCoche = (id, cocheActualizado) => {
               .then(res => res.data)
 }
 
-export const deletePermanenteCoche = (id) => {
-  return axios.delete(`${API_URL}/${id}`)
+export const darBajaCoche = (id) => {
+  return axios.patch(`${API_URL}/${id}`, {roto: true})
               .then(res => res.data)
 }

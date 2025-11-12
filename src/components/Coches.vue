@@ -155,6 +155,12 @@
           >
             {{ editando ? "Modificar Coche" : "Registrar" }}
           </button>
+          <button
+            class="btn btn-primary border-0 shadow-none rounded-0 ms-3"
+            type="reset"
+          >
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
         </div>
       </div>
     </form>
@@ -183,10 +189,30 @@
               <button
                 @click="editarCoche(coche.matricula)"
                 class="btn btn-warning btn-sm border-0 shadow-none rounded-1"
-                title="Editar cliente"
-                aria-label="Editar cliente"
+                title="Editar coche"
+                aria-label="Editar coche"
               >
                 <i class="bi bi-pencil"></i>
+              </button>
+              <button
+                @click="eliminarCoche(coche.matricula)"
+                class="btn btn-danger btn-sm ms-4 me-2 border-0 shadow-none rounded-1"
+                title="Eliminar coche"
+                aria-label="Eliminar coche"
+              >
+                <i
+                  class="bi bi-exclamation-octagon-fill"
+                  title="Marcar coche como roto"
+                  aria-label="Marcar coche como roto"
+                ></i>
+              </button>
+              <button
+                v-if="coche.roto == true"
+                @click="arreglarCoche(coche)"
+                class="btn btn-secondary btn-sm ms-2 border-0 shadow-none rounded-1"
+                title="Activar coche"
+              >
+                <i class="bi bi-tools"></i>
               </button>
             </td>
           </tr>
@@ -218,7 +244,12 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import Swal from "sweetalert2";
-import { getCoches, addCoche, updateCoche } from "@/api/coches.js";
+import {
+  getCoches,
+  addCoche,
+  updateCoche,
+  darBajaCoche,
+} from "@/api/coches.js";
 
 const cocheVacio = {
   matricula: "",
@@ -294,7 +325,6 @@ const guardarCoche = async () => {
 
   try {
     if (editando.value) {
-
       const cocheActualizado = await updateCoche(
         cocheEditandoId.value,
         nuevoCoche.value
@@ -311,14 +341,14 @@ const guardarCoche = async () => {
         timer: 1500,
       });
     } else {
-    const cocheAgregado = await addCoche(nuevoCoche.value);
-    coches.value.push(cocheAgregado);
-    Swal.fire({
-      icon: "success",
-      title: "Coche agregado",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+      const cocheAgregado = await addCoche(nuevoCoche.value);
+      coches.value.push(cocheAgregado);
+      Swal.fire({
+        icon: "success",
+        title: "Coche agregado",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
 
     nuevoCoche.value = { ...cocheVacio };
@@ -359,6 +389,45 @@ const editarCoche = (matricula) => {
   cocheEditandoId.value = coche.id;
 };
 
+const eliminarCoche = async (matricula) => {
+  coches.value = await getCoches();
+
+  const cocheAEliminar = coches.value.find(
+    (coche) => coche.matricula === matricula
+  );
+
+  if (!cocheAEliminar) {
+    Swal.fire({
+      icon: "error",
+      title: "Coche no encontrado",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    return;
+  }
+
+  const result = await Swal.fire({
+    title: `¿Marcar como roto al coche con la matrícula ${cocheAEliminar.matricula}?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, está roto",
+    cancelButtonText: "Cancelar",
+  });
+
+  if (!result.isConfirmed) return;
+
+  await darBajaCoche(cocheAEliminar.id);
+
+  coches.value = await getCoches();
+
+  Swal.fire({
+    icon: "success",
+    title: "Coche marcado como roto",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+};
+
 const cochesPaginados = computed(() => {
   const start = (currentPage.value - 1) * cochesPorPage;
   const end = start + cochesPorPage;
@@ -386,7 +455,6 @@ function formatearFechaParaInput(fecha) {
 
   return "";
 }
-
 </script>
 <style scoped>
 .form-control {
