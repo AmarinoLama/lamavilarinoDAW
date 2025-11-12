@@ -199,6 +199,7 @@
                 class="btn btn-danger btn-sm ms-4 me-2 border-0 shadow-none rounded-1"
                 title="Eliminar coche"
                 aria-label="Eliminar coche"
+                :disabled="coche.roto" :aria-disabled="String(coche.roto)"
               >
                 <i
                   class="bi bi-exclamation-octagon-fill"
