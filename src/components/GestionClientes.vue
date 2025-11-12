@@ -306,6 +306,7 @@
                 class="btn btn-danger btn-sm ms-4 me-2 border-0 shadow-none rounded-1"
                 title="Eliminar cliente"
                 aria-label="Eliminar cliente"
+                :disabled="!cliente.historico" :aria-disabled="String(cliente.historico)"
               >
                 <i class="bi bi-trash"></i>
               </button>
