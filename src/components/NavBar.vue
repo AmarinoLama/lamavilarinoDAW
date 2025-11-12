@@ -37,10 +37,13 @@
             <router-link class="nav-link" to="/noticias">Noticias</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/#">Contacto</router-link>
+            <router-link class="nav-link" to="/modelos">Modelos</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/#">Coches</router-link>
+            <router-link class="nav-link" to="/#">Ventas</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/#">Contacto</router-link>
           </li>
         </ul>
       </div>
