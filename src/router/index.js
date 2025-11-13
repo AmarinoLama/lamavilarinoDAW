@@ -6,6 +6,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import AvisoLegal from '../components/AvisoLegal.vue';
 import PoliticaPrivacidad from '../components/PoliticaPrivacidad.vue';
 import Modelos from '../components/Modelos.vue';
+import CitasTaller from '../components/CitasTaller.vue';
 
 const routes = [
     {
@@ -42,7 +43,12 @@ const routes = [
         path: '/modelos',
         name: 'Modelos',
         component: Modelos
-    }
+    },
+    {
+        path: '/taller',
+        name: 'Taller',
+        component: CitasTaller
+    },
 ];
 
 const router = createRouter({
