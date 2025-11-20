@@ -350,7 +350,7 @@
       "fecha_alta": "2025-10-02",
       "historico": true,
       "email": "asdadsa@gmail.com",
-      "tipoCliente": "particular",
+      "tipoCliente": "empresa",
       "lopd": true
     },
     {
@@ -517,6 +517,98 @@
       "titulo": "nueva noticia",
       "contenido": "a",
       "fecha_publicacion": "2025-10-24"
+    }
+  ],
+  "taller": [
+    {
+      "id": "6947",
+      "matricula": "1589GLK",
+      "movilCliente": "696878453",
+      "fechaCita": "1212-12-12",
+      "servicioTaller": "preITV",
+      "estadoCita": "",
+      "acepta": true
+    },
+    {
+      "id": "a9c0",
+      "matricula": "1234GFD",
+      "movilCliente": "11111",
+      "fechaCita": "1111-11-11",
+      "servicioTaller": "cambio_aceite",
+      "estadoCita": "",
+      "acepta": true
+    },
+    {
+      "id": "100d",
+      "matricula": "1234GFD",
+      "movilCliente": "111111",
+      "fechaCita": "1111-11-11",
+      "servicioTaller": "cambio_aceite",
+      "estadoCita": "",
+      "acepta": true
+    },
+    {
+      "id": "e394",
+      "matricula": "1589GLA",
+      "movilCliente": "654789465",
+      "fechaCita": "2222-03-12",
+      "servicioTaller": "neumaticos",
+      "estadoCita": "",
+      "acepta": true
+    },
+    {
+      "id": "5c3c",
+      "matricula": "1234GFD",
+      "movilCliente": "123123123",
+      "fechaCita": "1111-11-11",
+      "servicioTaller": "neumaticos",
+      "estadoCita": "",
+      "acepta": true
+    },
+    {
+      "id": "24f4",
+      "matricula": "123123123",
+      "movilCliente": "1123123123",
+      "fechaCita": "0111-11-11",
+      "servicioTaller": "Revision",
+      "estadoCita": "",
+      "acepta": true
+    },
+    {
+      "id": "f0f5",
+      "matricula": "1234GFD",
+      "movilCliente": "123123123",
+      "fechaCita": "1111-11-11",
+      "servicioTaller": "preITV",
+      "estadoCita": "",
+      "acepta": true
+    },
+    {
+      "id": "cd12",
+      "matricula": "66666",
+      "movilCliente": "6666",
+      "fechaCita": "0666-06-06",
+      "servicioTaller": "neumaticos",
+      "estadoCita": "pendiente",
+      "acepta": true
+    },
+    {
+      "id": "06c7",
+      "matricula": "1223asc",
+      "movilCliente": "24234234",
+      "fechaCita": "2025-11-19",
+      "servicioTaller": "preITV",
+      "estadoCita": "pendiente",
+      "acepta": true
+    },
+    {
+      "id": "46a3",
+      "matricula": "44444",
+      "movilCliente": "44444",
+      "fechaCita": "0444-04-04",
+      "servicioTaller": "frenos",
+      "estadoCita": "finalizado",
+      "acepta": true
     }
   ]
 }
