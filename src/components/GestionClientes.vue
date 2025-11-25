@@ -222,12 +222,51 @@
         </div>
       </div>
 
+      <!-- Contraseña y Repetir Contraseña -->
+      <div class="mb-3 row g-3 align-items-center">
+        <!-- Contraseña -->
+        <div class="col-md-5 d-flex align-items-center">
+          <label for="contrasena" class="form-label mb-0 text-nowrap w-25"
+            >Contraseña:</label
+          >
+          <input
+            type="password"
+            id="contrasena"
+            v-model="nuevoCliente.contrasena"
+            class="form-control flex-grow-1"
+            :class="{ 'is-invalid': !contrasenaValida }"
+            @blur="validarContrasena"
+            required
+          />
+        </div>
+
+        <!-- Repetir Contraseña -->
+        <div class="col-md-6 d-flex align-items-center ms-5">
+          <label
+            for="repetirContrasena"
+            class="form-label me-4 mb-0 text-nowrap"
+            >Repetir Contraseña:</label
+          >
+          <input
+            type="password"
+            id="repetirContrasena"
+            v-model="repetirContrasena"
+            class="form-control flex-grow-1 ms-1"
+            :class="{ 'is-invalid': !contrasenaValida }"
+            @blur="validarContrasena"
+            required
+          />
+        </div>
+      </div>
+
       <!-- Aceptar condiciones + Histórico -->
       <div class="mb-4">
-        <div class="d-flex align-items-center justify-content-between position-relative">
+        <div
+          class="d-flex align-items-center justify-content-between position-relative"
+        >
           <!-- Espacio izquierdo vacío para equilibrar -->
           <div style="flex: 1"></div>
-          
+
           <!-- Aceptar condiciones y términos (centro absoluto) -->
           <div class="position-absolute start-50 translate-middle-x">
             <div class="form-check d-flex align-items-center">
@@ -306,7 +345,8 @@
                 class="btn btn-danger btn-sm ms-4 me-2 border-0 shadow-none rounded-1"
                 title="Eliminar cliente"
                 aria-label="Eliminar cliente"
-                :disabled="!cliente.historico" :aria-disabled="String(cliente.historico)"
+                :disabled="!cliente.historico"
+                :aria-disabled="String(cliente.historico)"
               >
                 <i class="bi bi-trash"></i>
               </button>
@@ -358,6 +398,7 @@
 import { ref, onMounted, computed } from "vue";
 import provmuniData from "@/data/provmuni.json";
 import Swal from "sweetalert2";
+import bcrypt from "bcryptjs";
 import {
   getClientes,
   deleteCliente,
@@ -381,6 +422,7 @@ const clienteVacio = {
   historico: true,
   tipoCliente: "",
   lopd: false,
+  contrasena: "",
 };
 
 const nuevoCliente = ref({ ...clienteVacio });
@@ -388,6 +430,8 @@ const nuevoCliente = ref({ ...clienteVacio });
 const editando = ref(false);
 const mostrarHistorico = ref(false);
 const clienteEditandoId = ref(null);
+const repetirContrasena = ref("");
+const contrasenaValida = ref(true);
 
 const numClientes = ref(0);
 const currentPage = ref(1);
@@ -412,21 +456,26 @@ const cargarClientes = () => {
     icon: "success",
     title: "Listando Clientes...",
     showConfirmButton: false,
-    timer: 1500,  
+    timer: 1500,
   });
 };
 
 const guardarCliente = async () => {
-
   validarDni();
   validarEmail();
   validarMovil();
+  validarContrasena();
 
-  if (!dniValido.value || !emailValido.value || !movilValido.value) {
+  if (
+    !dniValido.value ||
+    !emailValido.value ||
+    !movilValido.value ||
+    !contrasenaValida.value
+  ) {
     Swal.fire({
       icon: "error",
       title: "Hay campos inválidos",
-      text: "Corrija DNI, móvil o email antes de guardar",
+      text: "Corrija DNI, móvil, email o contraseña antes de guardar",
       showConfirmButton: true,
     });
     return; // Salir de la función si hay errores
@@ -464,13 +513,26 @@ const guardarCliente = async () => {
   if (!result.isConfirmed) return;
   //clienteActualizado.fecha_alta = formatearFechaParaInput(clienteActualizado.fecha_alta);
   try {
+    // Hashear la contraseña antes de guardar
+    const salt = await bcrypt.genSalt(10);
+    const contrasenaHasheada = await bcrypt.hash(
+      nuevoCliente.value.contrasena,
+      salt
+    );
+
+    // Crear una copia del cliente con la contraseña hasheada
+    const clienteAGuardar = {
+      ...nuevoCliente.value,
+      contrasena: contrasenaHasheada,
+    };
+
     if (editando.value) {
       // Validar campos
       // Modificar cliente (PUT)+
 
       const clienteActualizado = await updateCliente(
         clienteEditandoId.value,
-        nuevoCliente.value
+        clienteAGuardar
       );
 
       // Actualiza el cliente en la lista local
@@ -487,7 +549,7 @@ const guardarCliente = async () => {
     } else {
       // Agregar cliente (POST)
 
-      const clienteAgregado = await addCliente(nuevoCliente.value);
+      const clienteAgregado = await addCliente(clienteAGuardar);
       clientes.value.push(clienteAgregado);
       Swal.fire({
         icon: "success",
@@ -497,16 +559,18 @@ const guardarCliente = async () => {
       });
     }
 
-  // Reset formulario y estado
-  nuevoCliente.value = { ...clienteVacio };
+    // Reset formulario y estado
+    nuevoCliente.value = { ...clienteVacio };
 
     editando.value = false;
     clienteEditandoId.value = null;
+    repetirContrasena.value = "";
 
     // Reset validaciones si tienes (dniValido, movilValido, etc)
     dniValido.value = true;
     movilValido.value = true;
     emailValido.value = true;
+    contrasenaValida.value = true;
 
     // Refrescar lista completa (opcional)
     clientes.value = await getClientes();
@@ -582,6 +646,10 @@ const editarCliente = (movil) => {
 
   // Copiar datos al formulario
   nuevoCliente.value = { ...cliente }; // 🔁 Aquí cargas el formulario con los datos
+  // No copiar la contraseña hasheada al campo de edición por seguridad
+  // El usuario deberá ingresar una nueva contraseña si desea cambiarla
+  nuevoCliente.value.contrasena = "";
+  repetirContrasena.value = "";
   editando.value = true;
   // Formatear fecha para el input type="date"
   nuevoCliente.value.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
@@ -664,6 +732,9 @@ const buscarClientePorDNI = async (dni) => {
     // ✅ Cargar los datos en el formulario
     nuevoCliente.value = { ...cliente };
     nuevoCliente.value.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
+    // No mostrar la contraseña hasheada
+    nuevoCliente.value.contrasena = "";
+    repetirContrasena.value = "";
 
     // Actualiza lista de municipios si cambia la provincia
     filtrarMunicipios();
@@ -748,10 +819,12 @@ const refrescarPagina = () => {
   nuevoCliente.value = { ...clienteVacio };
   editando.value = false;
   clienteEditandoId.value = null;
+  repetirContrasena.value = "";
 
   dniValido.value = true;
   movilValido.value = true;
   emailValido.value = true;
+  contrasenaValida.value = true;
 };
 
 // Función única: capitaliza y asigna en el mismo paso
@@ -795,6 +868,32 @@ const validarMovil = () => {
     movilValido.value = false;
     return false;
   }
+};
+
+// Validar contraseñas
+const validarContrasena = () => {
+  const contrasena = nuevoCliente.value.contrasena.trim();
+  const repetir = repetirContrasena.value.trim();
+
+  if (contrasena === "" || repetir === "") {
+    contrasenaValida.value = false;
+    return false;
+  }
+
+  if (contrasena !== repetir) {
+    contrasenaValida.value = false;
+    Swal.fire({
+      icon: "error",
+      title: "Las contraseñas no coinciden",
+      text: "Por favor, verifica que ambas contraseñas sean iguales.",
+      showConfirmButton: true,
+      timer: 2000,
+    });
+    return false;
+  }
+
+  contrasenaValida.value = true;
+  return true;
 };
 
 // Provincias y municipios

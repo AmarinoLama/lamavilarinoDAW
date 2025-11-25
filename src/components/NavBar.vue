@@ -1,12 +1,12 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-dark bg-primary sticky-top navbar-expand-lg">
     <div class="container-fluid">
-      <!-- Marca o logo -->
-      <router-link to="/" class="navbar-brand">
+      <!-- Logo -->
+      <router-link to="/" class="navbar-brand ms-3">
         <img src="@/assets/logoCochesTeis.svg" alt="Coches Teis" class="logo" />
       </router-link>
 
-      <!-- Botón de hamburguesa en pantallas pequeñas -->
+      <!-- Botón hamburguesa -->
       <button
         class="navbar-toggler"
         type="button"
@@ -19,16 +19,12 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <!-- Links de navegación -->
-      <div
-        class="collapse navbar-collapse justify-content-center"
-        id="navbarNav"
-      >
-        <ul class="navbar-nav d-flex justify-content-center w-100">
+      <!-- Contenido colapsable -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <!-- NAV CENTRADO -->
+        <ul class="navbar-nav mx-auto gap-3 text-center">
           <li class="nav-item">
-            <router-link class="nav-link" aria-current="page" to="/"
-              >Inicio</router-link
-            >
+            <router-link class="nav-link" to="/">Inicio</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/clientes">Clientes</router-link>
@@ -43,42 +39,84 @@
             <router-link class="nav-link" to="/taller">Taller</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/#">Ventas</router-link>
+            <router-link class="nav-link" to="/ventas">Ventas</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/#">Contacto</router-link>
+            <router-link class="nav-link" to="/contacto">Contacto</router-link>
           </li>
         </ul>
+
+        <!-- DROPDOWN DERECHA SIN ROMPER CENTRADO -->
+        <div class="dropdown ms-lg-5 me-3">
+          <button
+            class="btn btn-primary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+          >
+            <i class="bi bi-person fs-2"></i>
+          </button>
+
+          <ul class="dropdown-menu dropdown-menu-end">
+            <!-- No logueado -->
+            <li v-if="!isLogueado">
+              <router-link class="dropdown-item" to="/login">Acceso</router-link>
+            </li>
+            <li v-if="!isLogueado">
+              <router-link class="dropdown-item" to="/clientes">Registro</router-link>
+            </li>
+
+            <!-- Logueado -->
+            <li v-if="isLogueado">
+              <a class="dropdown-item" href="#" @click.prevent="logout">Cerrar Sesión</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
 </template>
 
 <script setup>
-// No necesita lógica
+import { ref, onMounted } from 'vue'
+
+const isLogueado = ref(false)
+const userName = ref('')
+
+onMounted(() => {
+  isLogueado.value = localStorage.getItem('isLogueado') === 'true'
+  userName.value = localStorage.getItem('userName') || ''
+})
+
+function logout() {
+  localStorage.removeItem('isLogueado')
+  localStorage.removeItem('userName')
+  localStorage.removeItem('isAdmin')
+  localStorage.removeItem('isUsuario')
+
+  isLogueado.value = false
+  userName.value = ''
+
+  window.location.href = '/'
+}
 </script>
 
 <style scoped>
 .navbar {
   width: 100%;
-  left: 0;
-  top: 0;
   z-index: 1000;
-}
-
-.navbar-nav {
-  gap: 1rem;
-  /* espacio entre links */
-}
-
-.nav-link {
-  text-align: center;
 }
 
 .logo {
   height: 45px;
-  margin-left: 15px;
   width: auto;
-  display: block;
+}
+
+.navbar-dark .nav-link {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.navbar-dark .nav-link:hover,
+.navbar-dark .nav-link:focus {
+  color: #fff;
 }
 </style>

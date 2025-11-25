@@ -181,25 +181,25 @@
       </table>
     </div>
     <!-- Navegación de página-->
-      <div class="d-flex justify-content-center my-3">
-        <button
-          class="btn btn-outline-primary btn-sm me-2 rounded-0 border-1 shadow-none"
-          @click="beforePagina"
-          :disabled="currentPage <= 1"
-        >
-          <i class="bi bi-chevron-left"></i>
-        </button>
-        <span class="mx-3 align-self-center text-muted"
-          >Página {{ currentPage }}</span
-        >
-        <button
-          class="btn btn-outline-primary btn-sm rounded-0 border-1 shadow-none"
-          @click="nextPagina"
-          :disabled="currentPage >= totalPages"
-        >
-          <i class="bi bi-chevron-right"></i>
-        </button>
-      </div>
+    <div class="d-flex justify-content-center my-3">
+      <button
+        class="btn btn-outline-primary btn-sm me-2 rounded-0 border-1 shadow-none"
+        @click="beforePagina"
+        :disabled="currentPage <= 1"
+      >
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <span class="mx-3 align-self-center text-muted"
+        >Página {{ currentPage }}</span
+      >
+      <button
+        class="btn btn-outline-primary btn-sm rounded-0 border-1 shadow-none"
+        @click="nextPagina"
+        :disabled="currentPage >= totalPages"
+      >
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -244,15 +244,12 @@ const cargarCitas = async () => {
 };
 
 const guardarCita = async () => {
-  if (!validarMovil()) {
-    Swal.fire({
-      icon: "error",
-      title: "Hay campos inválidos",
-      text: "El móvil no existe",
-      showConfirmButton: true,
-    });
-    return;
+  // Primero validar que el móvil del cliente exista
+  const movilValido = await validarMovil();
+  if (!movilValido) {
+    return; // La alerta ya se muestra en validarMovil
   }
+
   if (!validarMatricula()) {
     Swal.fire({
       icon: "error",
@@ -406,19 +403,37 @@ const validarMatricula = () => {
   return matricula.length <= 10;
 };
 
-// Por algún motivo esto no va
 const validarMovil = async () => {
-  const clientes = await getClientes();
-  const telefono = nuevaCita.value.movil;
-  for (let cliente of clientes) {
-    console.log(cliente.movil == telefono)
-    // if (cliente.movil === movil) {
-    //   console.log("se encontró");
-    //   return true;
-    // }
+  try {
+    const clientes = await getClientes(true); // Obtener todos los clientes (histórico true)
+    const telefonoMovil = nuevaCita.value.movilCliente.trim();
+
+    // Buscar si existe un cliente con ese número de móvil
+    const clienteExiste = clientes.some(
+      (cliente) => cliente.movil === telefonoMovil
+    );
+
+    if (!clienteExiste) {
+      Swal.fire({
+        icon: "error",
+        title: "Cliente no encontrado",
+        text: `No existe ningún cliente con el teléfono móvil ${telefonoMovil}`,
+        showConfirmButton: true,
+      });
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Error al validar móvil:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error de validación",
+      text: "No se pudo verificar el móvil del cliente",
+      showConfirmButton: true,
+    });
+    return false;
   }
-  console.log("devuelvo false");
-  return false;
 };
 </script>
 

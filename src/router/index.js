@@ -7,6 +7,7 @@ import AvisoLegal from '../components/AvisoLegal.vue';
 import PoliticaPrivacidad from '../components/PoliticaPrivacidad.vue';
 import Modelos from '../components/Modelos.vue';
 import CitasTaller from '../components/CitasTaller.vue';
+import TablaLogin from '../components/TablaLogin.vue';
 
 const routes = [
     {
@@ -49,6 +50,11 @@ const routes = [
         name: 'Taller',
         component: CitasTaller
     },
+    {
+        path: '/login',
+        name: 'Login',
+        component: TablaLogin
+    }
 ];
 
 const router = createRouter({
