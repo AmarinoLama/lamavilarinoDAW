@@ -80,10 +80,14 @@
 import { ref, onMounted } from 'vue'
 
 const isLogueado = ref(false)
+const isAdmin = ref(false)
+const isUsuario = ref(false)
 const userName = ref('')
 
 onMounted(() => {
   isLogueado.value = localStorage.getItem('isLogueado') === 'true'
+  isAdmin.value = localStorage.getItem('isAdmin') === 'true'
+  isUsuario.value = localStorage.getItem('isUsuario') === 'true'
   userName.value = localStorage.getItem('userName') || ''
 })
 
