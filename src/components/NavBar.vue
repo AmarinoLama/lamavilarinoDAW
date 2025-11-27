@@ -47,27 +47,34 @@
         </ul>
 
         <!-- DROPDOWN DERECHA SIN ROMPER CENTRADO -->
-        <div class="dropdown ms-lg-5 me-3">
+        <div class="dropdown ms-auto">
+          <span class="text-white" v-if="isLogueado">{{ userName }}</span>
+
           <button
             class="btn btn-primary dropdown-toggle"
             type="button"
             data-bs-toggle="dropdown"
+            aria-expanded="false"
           >
             <i class="bi bi-person fs-2"></i>
           </button>
-
           <ul class="dropdown-menu dropdown-menu-end">
-            <!-- No logueado -->
+            <!-- Mostra “Acceso/Registro” se NON hai usuario logueado -->
             <li v-if="!isLogueado">
-              <router-link class="dropdown-item" to="/login">Acceso</router-link>
+              <router-link class="dropdown-item" to="/login"
+                >Acceso</router-link
+              >
             </li>
             <li v-if="!isLogueado">
-              <router-link class="dropdown-item" to="/clientes">Registro</router-link>
+              <router-link class="dropdown-item" to="/clientes"
+                >Registro</router-link
+              >
             </li>
-
-            <!-- Logueado -->
+            <!-- Mostra “Cerrar Sesión” se está logueado -->
             <li v-if="isLogueado">
-              <a class="dropdown-item" href="#" @click.prevent="logout">Cerrar Sesión</a>
+              <a class="dropdown-item" href="#" @click.prevent="logout"
+                >Cerrar Sesión</a
+              >
             </li>
           </ul>
         </div>
@@ -77,30 +84,30 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue";
 
-const isLogueado = ref(false)
-const isAdmin = ref(false)
-const isUsuario = ref(false)
-const userName = ref('')
+const isLogueado = ref(false);
+const isAdmin = ref(false);
+const isUsuario = ref(false);
+const userName = ref("");
 
 onMounted(() => {
-  isLogueado.value = localStorage.getItem('isLogueado') === 'true'
-  isAdmin.value = localStorage.getItem('isAdmin') === 'true'
-  isUsuario.value = localStorage.getItem('isUsuario') === 'true'
-  userName.value = localStorage.getItem('userName') || ''
-})
+  isLogueado.value = localStorage.getItem("isLogueado") === "true";
+  isAdmin.value = localStorage.getItem("isAdmin") === "true";
+  isUsuario.value = localStorage.getItem("isUsuario") === "true";
+  userName.value = localStorage.getItem("userName") || "";
+});
 
 function logout() {
-  localStorage.removeItem('isLogueado')
-  localStorage.removeItem('userName')
-  localStorage.removeItem('isAdmin')
-  localStorage.removeItem('isUsuario')
+  localStorage.removeItem("isLogueado");
+  localStorage.removeItem("userName");
+  localStorage.removeItem("isAdmin");
+  localStorage.removeItem("isUsuario");
 
-  isLogueado.value = false
-  userName.value = ''
+  isLogueado.value = false;
+  userName.value = "";
 
-  window.location.href = '/'
+  window.location.href = "/";
 }
 </script>
 

@@ -58,7 +58,7 @@ export default {
         if (data.tipo === "admin") {
           localStorage.setItem('isAdmin', 'true');
         } else {
-          localStorage.setItem('isUsuario', 'true');
+          localStorage.setItem('isAdmin', 'false');
         }
 
         Swal.fire({
