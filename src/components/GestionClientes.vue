@@ -319,7 +319,7 @@
       </div>
     </form>
     <!-- Lista de Clientes -->
-    <div class="table-responsive">
+    <div class="table-responsive" v-if="isAdmin">
       <h4 class="text-center w-100">Listado Clientes</h4>
       <table class="table table-bordered table-striped w-100 align-middle">
         <thead class="table-primary">
@@ -433,9 +433,11 @@ const clienteEditandoId = ref(null);
 const repetirContrasena = ref("");
 const contrasenaValida = ref(true);
 
-const numClientes = ref(0);
+const numClientes = ref(0); 
 const currentPage = ref(1);
 const clientesPorPage = 10;
+
+const isAdmin = localStorage.getItem('isAdmin', 'true')
 
 // Función Listar Clientes con get
 

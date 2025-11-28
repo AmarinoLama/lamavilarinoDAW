@@ -6,7 +6,7 @@
       <i class="bi bi-newspaper"></i> Noticias
     </h4>
     <!-- Formulario de creación -->
-    <form @submit.prevent="guardarNoticia" class="mb-4">
+    <form @submit.prevent="guardarNoticia" class="mb-4" v-if="isAdmin">
       <div class="card shadow-sm p-4 mb-5">
         <div class="mb-3">
           <label class="form-label fw-semibold">Título:</label>
@@ -50,10 +50,10 @@
     <!-- Noticias dinámicas -->
     <div
       v-for="noticia in noticias"
-      :key="noticia.id"
+      :key="noticia._id"
       class="card mb-3 shadow-sm"
-      @click="toggleNoticia(noticia.id)"
-      :aria-expanded="String(expandidas.has(noticia.id))"
+      @click="toggleNoticia(noticia._id)"
+      :aria-expanded="String(expandidas.has(noticia._id))"
       role="button"
       tabindex="0"
     >
@@ -63,10 +63,11 @@
         <h5 class="mb-0 text-primary fw-semibold">{{ noticia.titulo }}</h5>
         <div>
           <button
-            @click.stop="eliminarNoticia(noticia.id)"
+            @click.stop="eliminarNoticia(noticia._id)"
             class="btn btn-outline-danger btn-sm shadow-none rounded m-10"
             title="Eliminar noticia"
             aria-label="Eliminar noticia"
+            v-if="isAdmin"
           >
             <i class="bi bi-trash"></i>
           </button>
@@ -79,11 +80,11 @@
       <div class="card-body">
         <transition name="fade" mode="out-in">
           <p
-            :key="String(expandidas.has(noticia.id))"
+            :key="String(expandidas.has(noticia._id))"
             class="card-text mb-0 text-secondary lh-base"
           >
             {{
-              expandidas.has(noticia.id)
+              expandidas.has(noticia._id)
                 ? noticia.contenido
                 : truncarTexto(noticia.contenido, 256)
             }}
@@ -96,10 +97,10 @@
         >
           <button
             class="btn btn-link p-0 text-primary fw-bold"
-            @click.stop="toggleNoticia(noticia.id)"
-            :aria-expanded="String(expandidas.has(noticia.id))"
+            @click.stop="toggleNoticia(noticia._id)"
+            :aria-expanded="String(expandidas.has(noticia._id))"
           >
-            {{ expandidas.has(noticia.id) ? "Ver menos ▲" : "Ver más ▼" }}
+            {{ expandidas.has(noticia._id) ? "Ver menos ▲" : "Ver más ▼" }}
           </button>
         </div>
         <div class="d-flex justify-content-end gap-2 mt-2"></div>
@@ -128,6 +129,8 @@ const expandidas = ref(new Set());
 
 const editando = ref(false);
 const noticiaEditandoId = ref(null);
+
+const isAdmin = localStorage.getItem("isAdmin", "true");
 
 const nuevaNoticia = ref({
   titulo: "",
@@ -242,7 +245,7 @@ const guardarNoticia = async () => {
 };
 
 const editarNoticia = (id) => {
-  const noticia = noticias.value.find((n) => n.id === id);
+  const noticia = noticias.value.find((n) => n._id === id);
 
   if (!noticia) {
     Swal.fire({
@@ -256,12 +259,12 @@ const editarNoticia = (id) => {
 
   nuevaNoticia.value = { ...noticia };
   editando.value = true;
-  noticiaEditandoId.value = noticia.id;
+  noticiaEditandoId.value = noticia._id;
 };
 
 const eliminarNoticia = async (id) => {
   noticias.value = await getNoticias();
-  const noticiaAEliminar = noticias.value.find((noticia) => noticia.id === id);
+  const noticiaAEliminar = noticias.value.find((noticia) => noticia._id === id);
 
   if (!noticiaAEliminar) {
     Swal.fire({
@@ -283,7 +286,7 @@ const eliminarNoticia = async (id) => {
 
   if (!result.isConfirmed) return;
 
-  await deleteNoticia(noticiaAEliminar.id);
+  await deleteNoticia(noticiaAEliminar._id);
   noticias.value = await getNoticias();
 
   Swal.fire({

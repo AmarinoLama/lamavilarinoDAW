@@ -8,6 +8,7 @@ import PoliticaPrivacidad from '../components/PoliticaPrivacidad.vue';
 import Modelos from '../components/Modelos.vue';
 import CitasTaller from '../components/CitasTaller.vue';
 import TablaLogin from '../components/TablaLogin.vue';
+import Ventas from '../components/Ventas.vue';
 
 const routes = [
     {
@@ -54,6 +55,11 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: TablaLogin
+    },
+    {
+        path: '/ventas',
+        name: 'Ventas',
+        component: Ventas
     }
 ];
 
