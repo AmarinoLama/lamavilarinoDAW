@@ -123,6 +123,7 @@ import {
   deleteNoticia,
   updateNoticia,
 } from "@/api/noticias.js";
+import { checkAdmin } from "@/api/authApi.js";
 
 const noticias = ref([]);
 const expandidas = ref(new Set());
@@ -130,7 +131,7 @@ const expandidas = ref(new Set());
 const editando = ref(false);
 const noticiaEditandoId = ref(null);
 
-const isAdmin = localStorage.getItem("isAdmin", "true");
+const isAdmin = ref(false);
 
 const nuevaNoticia = ref({
   titulo: "",
@@ -145,6 +146,10 @@ const noticiaVacia = ref({
 });
 
 onMounted(async () => {
+
+  const adminCheck = await checkAdmin();
+  isAdmin.value = adminCheck.isAdmin;
+
   await cargarNoticias();
 });
 

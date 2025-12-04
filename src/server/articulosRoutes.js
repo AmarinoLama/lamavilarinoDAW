@@ -2,7 +2,7 @@
 import express from "express";
 import multer from "multer";
 import path from "path";
-import Articulo from "../modelos/Articulo.js";
+import Articulo from "../model/Articulo.js";
 import { fileURLToPath } from "url";
 import fs from 'fs';
 
@@ -14,12 +14,10 @@ const __dirname = path.dirname(__filename);
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir);
-    console.log('Carpeta uploads creada automáticamente');
 }
 
 // Crear el router
 const router = express.Router();
-console.log("Router articulos cargado"); // para depurar
 
 
 

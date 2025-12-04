@@ -406,6 +406,7 @@ import {
   updateCliente,
   getClientePorDni,
 } from "@/api/clientes.js";
+import { checkAdmin } from "@/api/authApi";
 
 /* =================================== SCRIPT CRUD =================================== */
 
@@ -423,9 +424,12 @@ const clienteVacio = {
   tipoCliente: "",
   lopd: false,
   contrasena: "",
+  tipo: "user",
 };
 
 const nuevoCliente = ref({ ...clienteVacio });
+
+const clientes = ref([]);
 
 const editando = ref(false);
 const mostrarHistorico = ref(false);
@@ -433,19 +437,29 @@ const clienteEditandoId = ref(null);
 const repetirContrasena = ref("");
 const contrasenaValida = ref(true);
 
-const numClientes = ref(0); 
+const numClientes = ref(0);
 const currentPage = ref(1);
 const clientesPorPage = 10;
 
-const isAdmin = localStorage.getItem('isAdmin', 'true')
+const isAdmin = ref(false);
+const isLogueado = sessionStorage.getItem("isLogueado") === "true"
+const dni = sessionStorage.getItem("dni")
 
-// Función Listar Clientes con get
-
-const clientes = ref([]);
+// Función Listar Clientes con getconst clientes = ref([]);
 
 // Zona Cargar clientes Al Montar el componente
 onMounted(async () => {
-  cargarClientes();
+
+  const adminCheck = await checkAdmin();
+  isAdmin.value = adminCheck.isAdmin
+
+  if (isAdmin.value) {
+    cargarClientes();
+  }
+
+  if (isLogueado && dni) {
+    buscarClientePorDNI(dni)
+  }
 });
 
 const cargarClientes = () => {

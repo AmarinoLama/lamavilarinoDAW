@@ -32,10 +32,10 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/noticias">Noticias</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="isAdmin" class="nav-item">
             <router-link class="nav-link" to="/modelos">Modelos</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="isAdmin" class="nav-item">
             <router-link class="nav-link" to="/taller">Taller</router-link>
           </li>
           <li class="nav-item">
@@ -85,24 +85,28 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { checkAdmin } from "@/api/authApi.js";
 
 const isLogueado = ref(false);
 const isAdmin = ref(false);
 const isUsuario = ref(false);
 const userName = ref("");
 
-onMounted(() => {
-  isLogueado.value = localStorage.getItem("isLogueado") === "true";
-  isAdmin.value = localStorage.getItem("isAdmin") === "true";
-  isUsuario.value = localStorage.getItem("isUsuario") === "true";
-  userName.value = localStorage.getItem("userName") || "";
+onMounted(async () => {
+  const adminCheck = await checkAdmin();
+  isAdmin.value = adminCheck.isAdmin;
+  console.log(`El usuario es administrador? => ${isAdmin.value}`);
+
+  isLogueado.value = sessionStorage.getItem("isLogueado") === "true";
+  isUsuario.value = sessionStorage.getItem("isUsuario") === "true";
+  userName.value = sessionStorage.getItem("userName") || "";
 });
 
 function logout() {
-  localStorage.removeItem("isLogueado");
-  localStorage.removeItem("userName");
-  localStorage.removeItem("isAdmin");
-  localStorage.removeItem("isUsuario");
+  sessionStorage.removeItem("isLogueado");
+  sessionStorage.removeItem("userName");
+  sessionStorage.removeItem("isUsuario");
+  sessionStorage.removeItem("token");
 
   isLogueado.value = false;
   userName.value = "";

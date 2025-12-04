@@ -1,10 +1,11 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/noticias';
+// URL de json-server (igual que clientes.js)
+const API_URL = 'http://localhost:3000/noticias';
 
 export const getNoticias = () => {
-  // El ordenamiento se hace en el backend ahora
-  return axios.get(API_URL)
+  // Ordenar por fecha descendente usando json-server
+  return axios.get(`${API_URL}?_sort=fecha_publicacion&_order=desc`)
     .then(res => res.data)
     .catch(err => {
       console.error('Error al obtener las noticias:', err);
