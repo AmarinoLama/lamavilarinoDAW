@@ -95,7 +95,6 @@ const userName = ref("");
 onMounted(async () => {
   const adminCheck = await checkAdmin();
   isAdmin.value = adminCheck.isAdmin;
-  console.log(`El usuario es administrador? => ${isAdmin.value}`);
 
   isLogueado.value = sessionStorage.getItem("isLogueado") === "true";
   isUsuario.value = sessionStorage.getItem("isUsuario") === "true";

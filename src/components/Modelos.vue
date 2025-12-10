@@ -1,54 +1,52 @@
 <template>
-  <div class="container-fluid my-4 p-4 border rounded-4 shadow-lg bg-white">
-    <h4
-      class="text-center mb-4 fw-semibold text-primary border-bottom pb-2 mt-2"
-    >
-      <i class="bi bi-car-front me-2"></i>Registro de Vehículos
-    </h4>
-
-    <form @submit.prevent="guardarVehiculo" class="mb-2 mt-1">
-      <!-- FILA: Tipo, Marca, Modelo -->
-      <div class="row g-3 align-items-center mt-1">
-        <div class="col-12 col-md-3 d-flex align-items-center">
-          <label class="form-label mb-0 me-3 text-nowrap">Tipo:</label>
-          <div class="d-flex align-items-center">
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="tipo-coche"
-                value="coche"
-                v-model="vehiculo.tipo"
-              />
-              <label class="form-check-label" for="tipo-coche">Coche</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="tipo-furgoneta"
-                value="furgoneta"
-                v-model="vehiculo.tipo"
-              />
-              <label class="form-check-label" for="tipo-furgoneta"
-                >Furgoneta</label
-              >
-            </div>
-            <div class="form-check form-check-inline">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="tipo-moto"
-                value="moto"
-                v-model="vehiculo.tipo"
-              />
-              <label class="form-check-label" for="tipo-moto">Moto</label>
-            </div>
+  <div class="container-fluid my-2 p-3 border rounded-4 shadow-lg bg-white">
+    <form @submit.prevent="guardarVehiculo" class="mb-2">
+      <!-- SECCIÓN: REGISTRO DE VEHÍCULOS -->
+      <h6
+        class="text-center fw-semibold bg-primary text-white py-1 rounded mb-2 mt-1"
+      >
+        <i class="bi bi-car-front me-2"></i>Registro de Vehículos
+      </h6>
+      <!-- FILA: Tipo, Marca, Modelo, Año y Estado -->
+      <div class="row g-1 align-items-center">
+        <div class="col d-flex align-items-center">
+          <label class="form-label mb-0 me-1 text-nowrap small">Tipo:</label>
+          <div class="form-check form-check-inline mb-0">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="tipo-coche"
+              value="coche"
+              v-model="vehiculo.tipo"
+            />
+            <label class="form-check-label small" for="tipo-coche">Coche</label>
+          </div>
+          <div class="form-check form-check-inline mb-0">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="tipo-furgoneta"
+              value="furgoneta"
+              v-model="vehiculo.tipo"
+            />
+            <label class="form-check-label small" for="tipo-furgoneta"
+              >Furgoneta</label
+            >
+          </div>
+          <div class="form-check form-check-inline mb-0">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="tipo-moto"
+              value="moto"
+              v-model="vehiculo.tipo"
+            />
+            <label class="form-check-label small" for="tipo-moto">Moto</label>
           </div>
         </div>
 
-        <div class="col-12 col-md-2 d-flex align-items-center">
-          <label for="marca" class="form-label mb-0 me-3 text-nowrap"
+        <div class="col d-flex align-items-center">
+          <label for="marca" class="form-label mb-0 me-1 text-nowrap small"
             >Marca:</label
           >
           <input
@@ -56,13 +54,13 @@
             id="marca"
             v-model="vehiculo.marca"
             @blur="capitalizarTexto('marca')"
-            class="form-control rounded-0 shadow-none border"
+            class="form-control form-control-sm rounded-0 shadow-none border"
             required
           />
         </div>
 
-        <div class="col-12 col-md-2 d-flex align-items-center">
-          <label for="modelo" class="form-label mb-0 me-3 text-nowrap"
+        <div class="col d-flex align-items-center">
+          <label for="modelo" class="form-label mb-0 me-1 text-nowrap small"
             >Modelo:</label
           >
           <input
@@ -70,13 +68,13 @@
             id="modelo"
             v-model="vehiculo.modelo"
             @blur="capitalizarTexto('modelo')"
-            class="form-control rounded-0 shadow-none border"
+            class="form-control form-control-sm rounded-0 shadow-none border"
             required
           />
         </div>
 
-        <div class="col-12 col-md-2 d-flex align-items-center">
-          <label for="matricula" class="form-label mb-0 me-3 text-nowrap"
+        <div class="col d-flex align-items-center">
+          <label for="matricula" class="form-label mb-0 me-1 text-nowrap small"
             >Matrícula:</label
           >
           <input
@@ -84,26 +82,38 @@
             id="matricula"
             v-model="vehiculo.matricula"
             @blur="convertirMatriculaMayusculas"
-            class="form-control rounded-0 shadow-none border"
+            class="form-control form-control-sm rounded-0 shadow-none border"
           />
         </div>
 
-        <div class="col-12 col-md-2 d-flex align-items-center">
-          <label for="anio" class="form-label mb-0 me-3 text-nowrap"
+        <div class="col d-flex align-items-center">
+          <label for="anio" class="form-label mb-0 me-1 text-nowrap small"
             >Año:</label
           >
           <input
             type="number"
             id="anio"
             v-model="vehiculo.anio"
-            class="form-control rounded-0 shadow-none border text-end"
+            class="form-control form-control-sm rounded-0 shadow-none border text-end"
             required
           />
+        </div>
+
+        <div class="col-auto d-flex align-items-center">
+          <label class="form-label mb-0 me-1 small">Estado:</label>
+          <select
+            v-model="vehiculo.estado"
+            class="form-select form-select-sm d-inline-block w-auto rounded shadow-none border"
+          >
+            <option value="disponible">Disponible</option>
+            <option value="vendido">Vendido</option>
+            <option value="reservado">Reservado</option>
+          </select>
         </div>
       </div>
 
       <!-- FILA: Año, Kilómetros, Precio -->
-      <div class="row g-3 align-items-center mt-2">
+      <div class="row g-2 align-items-center mt-1">
         <div class="col-12 col-md-2 d-flex align-items-center">
           <label for="kilometros" class="form-label mb-0 me-3 text-nowrap"
             >Kilómetros:</label
@@ -191,20 +201,20 @@
         </div>
       </div>
       <!-- FILA: Descripción -->
-      <div class="col g-2 mt-3">
-        <label for="descripcion" class="form-label">Descripción:</label>
+      <div class="col g-2 mt-1">
+        <label for="descripcion" class="form-label mb-1">Descripción:</label>
         <textarea
           id="descripcion"
           v-model="vehiculo.descripcion"
-          rows="3"
-          class="form-control rounded shadow-none border mb-2"
+          rows="2"
+          class="form-control rounded shadow-none border"
           placeholder="Describe el estado, revisiones, etc."
         >
         </textarea>
       </div>
 
       <!-- FILA: Imagen del vehículo-->
-      <div class="row g-3 align-items-center mb-3">
+      <div class="row g-2 align-items-center mt-1 mb-1">
         <div class="col-12 col-md-3 d-flex align-items-center">
           <label for="foto" class="form-label mb-0 me-2 text-nowrap"
             >Imagen del Vehículo:</label
@@ -219,11 +229,14 @@
         </div>
       </div>
 
-      <h6 class="text-center fw-semibold bg-primary-subtle py-1 rounded">
-        <i class="bi bi-person me-2"></i>Cliente Ubicación
+      <!-- SECCIÓN: CLIENTE Y UBICACIÓN -->
+      <h6
+        class="text-center fw-semibold bg-primary text-white py-1 rounded mb-2 mt-2"
+      >
+        <i class="bi bi-geo-alt-fill me-2"></i>Cliente y Ubicación
       </h6>
       <!-- FILA: Ubicación -->
-      <div class="row g-3 align-items-center mt-3">
+      <div class="row g-2 align-items-center">
         <div class="col-12 col-md-4">
           <label for="provincia" class="form-label">Provincia:</label>
           <select
@@ -271,7 +284,7 @@
       </div>
 
       <!-- FILA: Contacto -->
-      <div class="row g-3 align-items-center mt-3">
+      <div class="row g-2 align-items-center mt-1">
         <div class="col-12 col-md-4">
           <label for="contacto_nombre" class="form-label"
             >Nombre Contacto:</label
@@ -314,37 +327,109 @@
         </div>
       </div>
 
-      <!-- FILA: Estado y botón -->
-      <div class="d-flex align-items-center justify-content-between mt-3">
-        <div>
-          <label class="form-label me-2">Estado:</label>
-          <select
-            v-model="vehiculo.estado"
-            class="form-select d-inline-block w-auto rounded shadow-none border"
-          >
-            <option value="disponible">Disponible</option>
-            <option value="vendido">Vendido</option>
-            <option value="reservado">Reservado</option>
-          </select>
-        </div>
-
-        <div>
-          <button
-            class="btn btn-primary rounded border shadow-none px-4"
-            type="submit"
-          >
-            {{ editando ? "Modificar" : "Guardar" }}
-          </button>
-        </div>
+      <!-- BOTONES DE ACCIÓN -->
+      <div class="d-flex justify-content-center gap-2 mt-2">
+        <button
+          class="btn btn-success btn-sm rounded shadow px-3"
+          type="submit"
+          v-if="!editando"
+        >
+          <i class="bi bi-save me-1"></i>Guardar
+        </button>
+        <button
+          class="btn btn-primary btn-sm rounded shadow px-3"
+          type="submit"
+          v-if="editando"
+        >
+          <i class="bi bi-pencil-square me-1"></i>Modificar
+        </button>
+        <button
+          class="btn btn-danger btn-sm rounded shadow px-3"
+          type="button"
+          v-if="editando"
+          @click="eliminarVehiculo"
+        >
+          <i class="bi bi-trash me-1"></i>Eliminar
+        </button>
+        <button
+          class="btn btn-secondary btn-sm rounded shadow px-3"
+          type="button"
+          @click="limpiarFormulario"
+        >
+          <i class="bi bi-x-circle me-1"></i>Cancelar
+        </button>
       </div>
     </form>
+
+    <!-- TABLA DE VEHÍCULOS -->
+    <div class="table-responsive mt-2">
+      <h6
+        class="text-center fw-semibold bg-secondary text-white py-1 rounded mb-2"
+      >
+        <i class="bi bi-list-ul me-2"></i>Listado de Vehículos
+      </h6>
+      <table class="table table-sm table-bordered table-hover align-middle">
+        <thead class="table-primary text-center">
+          <tr>
+            <th>Matrícula</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Estado</th>
+            <th>Contacto</th>
+            <th style="width: 80px">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(v, index) in vehiculos" :key="index">
+            <td class="text-center fw-bold">{{ v.matricula }}</td>
+            <td>{{ v.marca }}</td>
+            <td>{{ v.modelo }}</td>
+            <td class="text-center">
+              <span
+                class="badge"
+                :class="{
+                  'bg-success': v.estado === 'disponible',
+                  'bg-danger': v.estado === 'vendido',
+                  'bg-warning': v.estado === 'reservado',
+                }"
+              >
+                {{ v.estado }}
+              </span>
+            </td>
+            <td class="small">
+              <strong>{{ v.contacto.nombre }}</strong> |
+              <i class="bi bi-telephone me-1"></i>{{ v.contacto.telefono }}
+            </td>
+            <td class="text-center">
+              <button
+                @click="cargarVehiculo(v)"
+                class="btn btn-warning btn-sm shadow-none py-0"
+                title="Editar vehículo"
+              >
+                <i class="bi bi-pencil"></i>
+              </button>
+            </td>
+          </tr>
+          <tr v-if="vehiculos.length === 0">
+            <td colspan="6" class="text-center text-muted">
+              No hay vehículos registrados
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script setup>
 import Swal from "sweetalert2";
-import { ref, computed } from "vue";
-import { addArticulo } from "@/api/articulos.js";
+import { ref, computed, onMounted } from "vue";
+import {
+  addArticulo,
+  getArticulos,
+  updateArticulo,
+  deleteArticulo,
+} from "@/api/articulos.js";
 import provmuniData from "@/data/provmuni.json";
 
 const vehiculo = ref({
@@ -373,7 +458,129 @@ const vehiculo = ref({
   estado: "disponible",
 });
 
+const vehiculos = ref([]);
 const editando = ref(false);
+const vehiculoIdActual = ref(null);
+
+// Cargar vehículos al montar el componente
+onMounted(async () => {
+  await cargarVehiculos();
+});
+
+const cargarVehiculos = async () => {
+  try {
+    const data = await getArticulos();
+    vehiculos.value = data || [];
+  } catch (error) {
+    console.error("Error al cargar vehículos:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudieron cargar los vehículos.",
+      timer: 2000,
+      showConfirmButton: false,
+    });
+  }
+};
+
+const limpiarFormulario = () => {
+  Object.assign(vehiculo.value, {
+    tipo: "",
+    matricula: "",
+    marca: "",
+    modelo: "",
+    anio: "",
+    estado: "disponible",
+    kilometros: "",
+    precio: "",
+    combustible: "",
+    transmision: "",
+    potencia_cv: "",
+    descripcion: "",
+    ubicacion: {
+      provincia: "",
+      ciudad: "",
+    },
+    contacto: {
+      nombre: "",
+      telefono: "",
+      email: "",
+    },
+    fecha_publicacion: "",
+  });
+  archivo.value = null;
+  editando.value = false;
+  vehiculoIdActual.value = null;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+const cargarVehiculo = (v) => {
+  Object.assign(vehiculo.value, {
+    tipo: v.tipo || "",
+    matricula: v.matricula || "",
+    marca: v.marca || "",
+    modelo: v.modelo || "",
+    anio: v.anio || "",
+    estado: v.estado || "disponible",
+    kilometros: v.kilometros || "",
+    precio: v.precio || "",
+    combustible: v.combustible || "",
+    transmision: v.transmision || "",
+    potencia_cv: v.potencia_cv || "",
+    descripcion: v.descripcion || "",
+    ubicacion: {
+      provincia: v.ubicacion?.provincia || "",
+      ciudad: v.ubicacion?.ciudad || "",
+    },
+    contacto: {
+      nombre: v.contacto?.nombre || "",
+      telefono: v.contacto?.telefono || "",
+      email: v.contacto?.email || "",
+    },
+    fecha_publicacion: v.fecha_publicacion || "",
+  });
+  editando.value = true;
+  vehiculoIdActual.value = v._id;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+const eliminarVehiculo = async () => {
+  if (!vehiculoIdActual.value) return;
+
+  const result = await Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción no se puede deshacer",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+  });
+
+  if (result.isConfirmed) {
+    try {
+      await deleteArticulo(vehiculoIdActual.value);
+      Swal.fire({
+        icon: "success",
+        title: "Eliminado",
+        text: "El vehículo ha sido eliminado correctamente.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      limpiarFormulario();
+      await cargarVehiculos();
+    } catch (error) {
+      console.error("Error al eliminar:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo eliminar el vehículo.",
+        showConfirmButton: true,
+      });
+    }
+  }
+};
 
 // Cargar provincias y municipios desde JSON
 const provincias = ref(provmuniData.provincias);
@@ -569,46 +776,42 @@ const guardarVehiculo = async () => {
 
     formData.append("vehiculo", JSON.stringify(vehiculo.value));
 
-    const nuevo = await addArticulo(formData);
-
-    if (nuevo && nuevo._id) {
+    if (editando.value && vehiculoIdActual.value) {
+      // Actualizar vehículo existente
+      await updateArticulo(vehiculoIdActual.value, formData);
       Swal.fire({
         icon: "success",
-        title: "Vehículo guardado",
-        text: "El vehículo ha sido guardado correctamente.",
+        title: "Vehículo actualizado",
+        text: "El vehículo ha sido actualizado correctamente.",
         timer: 2000,
         showConfirmButton: false,
       });
     } else {
-      console.error("Error al guardar el vehículo");
+      // Crear nuevo vehículo
+      const nuevo = await addArticulo(formData);
+      if (nuevo && nuevo._id) {
+        Swal.fire({
+          icon: "success",
+          title: "Vehículo guardado",
+          text: "El vehículo ha sido guardado correctamente.",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+      } else {
+        console.error("Error al guardar el vehículo");
+      }
     }
-    Object.assign(vehiculo.value, {
-      tipo: "",
-      matricula: "",
-      marca: "",
-      modelo: "",
-      anio: "",
-      estado: "disponible",
-      kilometros: "",
-      precio: "",
-      combustible: "",
-      transmision: "",
-      potencia_cv: "",
-      descripcion: "",
-      ubicacion: {
-        provincia: "",
-        ciudad: "",
-      },
-      contacto: {
-        nombre: "",
-        telefono: "",
-        email: "",
-      },
-      fecha_publicacion: "",
-    });
-    archivo.value = null;
+
+    limpiarFormulario();
+    await cargarVehiculos();
   } catch (error) {
     console.error("Error al guardar:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudo guardar el vehículo.",
+      showConfirmButton: true,
+    });
   }
 };
 

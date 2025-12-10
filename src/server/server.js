@@ -11,6 +11,7 @@ import { fileURLToPath } from "url";
 
 import articulosRoutes from "./articulosRoutes.js"; // ruta al router backend
 import authRoutes from "./authRoutes.js"; // ruta al router backend
+import contactoRoutes from "./contactoRoutes.js"; // ruta al router backend
 
 dotenv.config();
 const app = express();
@@ -21,17 +22,20 @@ const __dirname = path.dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Middleware
-app.use(cors({
+const corsOptions = {
     origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["Content-Range", "X-Content-Range"],
     credentials:true
-})); // si no funciona lo siguiente
+};
+app.use(cors(corsOptions));
 
-/* app.use(cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE"]
-})); */
+
 
 app.use(express.json());
+
+
 
 // Rutas DE MONGOOSE, JSON SERVER NO ES NECESARIO LAS RUTAS LAS CREA AUTOMATICAMENTE
 // json-server es un backend ya construido.
@@ -39,15 +43,14 @@ app.use(express.json());
 // Por eso json-server no requiere rutas y Express sí.
 app.use("/api/articulos", articulosRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/contacto", contactoRoutes);
 
-// Verificar variable
-//console.log("MONGODB_URI =", process.env.MONGODB_URI);
+
 
 /// Conexión a MongoDB 
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log("Connected to MongoDB a la base de datos BBDD"))
     .catch((err) => console.error("Could not connect to MongoDB:", err));
-
 
 
 

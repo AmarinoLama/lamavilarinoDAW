@@ -9,6 +9,7 @@ import Modelos from '../components/Modelos.vue';
 import CitasTaller from '../components/CitasTaller.vue';
 import TablaLogin from '../components/TablaLogin.vue';
 import Ventas from '../components/Ventas.vue';
+import Contacto from '../components/Contacto.vue';
 
 const routes = [
     {
@@ -60,6 +61,11 @@ const routes = [
         path: '/ventas',
         name: 'Ventas',
         component: Ventas
+    },
+    {
+        path: '/contacto',
+        name: 'Contacto',
+        component: Contacto
     }
 ];
 
