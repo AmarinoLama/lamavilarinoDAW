@@ -76,6 +76,11 @@
                 >Cerrar Sesión</a
               >
             </li>
+            <li v-if="isLogueado">
+              <router-link class="dropdown-item" to="/clientes"
+                >Perfil</router-link
+              >
+            </li>
           </ul>
         </div>
       </div>
@@ -96,13 +101,12 @@ onMounted(async () => {
   const adminCheck = await checkAdmin();
   isAdmin.value = adminCheck.isAdmin;
 
-  isLogueado.value = sessionStorage.getItem("isLogueado") === "true";
+  isLogueado.value = sessionStorage.getItem("token") !== null;
   isUsuario.value = sessionStorage.getItem("isUsuario") === "true";
   userName.value = sessionStorage.getItem("userName") || "";
 });
 
 function logout() {
-  sessionStorage.removeItem("isLogueado");
   sessionStorage.removeItem("userName");
   sessionStorage.removeItem("isUsuario");
   sessionStorage.removeItem("token");

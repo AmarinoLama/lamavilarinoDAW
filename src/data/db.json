@@ -507,14 +507,14 @@
       "apellidos": "Ruben Ruben",
       "email": "ruben@ruben.com",
       "movil": "666787889",
-      "direccion": "",
-      "provincia": "",
-      "municipio": "",
+      "direccion": "Nueva Direccion Casa Ruben Modificada",
+      "provincia": "Ávila",
+      "municipio": "Aldehuela, La",
       "fecha_alta": "1111-12-12",
       "historico": true,
       "tipoCliente": "",
       "lopd": true,
-      "contrasena": "$2b$10$2g9R2a49aOf2YXRnpvxFMeVK41G/vqrI9PYsAiRd2R43CPqOxb0la",
+      "contrasena": "$2b$10$FqVvtXVtdemI6aR4myuqmOWEqQ5cxarm/4y5EIawGsw4Gpcn4RYsy",
       "tipo": "user"
     }
   ],

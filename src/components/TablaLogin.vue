@@ -83,7 +83,7 @@ export default {
 
         sessionStorage.setItem("token", data.token);
         sessionStorage.setItem("userName", data.nombre);
-        sessionStorage.setItem("isLogueado", "true");
+        sessionStorage.setItem("dni", this.dni);
 
         if (data.tipo === "admin") {
           sessionStorage.setItem("isAdmin", "true");

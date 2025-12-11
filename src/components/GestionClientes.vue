@@ -235,6 +235,7 @@
             v-model="nuevoCliente.contrasena"
             class="form-control flex-grow-1"
             :class="{ 'is-invalid': !contrasenaValida }"
+            :disabled="editingCurrentUser"
             @blur="validarContrasena"
             required
           />
@@ -253,6 +254,7 @@
             v-model="repetirContrasena"
             class="form-control flex-grow-1 ms-1"
             :class="{ 'is-invalid': !contrasenaValida }"
+            :disabled="editingCurrentUser"
             @blur="validarContrasena"
             required
           />
@@ -442,8 +444,12 @@ const currentPage = ref(1);
 const clientesPorPage = 10;
 
 const isAdmin = ref(false);
-const isLogueado = sessionStorage.getItem("isLogueado") === "true"
 const dni = sessionStorage.getItem("dni")
+
+const editingCurrentUser = computed(()=>{
+  if (!editando.value) return false;
+  return nuevoCliente.value.dni !== dni;
+})
 
 // Función Listar Clientes con getconst clientes = ref([]);
 
@@ -457,7 +463,7 @@ onMounted(async () => {
     cargarClientes();
   }
 
-  if (isLogueado && dni) {
+  if (dni) {
     buscarClientePorDNI(dni)
   }
 });
