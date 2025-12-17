@@ -340,7 +340,7 @@
       "id": "971c",
       "tipo": "admin",
       "dni": "00000000T",
-      "nombre": "Sonia1",
+      "nombre": "Sonia3",
       "apellidos": "Abalos Martínez",
       "movil": "654789465",
       "direccion": "Avda. De Galicia, 101",
@@ -351,7 +351,7 @@
       "email": "asdadsa@gmail.com",
       "tipoCliente": "empresa",
       "lopd": true,
-      "contrasena": "$2b$10$gG3yYUN.b4yNL5VGPAzdIewuxw4nRQWBSxcRKVpHift7bCMrtUhbK"
+      "contrasena": "$2b$10$1PhYQbp84Zzr8GQ.8o6lRucxGh6qif75/0gI4SLeniAzxDZco.PCm"
     },
     {
       "id": "9afd",
@@ -503,7 +503,7 @@
     {
       "id": "ca8e",
       "dni": "17463724P",
-      "nombre": "Ruben",
+      "nombre": "Ruben2",
       "apellidos": "Ruben Ruben",
       "email": "ruben@ruben.com",
       "movil": "666787889",
@@ -514,7 +514,7 @@
       "historico": true,
       "tipoCliente": "",
       "lopd": true,
-      "contrasena": "$2b$10$FqVvtXVtdemI6aR4myuqmOWEqQ5cxarm/4y5EIawGsw4Gpcn4RYsy",
+      "contrasena": "$2b$10$l/nETIWG5l64EiAAGhuls.Rg9vCVuIUjDGJWvhxhO4CveOaWT0VNO",
       "tipo": "user"
     }
   ],

@@ -24,6 +24,6 @@ import FooTer from "./components/FooTer.vue";
   height: 100vh;
   /* equivalente a vh-100 */
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
 }
 </style>

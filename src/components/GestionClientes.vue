@@ -293,7 +293,7 @@
           </div>
 
           <!-- Histórico (derecha) -->
-          <div class="ms-auto me-5">
+          <div class="ms-auto me-5" v-if="isAdmin">
             <div class="form-switch d-flex align-items-center">
               <input
                 type="checkbox"
@@ -397,7 +397,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import provmuniData from "@/data/provmuni.json";
 import Swal from "sweetalert2";
 import bcrypt from "bcryptjs";
@@ -444,28 +444,34 @@ const currentPage = ref(1);
 const clientesPorPage = 10;
 
 const isAdmin = ref(false);
-const dni = sessionStorage.getItem("dni")
+const dni = sessionStorage.getItem("dni");
 
-const editingCurrentUser = computed(()=>{
+const editingCurrentUser = computed(() => {
   if (!editando.value) return false;
   return nuevoCliente.value.dni !== dni;
-})
+});
 
 // Función Listar Clientes con getconst clientes = ref([]);
 
 // Zona Cargar clientes Al Montar el componente
 onMounted(async () => {
-
   const adminCheck = await checkAdmin();
-  isAdmin.value = adminCheck.isAdmin
+  isAdmin.value = adminCheck.isAdmin;
 
   if (isAdmin.value) {
     cargarClientes();
   }
 
   if (dni) {
-    buscarClientePorDNI(dni)
+    buscarClientePorDNI(dni);
   }
+
+  // Escuchar evento de logout para limpiar el formulario automáticamente
+  window.addEventListener("userLoggedOut", refrescarPagina);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("userLoggedOut", refrescarPagina);
 });
 
 const cargarClientes = () => {
@@ -562,12 +568,22 @@ const guardarCliente = async () => {
         (c) => c.id === clienteEditandoId.value
       );
       if (index !== -1) clientes.value[index] = clienteActualizado;
+
+      // Si el cliente modificado es el usuario logueado, actualizar el sessionStorage y el navbar
+      const dniLogueado = sessionStorage.getItem("dni");
+      if (dniLogueado && clienteActualizado.dni === dniLogueado) {
+        sessionStorage.setItem("userName", clienteActualizado.nombre);
+        // Emitir evento personalizado para que el navbar se actualice
+        window.dispatchEvent(new Event("userUpdated"));
+      }
+
       Swal.fire({
         icon: "success",
         title: "Cliente modificado",
         showConfirmButton: false,
         timer: 1500,
       });
+
     } else {
       // Agregar cliente (POST)
 

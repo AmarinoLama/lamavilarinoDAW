@@ -45,7 +45,11 @@ const routes = [
     {
         path: '/modelos',
         name: 'Modelos',
-        component: Modelos
+        component: Modelos,
+        meta: {
+            requiresAuth: true,
+            requiresAdmin: true
+        }
     },
     {
         path: '/taller',
@@ -60,7 +64,10 @@ const routes = [
     {
         path: '/ventas',
         name: 'Ventas',
-        component: Ventas
+        component: Ventas,
+        meta: {
+            requiresAuth: true,
+        }
     },
     {
         path: '/contacto',
@@ -73,5 +80,38 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 });
+
+router.beforeEach(async (to, from, next) => {
+    const token = sessionStorage.getItem('token');
+    if (to.meta.requiresAuth) {
+        if (!token) {            
+            return next("/login");
+        }
+
+        try {
+            const response = await fetch("http://localhost:5000/api/auth/check-admin", {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.message);
+            
+            if (to.meta.requiresAdmin && data.tipo !== "admin") {                
+                return next("/");
+            }
+            return next()
+        }
+        catch (err) {
+            console.error("Token invalido: ", err);
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('userName');
+            return next("/login");
+        }
+
+    }
+    return next();
+})
+
 
 export default router;

@@ -27,7 +27,9 @@
             <router-link class="nav-link" to="/">Inicio</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/clientes">Clientes</router-link>
+            <router-link v-if="isLogueado" class="nav-link" to="/clientes"
+              >Clientes</router-link
+            >
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/noticias">Noticias</router-link>
@@ -89,13 +91,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { checkAdmin } from "@/api/authApi.js";
 
 const isLogueado = ref(false);
 const isAdmin = ref(false);
 const isUsuario = ref(false);
 const userName = ref("");
+
+const actualizarNombreUsuario = () => {
+  userName.value = sessionStorage.getItem("userName") || "";
+};
 
 onMounted(async () => {
   const adminCheck = await checkAdmin();
@@ -104,15 +110,27 @@ onMounted(async () => {
   isLogueado.value = sessionStorage.getItem("token") !== null;
   isUsuario.value = sessionStorage.getItem("isUsuario") === "true";
   userName.value = sessionStorage.getItem("userName") || "";
+
+  // Escuchar evento de actualización de usuario
+  window.addEventListener("userUpdated", actualizarNombreUsuario);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("userUpdated", actualizarNombreUsuario);
 });
 
 function logout() {
   sessionStorage.removeItem("userName");
   sessionStorage.removeItem("isUsuario");
   sessionStorage.removeItem("token");
+  sessionStorage.removeItem("dni");
+  sessionStorage.removeItem("isAdmin");
 
   isLogueado.value = false;
   userName.value = "";
+
+  // Emitir evento para limpiar el formulario de clientes si está abierto
+  window.dispatchEvent(new Event("userLoggedOut"));
 
   window.location.href = "/";
 }

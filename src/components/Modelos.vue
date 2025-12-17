@@ -45,7 +45,7 @@
           </div>
         </div>
 
-        <div class="col d-flex align-items-center">
+        <div class="col d-flex align-items-center ms-5">
           <label for="marca" class="form-label mb-0 me-1 text-nowrap small"
             >Marca:</label
           >
@@ -59,7 +59,7 @@
           />
         </div>
 
-        <div class="col d-flex align-items-center">
+        <div class="col d-flex align-items-center ms-5">
           <label for="modelo" class="form-label mb-0 me-1 text-nowrap small"
             >Modelo:</label
           >
@@ -73,7 +73,7 @@
           />
         </div>
 
-        <div class="col d-flex align-items-center">
+        <div class="col d-flex align-items-center ms-5">
           <label for="matricula" class="form-label mb-0 me-1 text-nowrap small"
             >Matrícula:</label
           >
@@ -86,17 +86,21 @@
           />
         </div>
 
-        <div class="col d-flex align-items-center">
+        <div class="col d-flex align-items-center ms-5">
           <label for="anio" class="form-label mb-0 me-1 text-nowrap small"
             >Año:</label
           >
-          <input
-            type="number"
+          <select
             id="anio"
             v-model="vehiculo.anio"
-            class="form-control form-control-sm rounded-0 shadow-none border text-end"
+            class="form-select form-select-sm d-inline-block w-auto rounded shadow-none border"
             required
-          />
+          >
+            <option disabled value="">Seleccione año</option>
+            <option v-for="year in generarAños" :key="year" :value="year">
+              {{ year }}
+            </option>
+          </select>
         </div>
 
         <div class="col-auto d-flex align-items-center">
@@ -352,11 +356,18 @@
           <i class="bi bi-trash me-1"></i>Eliminar
         </button>
         <button
-          class="btn btn-secondary btn-sm rounded shadow px-3"
+          class="btn btn-danger btn-sm rounded shadow px-3"
           type="button"
           @click="limpiarFormulario"
         >
           <i class="bi bi-x-circle me-1"></i>Cancelar
+        </button>
+        <button
+          type="button"
+          @click="imprimirPDF"
+          class="btn btn-secondary btn-sm rounded shadow px-3"
+        >
+          <i class="bi bi-printer"></i> Imprimir
         </button>
       </div>
     </form>
@@ -431,6 +442,8 @@ import {
   deleteArticulo,
 } from "@/api/articulos.js";
 import provmuniData from "@/data/provmuni.json";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
 
 const vehiculo = ref({
   tipo: "",
@@ -822,5 +835,113 @@ const onFileChange = (event) => {
   if (file) {
     archivo.value = file;
   }
+};
+
+// Generar años desde el actual hasta 50 años atrás
+const generarAños = computed(() => {
+  const añoActual = new Date().getFullYear();
+  const años = [];
+  for (let i = 0; i <= 50; i++) {
+    años.push(añoActual - i);
+  }
+  return años;
+});
+
+const imprimirPDF = () => {
+  const doc = new jsPDF();
+
+  // Obtener fecha y hora actual
+  const ahora = new Date();
+  const fechaHora = ahora.toLocaleString("es-ES", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  // Encabezado con título principal
+  doc.setFontSize(20);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(41, 128, 185); // Azul
+  doc.text("Listado de Vehículos", 105, 20, { align: "center" });
+
+  // Fecha y hora
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(100, 100, 100);
+  doc.text(`Generado: ${fechaHora}`, 105, 28, { align: "center" });
+
+  // Línea decorativa
+  doc.setDrawColor(41, 128, 185);
+  doc.setLineWidth(0.5);
+  doc.line(14, 32, 196, 32);
+
+  // Definir las columnas de la tabla
+  const headers = [
+    ["Matrícula", "Marca", "Modelo", "Estado", "Combustible", "Precio"],
+  ];
+
+  // Definir las filas de la tabla
+  const body = vehiculos.value.map((v) => [
+    v.matricula,
+    v.marca,
+    v.modelo,
+    v.estado,
+    v.combustible,
+    v.precio + " €",
+  ]);
+
+  // Generar la tabla con estilos mejorados
+  doc.autoTable({
+    startY: 38,
+    head: headers,
+    body: body,
+    theme: "grid",
+    headStyles: {
+      fillColor: [41, 128, 185], // Azul
+      textColor: [255, 255, 255],
+      fontSize: 11,
+      fontStyle: "bold",
+      halign: "center",
+    },
+    bodyStyles: {
+      fontSize: 10,
+      cellPadding: 4,
+      halign: "center",
+    },
+    alternateRowStyles: {
+      fillColor: [245, 245, 245], // Gris claro para filas alternas
+    },
+    columnStyles: {
+      0: { fontStyle: "bold" },
+      1: { halign: "left" },
+      2: { halign: "left" },
+       // Matrícula en negrita
+      5: { halign: "right" },
+    },
+    styles: {
+      lineColor: [200, 200, 200],
+      lineWidth: 0.1,
+    },
+    margin: { left: 14, right: 14 },
+  });
+
+  // Pie de página
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(9);
+    doc.setTextColor(150, 150, 150);
+    doc.text(
+      `Página ${i} de ${pageCount}`,
+      105,
+      doc.internal.pageSize.height - 10,
+      { align: "center" }
+    );
+  }
+
+  // Guardar el PDF
+  doc.save(`listado_vehiculos_${ahora.toISOString().split("T")[0]}.pdf`);
 };
 </script>
