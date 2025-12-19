@@ -160,9 +160,20 @@
             id="movil"
             v-model="nuevoCliente.movil"
             @blur="validarMovil"
-            class="form-control flex-grow-1 text-center ms-4"
+            class="form-control text-center ms-4"
             :class="{ 'is-invalid': !movilValido }"
+            style="width: 130px"
           />
+          <button
+            type="button"
+            class="btn btn-primary ms-2 border-0 shadow-none rounded-0"
+            @click="buscarClientePorMovil(nuevoCliente.movil)"
+            :disabled="editando"
+            :aria-disabled="String(editando)"
+            title="Buscar por móvil"
+          >
+            <i class="bi bi-search"></i>
+          </button>
         </div>
       </div>
 
@@ -235,9 +246,9 @@
             v-model="nuevoCliente.contrasena"
             class="form-control flex-grow-1"
             :class="{ 'is-invalid': !contrasenaValida }"
-            :disabled="editingCurrentUser"
+            :disabled="editingCurrentUser || (isAdmin && editando)"
             @blur="validarContrasena"
-            required
+            :required="!editando"
           />
         </div>
 
@@ -254,9 +265,9 @@
             v-model="repetirContrasena"
             class="form-control flex-grow-1 ms-1"
             :class="{ 'is-invalid': !contrasenaValida }"
-            :disabled="editingCurrentUser"
+            :disabled="editingCurrentUser || (isAdmin && editando)"
             @blur="validarContrasena"
-            required
+            :required="!editando"
           />
         </div>
       </div>
@@ -311,12 +322,21 @@
       </div>
 
       <!-- Botón centrado (centro) -->
-      <div class="d-flex justify-content-center align-items-center">
+      <div class="d-flex justify-content-center align-items-center gap-2">
         <button
           type="submit"
           class="btn btn-primary border-0 shadow-none rounded-0"
         >
           {{ editando ? "Modificar Cliente" : "Guardar" }}
+        </button>
+        <button
+          v-if="isAdmin"
+          type="button"
+          class="btn btn-secondary border-0 shadow-none rounded-0"
+          @click="imprimirPDF"
+          title="Imprimir listado de clientes"
+        >
+          <i class="bi bi-printer me-1"></i>Imprimir
         </button>
       </div>
     </form>
@@ -401,6 +421,8 @@ import { ref, onMounted, onUnmounted, computed } from "vue";
 import provmuniData from "@/data/provmuni.json";
 import Swal from "sweetalert2";
 import bcrypt from "bcryptjs";
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
 import {
   getClientes,
   deleteCliente,
@@ -492,18 +514,26 @@ const guardarCliente = async () => {
   validarDni();
   validarEmail();
   validarMovil();
-  validarContrasena();
+
+  // Solo validar contraseña si no es admin editando o si es nuevo cliente
+  const requiereContrasena = !editando.value || !isAdmin.value;
+  if (requiereContrasena) {
+    validarContrasena();
+  }
 
   if (
     !dniValido.value ||
     !emailValido.value ||
     !movilValido.value ||
-    !contrasenaValida.value
+    (requiereContrasena && !contrasenaValida.value)
   ) {
     Swal.fire({
       icon: "error",
       title: "Hay campos inválidos",
-      text: "Corrija DNI, móvil, email o contraseña antes de guardar",
+      text:
+        "Corrija DNI, móvil, email" +
+        (requiereContrasena ? " o contraseña" : "") +
+        " antes de guardar",
       showConfirmButton: true,
     });
     return; // Salir de la función si hay errores
@@ -541,18 +571,25 @@ const guardarCliente = async () => {
   if (!result.isConfirmed) return;
   //clienteActualizado.fecha_alta = formatearFechaParaInput(clienteActualizado.fecha_alta);
   try {
-    // Hashear la contraseña antes de guardar
-    const salt = await bcrypt.genSalt(10);
-    const contrasenaHasheada = await bcrypt.hash(
-      nuevoCliente.value.contrasena,
-      salt
-    );
+    let clienteAGuardar;
 
-    // Crear una copia del cliente con la contraseña hasheada
-    const clienteAGuardar = {
-      ...nuevoCliente.value,
-      contrasena: contrasenaHasheada,
-    };
+    // Si es admin editando, no modificar la contraseña
+    if (editando.value && isAdmin.value) {
+      // Admin editando: excluir contraseña del objeto
+      const { contrasena, ...clienteSinContrasena } = nuevoCliente.value;
+      clienteAGuardar = clienteSinContrasena;
+    } else {
+      // Usuario nuevo o usuario editando su propio perfil: hashear contraseña
+      const salt = await bcrypt.genSalt(10);
+      const contrasenaHasheada = await bcrypt.hash(
+        nuevoCliente.value.contrasena,
+        salt
+      );
+      clienteAGuardar = {
+        ...nuevoCliente.value,
+        contrasena: contrasenaHasheada,
+      };
+    }
 
     if (editando.value) {
       // Validar campos
@@ -583,7 +620,6 @@ const guardarCliente = async () => {
         showConfirmButton: false,
         timer: 1500,
       });
-
     } else {
       // Agregar cliente (POST)
 
@@ -828,6 +864,7 @@ const validarDniNie = (valor) => {
 // Validar al salir del campo
 const validarDni = () => {
   const dni = nuevoCliente.value.dni.trim().toUpperCase();
+  nuevoCliente.value.dni = dni; // Convertir a mayúsculas automáticamente
   dniValido.value = validarDniNie(dni);
 };
 
@@ -863,6 +900,161 @@ const refrescarPagina = () => {
   movilValido.value = true;
   emailValido.value = true;
   contrasenaValida.value = true;
+};
+
+const buscarClientePorMovil = async (movil) => {
+  if (!movil || movil.trim() === "") {
+    Swal.fire({
+      icon: "warning",
+      title: "Debe introducir un móvil antes de buscar.",
+      timer: 1500,
+      showConfirmButton: false,
+    });
+    return;
+  }
+
+  try {
+    const cliente = clientes.value.find((c) => c.movil === movil.trim());
+
+    if (!cliente) {
+      Swal.fire({
+        icon: "info",
+        title: "Cliente no encontrado",
+        text: "No existe ningún cliente con ese móvil.",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+      return;
+    }
+
+    // ✅ Cargar los datos en el formulario
+    nuevoCliente.value = { ...cliente };
+    nuevoCliente.value.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
+    // No mostrar la contraseña hasheada
+    nuevoCliente.value.contrasena = "";
+    repetirContrasena.value = "";
+
+    // Actualiza lista de municipios si cambia la provincia
+    filtrarMunicipios();
+    nuevoCliente.value.municipio = cliente.municipio;
+    //opcional
+    editando.value = true;
+    clienteEditandoId.value = cliente.id;
+
+    Swal.fire({
+      icon: "success",
+      title: "Cliente encontrado y cargado",
+      timer: 1500,
+      showConfirmButton: false,
+    });
+  } catch (error) {
+    console.error("Error buscando cliente por móvil:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error al buscar cliente",
+      text: "Verifique la conexión o contacte con el administrador.",
+      timer: 2000,
+      showConfirmButton: false,
+    });
+  }
+};
+
+const imprimirPDF = () => {
+  const doc = new jsPDF();
+
+  // Obtener fecha y hora actual
+  const ahora = new Date();
+  const fechaHora = ahora.toLocaleString("es-ES", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  // Encabezado con título principal
+  doc.setFontSize(20);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(41, 128, 185); // Azul
+  doc.text("Listado de Clientes", 105, 20, { align: "center" });
+
+  // Fecha y hora
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(100, 100, 100);
+  doc.text(`Generado: ${fechaHora}`, 105, 28, { align: "center" });
+
+  // Línea decorativa
+  doc.setDrawColor(41, 128, 185);
+  doc.setLineWidth(0.5);
+  doc.line(14, 32, 196, 32);
+
+  // Definir las columnas de la tabla
+  const headers = [
+    ["DNI", "Nombre", "Apellidos", "Móvil", "Email", "Municipio"],
+  ];
+
+  // Definir las filas de la tabla - respeta el filtro de histórico
+  const clientesAImprimir = mostrarHistorico.value
+    ? clientes.value // Si histórico está activo, mostrar TODOS (activos e inactivos)
+    : clientes.value.filter((c) => c.historico); // Si no, mostrar solo activos
+
+  const body = clientesAImprimir.map((c) => [
+    c.dni,
+    c.nombre,
+    c.apellidos,
+    c.movil,
+    c.email,
+    c.municipio,
+  ]);
+
+  // Generar la tabla con estilos mejorados
+  doc.autoTable({
+    startY: 38,
+    head: headers,
+    body: body,
+    theme: "grid",
+    headStyles: {
+      fillColor: [41, 128, 185], // Azul
+      textColor: [255, 255, 255],
+      fontSize: 10,
+      fontStyle: "bold",
+      halign: "center",
+    },
+    bodyStyles: {
+      fontSize: 9,
+      cellPadding: 3,
+      halign: "center",
+    },
+    alternateRowStyles: {
+      fillColor: [245, 245, 245], // Gris claro para filas alternas
+    },
+    columnStyles: {
+      0: { fontStyle: "bold" }, // DNI en negrita
+    },
+    styles: {
+      lineColor: [200, 200, 200],
+      lineWidth: 0.1,
+    },
+    margin: { left: 14, right: 14 },
+  });
+
+  // Pie de página
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(9);
+    doc.setTextColor(150, 150, 150);
+    doc.text(
+      `Página ${i} de ${pageCount}`,
+      105,
+      doc.internal.pageSize.height - 10,
+      { align: "center" }
+    );
+  }
+
+  // Guardar el PDF
+  doc.save(`listado_clientes_${ahora.toISOString().split("T")[0]}.pdf`);
 };
 
 // Función única: capitaliza y asigna en el mismo paso

@@ -83,7 +83,19 @@
             v-model="vehiculo.matricula"
             @blur="convertirMatriculaMayusculas"
             class="form-control form-control-sm rounded-0 shadow-none border"
+            :readonly="editando"
+            :class="{ 'readonly-input': editando }"
+            style="width: 130px"
           />
+          <button
+            type="button"
+            class="btn btn-primary btn-sm ms-2 border-0 shadow-none rounded-0"
+            @click="buscarVehiculoPorMatricula(vehiculo.matricula)"
+            :disabled="editando"
+            title="Buscar por matrícula"
+          >
+            <i class="bi bi-search"></i>
+          </button>
         </div>
 
         <div class="col d-flex align-items-center ms-5">
@@ -648,6 +660,44 @@ const convertirMatriculaMayusculas = () => {
   vehiculo.value.matricula = m.toUpperCase();
 };
 
+// Buscar vehículo por matrícula
+const buscarVehiculoPorMatricula = (matricula) => {
+  if (!matricula || matricula.trim() === "") {
+    Swal.fire({
+      icon: "warning",
+      title: "Debe introducir una matrícula antes de buscar.",
+      timer: 1500,
+      showConfirmButton: false,
+    });
+    return;
+  }
+
+  const vehiculoEncontrado = vehiculos.value.find(
+    (v) => v.matricula && v.matricula.toUpperCase() === matricula.toUpperCase()
+  );
+
+  if (!vehiculoEncontrado) {
+    Swal.fire({
+      icon: "info",
+      title: "Vehículo no encontrado",
+      text: "No existe ningún vehículo con esa matrícula.",
+      timer: 1500,
+      showConfirmButton: false,
+    });
+    return;
+  }
+
+  // Cargar los datos del vehículo encontrado
+  cargarVehiculo(vehiculoEncontrado);
+
+  Swal.fire({
+    icon: "success",
+    title: "Vehículo encontrado y cargado",
+    timer: 1500,
+    showConfirmButton: false,
+  });
+};
+
 // Validar teléfono
 const telefonoValido = ref(true);
 const telefonoRegex = /^[67]\d{8}$/;
@@ -778,6 +828,24 @@ const guardarVehiculo = async () => {
       showConfirmButton: true,
     });
     return;
+  }
+
+  // Validar matrícula duplicada (solo al crear nuevo vehículo)
+  if (!editando.value && vehiculo.value.matricula) {
+    const matriculaDuplicada = vehiculos.value.find(
+      (v) =>
+        v.matricula &&
+        v.matricula.toUpperCase() === vehiculo.value.matricula.toUpperCase()
+    );
+    if (matriculaDuplicada) {
+      Swal.fire({
+        icon: "error",
+        title: "Matrícula duplicada",
+        text: "Ya existe un vehículo con esta matrícula.",
+        showConfirmButton: true,
+      });
+      return;
+    }
   }
 
   try {
@@ -917,7 +985,7 @@ const imprimirPDF = () => {
       0: { fontStyle: "bold" },
       1: { halign: "left" },
       2: { halign: "left" },
-       // Matrícula en negrita
+      // Matrícula en negrita
       5: { halign: "right" },
     },
     styles: {

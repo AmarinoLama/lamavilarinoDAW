@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-dark bg-primary sticky-top navbar-expand-lg">
     <div class="container-fluid">
-      <!-- Logo -->
+      <!-- Logo izquierda (SIEMPRE fijo) -->
       <router-link to="/" class="navbar-brand ms-3">
         <img src="@/assets/logoCochesTeis.svg" alt="Coches Teis" class="logo" />
       </router-link>
@@ -21,36 +21,42 @@
 
       <!-- Contenido colapsable -->
       <div class="collapse navbar-collapse" id="navbarNav">
-        <!-- NAV CENTRADO -->
-        <ul class="navbar-nav mx-auto gap-3 text-center">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/">Inicio</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link v-if="isLogueado" class="nav-link" to="/clientes"
-              >Clientes</router-link
-            >
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/noticias">Noticias</router-link>
-          </li>
-          <li v-if="isAdmin" class="nav-item">
-            <router-link class="nav-link" to="/modelos">Modelos</router-link>
-          </li>
-          <li v-if="isAdmin" class="nav-item">
-            <router-link class="nav-link" to="/taller">Taller</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/ventas">Ventas</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/contacto">Contacto</router-link>
-          </li>
-        </ul>
+        <!-- NAV CENTRADO REAL -->
+        <div class="navbar-center">
+          <ul class="navbar-nav gap-3 text-center">
+            <li class="nav-item">
+              <router-link class="nav-link" to="/">Inicio</router-link>
+            </li>
 
-        <!-- DROPDOWN DERECHA SIN ROMPER CENTRADO -->
+            <li class="nav-item" v-if="isLogueado">
+              <router-link class="nav-link" to="/clientes">Clientes</router-link>
+            </li>
+
+            <li class="nav-item">
+              <router-link class="nav-link" to="/noticias">Noticias</router-link>
+            </li>
+
+            <li class="nav-item" v-if="isAdmin">
+              <router-link class="nav-link" to="/modelos">Modelos</router-link>
+            </li>
+
+            <li class="nav-item" v-if="isAdmin">
+              <router-link class="nav-link" to="/taller">Taller</router-link>
+            </li>
+
+            <li class="nav-item">
+              <router-link class="nav-link" to="/ventas">Ventas</router-link>
+            </li>
+
+            <li class="nav-item">
+              <router-link class="nav-link" to="/contacto">Contacto</router-link>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Usuario derecha (SIEMPRE fijo) -->
         <div class="dropdown ms-auto">
-          <span class="text-white" v-if="isLogueado">{{ userName }}</span>
+          <span class="text-white me-2" v-if="isLogueado">{{ userName }}</span>
 
           <button
             class="btn btn-primary dropdown-toggle"
@@ -60,28 +66,24 @@
           >
             <i class="bi bi-person fs-2"></i>
           </button>
+
           <ul class="dropdown-menu dropdown-menu-end">
-            <!-- Mostra “Acceso/Registro” se NON hai usuario logueado -->
             <li v-if="!isLogueado">
-              <router-link class="dropdown-item" to="/login"
-                >Acceso</router-link
-              >
+              <router-link class="dropdown-item" to="/login">Acceso</router-link>
             </li>
+
             <li v-if="!isLogueado">
-              <router-link class="dropdown-item" to="/clientes"
-                >Registro</router-link
-              >
+              <router-link class="dropdown-item" to="/clientes">Registro</router-link>
             </li>
-            <!-- Mostra “Cerrar Sesión” se está logueado -->
+
             <li v-if="isLogueado">
-              <a class="dropdown-item" href="#" @click.prevent="logout"
-                >Cerrar Sesión</a
-              >
+              <a class="dropdown-item" href="#" @click.prevent="logout">
+                Cerrar Sesión
+              </a>
             </li>
+
             <li v-if="isLogueado">
-              <router-link class="dropdown-item" to="/clientes"
-                >Perfil</router-link
-              >
+              <router-link class="dropdown-item" to="/clientes">Perfil</router-link>
             </li>
           </ul>
         </div>
@@ -111,7 +113,6 @@ onMounted(async () => {
   isUsuario.value = sessionStorage.getItem("isUsuario") === "true";
   userName.value = sessionStorage.getItem("userName") || "";
 
-  // Escuchar evento de actualización de usuario
   window.addEventListener("userUpdated", actualizarNombreUsuario);
 });
 
@@ -129,9 +130,7 @@ function logout() {
   isLogueado.value = false;
   userName.value = "";
 
-  // Emitir evento para limpiar el formulario de clientes si está abierto
   window.dispatchEvent(new Event("userLoggedOut"));
-
   window.location.href = "/";
 }
 </script>
@@ -140,11 +139,24 @@ function logout() {
 .navbar {
   width: 100%;
   z-index: 1000;
+  position: relative;
 }
 
 .logo {
   height: 45px;
   width: auto;
+}
+
+/* CENTRADO REAL */
+.navbar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+}
+
+.navbar-nav {
+  flex-direction: row;
 }
 
 .navbar-dark .nav-link {
