@@ -29,11 +29,15 @@
             </li>
 
             <li class="nav-item" v-if="isLogueado">
-              <router-link class="nav-link" to="/clientes">Clientes</router-link>
+              <router-link class="nav-link" to="/clientes"
+                >Clientes</router-link
+              >
             </li>
 
             <li class="nav-item">
-              <router-link class="nav-link" to="/noticias">Noticias</router-link>
+              <router-link class="nav-link" to="/noticias"
+                >Noticias</router-link
+              >
             </li>
 
             <li class="nav-item" v-if="isAdmin">
@@ -49,9 +53,30 @@
             </li>
 
             <li class="nav-item">
-              <router-link class="nav-link" to="/contacto">Contacto</router-link>
+              <router-link class="nav-link" to="/contacto"
+                >Contacto</router-link
+              >
             </li>
           </ul>
+
+          <!-- Barra de búsqueda -->
+          <form
+            class="d-flex align-items-center ms-4"
+            role="search"
+            @submit.prevent="buscar"
+          >
+            <input
+              class="form-control form-control-sm me-2 rounded-0"
+              type="search"
+              placeholder="Buscar..."
+              aria-label="Buscar"
+              v-model="query"
+              style="width: 140px"
+            />
+            <button class="btn btn-light btn-sm rounded-0" type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </form>
         </div>
 
         <!-- Usuario derecha (SIEMPRE fijo) -->
@@ -69,11 +94,15 @@
 
           <ul class="dropdown-menu dropdown-menu-end">
             <li v-if="!isLogueado">
-              <router-link class="dropdown-item" to="/login">Acceso</router-link>
+              <router-link class="dropdown-item" to="/login"
+                >Acceso</router-link
+              >
             </li>
 
             <li v-if="!isLogueado">
-              <router-link class="dropdown-item" to="/clientes">Registro</router-link>
+              <router-link class="dropdown-item" to="/clientes"
+                >Registro</router-link
+              >
             </li>
 
             <li v-if="isLogueado">
@@ -83,7 +112,9 @@
             </li>
 
             <li v-if="isLogueado">
-              <router-link class="dropdown-item" to="/clientes">Perfil</router-link>
+              <router-link class="dropdown-item" to="/clientes"
+                >Perfil</router-link
+              >
             </li>
           </ul>
         </div>
@@ -95,11 +126,25 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import { checkAdmin } from "@/api/authApi.js";
+import { useRouter } from "vue-router";
 
 const isLogueado = ref(false);
 const isAdmin = ref(false);
 const isUsuario = ref(false);
 const userName = ref("");
+const router = useRouter();
+const query = ref("");
+
+function buscar() {
+  if (!query.value.trim()) return;
+
+  router.push({
+    name: "Buscar",
+    query: { q: query.value.trim() },
+  });
+
+  query.value = "";
+}
 
 const actualizarNombreUsuario = () => {
   userName.value = sessionStorage.getItem("userName") || "";

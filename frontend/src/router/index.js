@@ -10,6 +10,7 @@ import CitasTaller from '../components/CitasTaller.vue';
 import TablaLogin from '../components/TablaLogin.vue';
 import Ventas from '../components/Ventas.vue';
 import Contacto from '../components/Contacto.vue';
+import Buscar from '../components/Buscar.vue';
 
 const routes = [
     {
@@ -23,10 +24,15 @@ const routes = [
         component: GestionClientes
     },
     {
+        path: '/buscar',
+        name: 'Buscar',
+        component: Buscar
+    },
+    {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
         component: NotFound
-    },        
+    },
     {
         path: '/noticias',
         name: 'Noticias',
@@ -84,7 +90,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     const token = sessionStorage.getItem('token');
     if (to.meta.requiresAuth) {
-        if (!token) {            
+        if (!token) {
             return next("/login");
         }
 
@@ -96,8 +102,8 @@ router.beforeEach(async (to, from, next) => {
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.message);
-            
-            if (to.meta.requiresAdmin && data.tipo !== "admin") {                
+
+            if (to.meta.requiresAdmin && data.tipo !== "admin") {
                 return next("/");
             }
             return next()

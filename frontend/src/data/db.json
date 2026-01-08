@@ -516,6 +516,23 @@
       "lopd": true,
       "contrasena": "$2b$10$l/nETIWG5l64EiAAGhuls.Rg9vCVuIUjDGJWvhxhO4CveOaWT0VNO",
       "tipo": "user"
+    },
+    {
+      "id": "58c5",
+      "dni": "78605154D",
+      "nombre": "Paco Melano",
+      "apellidos": "Pepe Lopes",
+      "email": "pacomelano@gmail.com",
+      "movil": "699686760",
+      "direccion": "Mi Casa ",
+      "provincia": "Alicante",
+      "municipio": "Alcalalí",
+      "fecha_alta": "2026-01-15",
+      "historico": true,
+      "tipoCliente": "empresa",
+      "lopd": true,
+      "contrasena": "$2b$10$aXcg1DtgJbdNuJVgQtba1uQa9cbGe4984ztO4WBHuW8TSdxikYiWe",
+      "tipo": "user"
     }
   ],
   "noticias": [
