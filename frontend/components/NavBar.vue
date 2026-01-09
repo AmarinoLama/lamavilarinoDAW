@@ -58,10 +58,12 @@
               >
             </li>
           </ul>
+        </div>
 
-          <!-- Barra de búsqueda -->
+        <!-- Barra de búsqueda + Usuario derecha (SIEMPRE fijo) -->
+        <div class="d-flex align-items-center ms-auto gap-3">
           <form
-            class="d-flex align-items-center ms-4"
+            class="d-flex align-items-center"
             role="search"
             @submit.prevent="buscar"
           >
@@ -77,46 +79,47 @@
               <i class="bi bi-search"></i>
             </button>
           </form>
-        </div>
 
-        <!-- Usuario derecha (SIEMPRE fijo) -->
-        <div class="dropdown ms-auto">
-          <span class="text-white me-2" v-if="isLogueado">{{ userName }}</span>
+          <div class="dropdown">
+            <span class="text-white me-2" v-if="isLogueado">{{
+              userName
+            }}</span>
 
-          <button
-            class="btn btn-primary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i class="bi bi-person fs-2"></i>
-          </button>
+            <button
+              class="btn btn-primary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="bi bi-person fs-2"></i>
+            </button>
 
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li v-if="!isLogueado">
-              <router-link class="dropdown-item" to="/login"
-                >Acceso</router-link
-              >
-            </li>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li v-if="!isLogueado">
+                <router-link class="dropdown-item" to="/login"
+                  >Acceso</router-link
+                >
+              </li>
 
-            <li v-if="!isLogueado">
-              <router-link class="dropdown-item" to="/clientes"
-                >Registro</router-link
-              >
-            </li>
+              <li v-if="!isLogueado">
+                <router-link class="dropdown-item" to="/clientes"
+                  >Registro</router-link
+                >
+              </li>
 
-            <li v-if="isLogueado">
-              <a class="dropdown-item" href="#" @click.prevent="logout">
-                Cerrar Sesión
-              </a>
-            </li>
+              <li v-if="isLogueado">
+                <a class="dropdown-item" href="#" @click.prevent="logout">
+                  Cerrar Sesión
+                </a>
+              </li>
 
-            <li v-if="isLogueado">
-              <router-link class="dropdown-item" to="/clientes"
-                >Perfil</router-link
-              >
-            </li>
-          </ul>
+              <li v-if="isLogueado">
+                <router-link class="dropdown-item" to="/clientes"
+                  >Perfil</router-link
+                >
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

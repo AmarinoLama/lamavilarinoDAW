@@ -453,7 +453,7 @@ import {
   updateArticulo,
   deleteArticulo,
 } from "@/api/articulos.js";
-import provmuniData from "@/data/provmuni.json";
+import provmuniData from "../../backend/data/provmuni.json";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 

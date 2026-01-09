@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --config frontend/vite.config.js",
-    "build": "vite build --config frontend/vite.config.js",
-    "preview": "vite preview --config frontend/vite.config.js",
-    "json-server": "json-server --watch ./frontend/src/data/db.json --port 3000",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "json-server": "json-server --watch ./backend/data/db.json --port 3000",
     "server": "node ./backend/server/server.js",
     "start": "concurrently \"npm run dev\" \"npm run server\" \"npm run json-server\""
   },

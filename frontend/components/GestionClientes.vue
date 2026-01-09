@@ -418,7 +418,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from "vue";
-import provmuniData from "@/data/provmuni.json";
+import provmuniData from "../../backend/data/provmuni.json";
 import Swal from "sweetalert2";
 import bcrypt from "bcryptjs";
 import { jsPDF } from "jspdf";

@@ -1,3 +1,5 @@
+<!-- Código sin usar -->
+
 <template>
   <div class="chat-container">
     <!-- Botón flotante para abrir/cerrar el chat -->
