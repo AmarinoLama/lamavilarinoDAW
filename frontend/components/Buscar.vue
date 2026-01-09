@@ -60,8 +60,50 @@
       </div>
     </div>
 
+    <!-- Resultados de Vehículos -->
+    <div v-if="vehiculos.length > 0" class="mt-4">
+      <h3>Vehículos ({{ vehiculos.length }})</h3>
+      <div class="row">
+        <div
+          v-for="vehiculo in vehiculos"
+          :key="vehiculo._id"
+          class="col-md-4 mb-3"
+        >
+          <div class="card h-100">
+            <img
+              v-if="vehiculo.imagen"
+              :src="`http://localhost:5000${vehiculo.imagen}`"
+              class="card-img-top"
+              alt="Imagen vehículo"
+            />
+            <div class="card-body">
+              <h5
+                class="card-title"
+                v-html="highlightMatch(vehiculo.marca + ' ' + vehiculo.modelo)"
+              ></h5>
+              <p class="card-text">
+                <strong>Año:</strong>
+                <span v-html="highlightMatch(String(vehiculo.ano))"></span
+                ><br />
+                <strong>Matrícula:</strong>
+                <span v-html="highlightMatch(vehiculo.matricula)"></span><br />
+                <strong>Color:</strong>
+                <span v-html="highlightMatch(vehiculo.color)"></span><br />
+                <strong>Precio:</strong> {{ vehiculo.precio }}€
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Sin resultados -->
-    <div v-if="clientes.length === 0 && noticias.length === 0" class="mt-4">
+    <div
+      v-if="
+        clientes.length === 0 && noticias.length === 0 && vehiculos.length === 0
+      "
+      class="mt-4"
+    >
       <div class="alert alert-info">
         No se encontraron resultados para "{{ searchTerm }}"
       </div>
@@ -78,6 +120,7 @@ const route = useRoute();
 const searchTerm = ref("");
 const clientes = ref([]);
 const noticias = ref([]);
+const vehiculos = ref([]);
 const isLogueado = ref(false);
 
 // Verificar si el usuario está logueado
@@ -104,10 +147,13 @@ const buscarClientes = async (termino) => {
 
   try {
     const response = await axios.get(`http://localhost:3000/clientes`);
-    const terminoLower = termino.toLowerCase();
+    const terminoLower = termino.toLowerCase().trim();
 
     // Filtramos localmente por todos los campos relevantes
     clientes.value = response.data.filter((cliente) => {
+      // Solo clientes activos (historico = true)
+      if (cliente.historico === false) return false;
+
       // Convertimos todo a string para evitar errores con null/undefined
       const dni = String(cliente.dni || "").toLowerCase();
       const nombre = String(cliente.nombre || "").toLowerCase();
@@ -115,7 +161,6 @@ const buscarClientes = async (termino) => {
       const email = String(cliente.email || "").toLowerCase();
       const movil = String(cliente.movil || "").toLowerCase();
       const provincia = String(cliente.provincia || "").toLowerCase();
-      const municipio = String(cliente.municipio || "").toLowerCase();
 
       return (
         dni.includes(terminoLower) ||
@@ -123,12 +168,15 @@ const buscarClientes = async (termino) => {
         apellidos.includes(terminoLower) ||
         email.includes(terminoLower) ||
         movil.includes(terminoLower) ||
-        provincia.includes(terminoLower) ||
-        municipio.includes(terminoLower)
+        provincia.includes(terminoLower)
       );
     });
+
+    console.log("Término de búsqueda:", terminoLower);
+    console.log("Clientes encontrados:", clientes.value.length);
   } catch (error) {
     console.error("Error al buscar clientes:", error);
+    clientes.value = [];
   }
 };
 
@@ -155,13 +203,56 @@ const buscarNoticias = async (termino) => {
   }
 };
 
+// Función para buscar vehículos (solo si está logueado)
+const buscarVehiculos = async (termino) => {
+  if (!isLogueado.value) {
+    vehiculos.value = [];
+    return;
+  }
+
+  try {
+    const response = await axios.get(`http://localhost:5000/api/articulos`);
+    const terminoLower = termino.toLowerCase().trim();
+
+    // Filtramos vehículos por marca, modelo, matrícula, color, año
+    vehiculos.value = response.data.filter((vehiculo) => {
+      const marca = String(vehiculo.marca || "").toLowerCase();
+      const modelo = String(vehiculo.modelo || "").toLowerCase();
+      const matricula = String(vehiculo.matricula || "").toLowerCase();
+      const color = String(vehiculo.color || "").toLowerCase();
+      const ano = String(vehiculo.ano || "");
+
+      return (
+        marca.includes(terminoLower) ||
+        modelo.includes(terminoLower) ||
+        matricula.includes(terminoLower) ||
+        color.includes(terminoLower) ||
+        ano.includes(terminoLower)
+      );
+    });
+
+    console.log("Vehículos encontrados:", vehiculos.value.length);
+  } catch (error) {
+    console.error("Error al buscar vehículos:", error);
+    vehiculos.value = [];
+  }
+};
+
 // Función principal de búsqueda
 const realizarBusqueda = async () => {
-  searchTerm.value = route.query.q || "";
-  if (searchTerm.value) {
+  const nuevoTermino = route.query.q || "";
+  searchTerm.value = nuevoTermino;
+
+  // Limpiar resultados anteriores
+  clientes.value = [];
+  noticias.value = [];
+  vehiculos.value = [];
+
+  if (searchTerm.value.trim()) {
     verificarSesion();
     await buscarClientes(searchTerm.value);
     await buscarNoticias(searchTerm.value);
+    await buscarVehiculos(searchTerm.value);
   }
 };
 
@@ -169,9 +260,7 @@ const realizarBusqueda = async () => {
 watch(
   () => route.query.q,
   (newQuery) => {
-    if (newQuery) {
-      realizarBusqueda();
-    }
+    realizarBusqueda();
   }
 );
 
