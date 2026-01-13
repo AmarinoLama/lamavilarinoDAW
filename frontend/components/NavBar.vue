@@ -62,6 +62,8 @@
 
         <!-- Barra de búsqueda + Usuario derecha (SIEMPRE fijo) -->
         <div class="d-flex align-items-center ms-auto gap-3">
+          <!-- Parte de la barra de búsqueda -->
+
           <form
             class="d-flex align-items-center"
             role="search"
@@ -79,6 +81,24 @@
               <i class="bi bi-search"></i>
             </button>
           </form>
+
+          <!-- Parte de la cesta de la compra -->
+
+          <router-link
+            to="/cesta"
+            class="btn btn-primary position-relative ms-3 me-2"
+            title="Cesta"
+          >
+            <i class="bi bi-cart3 fs-4"></i>
+            <span
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              v-if="cesta.totalItems > 0"
+            >
+              {{  cesta.totalItems  }}
+            </span>
+          </router-link>
+
+          <!-- Parte del usuario -->
 
           <div class="dropdown">
             <span class="text-white me-2" v-if="isLogueado">{{
@@ -130,6 +150,9 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { checkAdmin } from "@/api/authApi.js";
 import { useRouter } from "vue-router";
+import { useCestaStore } from "@/store/cesta";
+
+const cesta = useCestaStore();
 
 const isLogueado = ref(false);
 const isAdmin = ref(false);

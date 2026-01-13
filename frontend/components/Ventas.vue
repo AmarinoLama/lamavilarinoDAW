@@ -25,6 +25,12 @@
 
                     <div class="card-footer text-end bg-white">
                         <span class="badge bg-primary">{{ car.estado }}</span>
+                        <button
+                            class="btn badge btn-sm btn-success ms-2"
+                            @click.stop="agregarACesta(car)"
+                            >
+                            <i class="bi bi-cart3 me-1"></i> Añadir Cesta
+                        </button>
                     </div>
                 </div>
             </div>
@@ -99,9 +105,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { getArticulos } from "@/api/articulos.js";
+import { useCestaStore } from "@/store/cesta";
 
 const vehiculos = ref([]);
 const vehiculoSeleccionado = ref(null);
+const cestaStore = useCestaStore();
 
 onMounted(async () => {
     vehiculos.value = await getArticulos();
@@ -127,6 +135,15 @@ const formatearFecha = (fecha) => {
         year: 'numeric', 
         month: 'long', 
         day: 'numeric' 
+    });
+};
+
+const agregarACesta = (vehiculo) => {
+    cestaStore.addProducto({
+        id: vehiculo._id,
+        nombre: `${vehiculo.marca} ${vehiculo.modelo}`,
+        precio: vehiculo.precio,
+        imagen: urlImagen(vehiculo.imagen),
     });
 };
 

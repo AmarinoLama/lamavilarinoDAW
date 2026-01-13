@@ -11,6 +11,7 @@ import TablaLogin from '../components/TablaLogin.vue';
 import Ventas from '../components/Ventas.vue';
 import Contacto from '../components/Contacto.vue';
 import Buscar from '../components/Buscar.vue';
+import Cesta from '../components/Cesta.vue';
 
 const routes = [
     {
@@ -79,6 +80,11 @@ const routes = [
         path: '/contacto',
         name: 'Contacto',
         component: Contacto
+    },
+    {
+        path: '/cesta',
+        name: 'Cesta',
+        component: Cesta,
     }
 ];
 
