@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+import Stripe from "stripe";
 
 // a diferencia de json-server, aquí necesita configurar las rutas y controladores manualmente
 // json-server crea automáticamente las rutas basadas en el archivo JSON, mongoose requiere definir esquemas y modelos
@@ -31,11 +32,49 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-
+// Middleware para CSP - Permite estilos en línea necesarios para Stripe y otras librerías
+app.use((req, res, next) => {
+    res.setHeader(
+        "Content-Security-Policy",
+        "default-src 'self'; style-src 'self' 'unsafe-inline' 'sha256-0hAheEzaMe6uXIKV4EehS9pu1am1lj/KnnzrOYqckXk=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' https://m.stripe.network https://fonts.googleapis.com https://js.stripe.com; script-src 'self' 'unsafe-inline' https://embed.tawk.to https://js.stripe.com https://m.stripe.network; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' http://localhost:* https://api.stripe.com https://m.stripe.network https://checkout.stripe.com; frame-src https://m.stripe.network https://js.stripe.com https://checkout.stripe.com;"
+    );
+    next();
+});
 
 app.use(express.json());
 
 
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+app.post("/crear-checkout-session", async (req, res) => {
+    try {
+        const { items } = req.body;
+
+        const lineItems = items.map(item => ({
+            price_data: {
+                currency: 'eur',
+                product_data: {
+                    name: item.nombre,
+                },
+                unit_amount: Math.round(item.precio * 100),
+            },
+            quantity: item.cantidad,
+        }));
+
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: lineItems,
+            mode: 'payment',
+            success_url: 'http://localhost:5173/success',
+            cancel_url: 'http://localhost:5173/cancel',
+        });
+
+        res.json({ url: session.url });
+    } catch (error) {
+        console.error("Error creating checkout session:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
 
 // Rutas DE MONGOOSE, JSON SERVER NO ES NECESARIO LAS RUTAS LAS CREA AUTOMATICAMENTE
 // json-server es un backend ya construido.

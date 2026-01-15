@@ -12,6 +12,7 @@ import Ventas from '../components/Ventas.vue';
 import Contacto from '../components/Contacto.vue';
 import Buscar from '../components/Buscar.vue';
 import Cesta from '../components/Cesta.vue';
+import Success from '../components/Success.vue';
 
 const routes = [
     {
@@ -85,6 +86,11 @@ const routes = [
         path: '/cesta',
         name: 'Cesta',
         component: Cesta,
+    },
+    {
+        path: '/success',
+        name: 'Success',
+        component: Success,
     }
 ];
 
