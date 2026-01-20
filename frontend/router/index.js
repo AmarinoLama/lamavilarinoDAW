@@ -86,6 +86,9 @@ const routes = [
         path: '/cesta',
         name: 'Cesta',
         component: Cesta,
+        meta: {
+            requiresAuth: true,
+        }
     },
     {
         path: '/success',
