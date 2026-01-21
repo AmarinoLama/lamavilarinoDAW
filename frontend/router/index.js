@@ -73,9 +73,6 @@ const routes = [
         path: '/ventas',
         name: 'Ventas',
         component: Ventas,
-        meta: {
-            requiresAuth: true,
-        }
     },
     {
         path: '/contacto',
@@ -86,9 +83,6 @@ const routes = [
         path: '/cesta',
         name: 'Cesta',
         component: Cesta,
-        meta: {
-            requiresAuth: true,
-        }
     },
     {
         path: '/success',

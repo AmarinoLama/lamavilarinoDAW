@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="card-footer text-end bg-white">
-                        <span class="badge bg-primary">{{ car.estado }}</span>
+                        <span :class="['badge', estadoClass(car.estado)]">{{ car.estado }}</span>
                         <button
                             class="btn badge btn-sm btn-success ms-2"
                             @click.stop="agregarACesta(car)"
@@ -61,7 +61,7 @@
                                 <p><strong>Marca:</strong> {{ vehiculoSeleccionado.marca }}</p>
                                 <p><strong>Modelo:</strong> {{ vehiculoSeleccionado.modelo }}</p>
                                 <p><strong>Año:</strong> {{ vehiculoSeleccionado.anio }}</p>
-                                <p><strong>Estado:</strong> <span class="badge bg-primary">{{ vehiculoSeleccionado.estado }}</span></p>
+                                <p><strong>Estado:</strong> <span :class="['badge', estadoClass(vehiculoSeleccionado.estado)]">{{ vehiculoSeleccionado.estado }}</span></p>
                                 <p><strong>Kilómetros:</strong> {{ vehiculoSeleccionado.kilometros }} km</p>
                                 <p><strong>Precio:</strong> <span class="text-success fw-bold">{{ vehiculoSeleccionado.precio }}€</span></p>
                             </div>
@@ -145,6 +145,21 @@ const agregarACesta = (vehiculo) => {
         precio: vehiculo.precio,
         imagen: urlImagen(vehiculo.imagen),
     });
+};
+
+// Devuelve la clase Bootstrap según el estado
+const estadoClass = (estado) => {
+    const value = (estado || '').toString().toLowerCase().trim();
+    switch (value) {
+        case 'disponible':
+            return 'bg-primary';
+        case 'vendido':
+            return 'bg-danger';
+        case 'reservado':
+            return 'bg-warning text-dark';
+        default:
+            return 'bg-secondary';
+    }
 };
 
 </script>

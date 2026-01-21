@@ -101,9 +101,14 @@ export default {
         // Redirigir a la página de inicio y recargar con $router
         // $router se usa para evitar problemas de historial en SPA
         // window.location.reload() recarga la página para reflejar el estado autenticado
-        this.$router
-          .push({ name: "Inicio" })
-          .then(() => window.location.reload());
+        const redirectQuery = this.$route?.query?.redirect;
+        const redirectStorage = sessionStorage.getItem("redirectAfterLogin");
+        let targetRoute = { name: "Inicio" };
+        if (redirectQuery === "cesta" || redirectStorage === "cesta") {
+          targetRoute = { name: "Cesta" };
+        }
+        sessionStorage.removeItem("redirectAfterLogin");
+        this.$router.push(targetRoute).then(() => window.location.reload());
       } catch (error) {
         console.error("Error en iniciarSesion:", error);
 
