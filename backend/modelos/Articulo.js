@@ -12,6 +12,7 @@ const ArticuloSchema = new mongoose.Schema(
 
     kilometros: { type: Number, default: 0 },
     precio: { type: Number, required: true },
+    nivel_uso: { type: Number, default: 0, min: 0, max: 3 },
 
     combustible: { type: String, required: true },
     transmision: { type: String, required: true },

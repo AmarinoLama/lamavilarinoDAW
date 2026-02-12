@@ -1,48 +1,67 @@
 <template>
-  <div
-    class="d-flex flex-column justify-content-center align-items-center vh-75 mt-5"
-  >
-    <div class="text-center mb-4">
-      <h5
-        class="fw-bold text-uppercase text-primary position-relative d-inline-block"
-      >
-        <i class="bi bi-people-fill me-2 fs-3"></i>
-        Iniciar sesión
-        <span class="underline-effect"></span>
-      </h5>
-    </div>
+  <div class="container vh-75 mt-5">
+    <div class="row justify-content-center align-items-start">
+      <div class="col-12 text-center mb-4">
+        <h5 class="fw-bold text-uppercase text-primary position-relative d-inline-block">
+          <i class="bi bi-people-fill me-2 fs-3"></i>
+          Iniciar sesión
+          <span class="underline-effect"></span>
+        </h5>
+      </div>
 
-    <div class="border p-4 shadow-sm rounded w-100" style="max-width: 400px">
-      <form @submit.prevent="iniciarSesion">
-        <div class="mb-3">
-          <label for="dni" class="form-label fw-bold">DNI:</label>
-          <input
-            type="text"
-            id="dni"
-            autocomplete="off"
-            @blur="capitalizarTexto"
-            class="form-control text-center"
-            v-model="dni"
-          />
-        </div>
+      <div class="col-12 col-md-6 mb-3">
+        <div class="border p-4 shadow-sm rounded h-100">
+          <form @submit.prevent="iniciarSesion">
+            <div class="mb-3">
+              <label for="dni" class="form-label fw-bold">DNI:</label>
+              <input
+                type="text"
+                id="dni"
+                autocomplete="off"
+                @blur="capitalizarTexto"
+                class="form-control text-center"
+                v-model="dni"
+              />
+            </div>
 
-        <div class="mb-3">
-          <label for="password" class="form-label fw-bold">Contraseña:</label>
-          <input
-            type="password"
-            id="password"
-            autocomplete="new-password"
-            class="form-control"
-            v-model="pass"
-          />
-        </div>
+            <div class="mb-3">
+              <label for="password" class="form-label fw-bold">Contraseña:</label>
+              <input
+                type="password"
+                id="password"
+                autocomplete="new-password"
+                class="form-control"
+                v-model="pass"
+              />
+            </div>
 
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary w-50">
-            Iniciar sesión
-          </button>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary w-50">
+                Iniciar sesión
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
+
+      <div class="col-12 col-md-4 offset-md-1 mb-3">
+        <div class="border p-3 rounded shadow-sm bg-light h-100">
+          <h6 class="fw-bold">Credenciales de ejemplo</h6>
+          <p class="mb-2"><strong>Administrador</strong></p>
+          <ul class="list-unstyled mb-3">
+            <li><strong>DNI:</strong> 55555555K</li>
+            <li><strong>Password:</strong> abc123</li>
+          </ul>
+
+          <p class="mb-2"><strong>Usuario</strong></p>
+          <ul class="list-unstyled">
+            <li><strong>DNI:</strong> 12345678Z</li>
+            <li><strong>Password:</strong> abc123</li>
+          </ul>
+
+          <small class="text-muted">Solo para pruebas en entorno local.</small>
+        </div>
+      </div>
     </div>
   </div>
 </template>

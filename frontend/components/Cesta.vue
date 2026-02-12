@@ -50,7 +50,10 @@
       </table>
 
       <div class="d-flex justify-content-between align-items-center mt-3">
-        <h5>Total: {{ cesta.totalPrecio }} €</h5>
+        <div class="d-flex flex-column">
+          <p v-if="cupon.toUpperCase() === 'DESCUENTO' && preciofinal != cesta.totalPrecio" class="mb-1 text-success">%10 descontado</p>
+          <h5 class="mb-0">Total: {{ preciofinal }} €</h5>
+        </div>
         <div class="d-flex align-items-center gap-2">
           <button
             class="btn btn-success"
@@ -77,6 +80,25 @@
         </div>
       </div>
 
+      <!-- Cupón reubicado: fila separada debajo del total, usando utilidades Bootstrap -->
+      <div class="row mt-3">
+        <div class="col-12 col-md-6">
+          <div class="input-group input-group-sm" style="max-width:420px;">
+            <span class="input-group-text">Cupón</span>
+            <input
+              type="text"
+              id="cupon"
+              v-model="cupon"
+              class="form-control"
+              placeholder="Código de cupón"
+              @blur="aplicarCupon"
+            />
+            <button class="btn btn-outline-secondary" @click="aplicarCupon">Aplicar</button>
+          </div>
+          <small class="text-muted d-block mt-1">Introduce 'DESCUENTO' para 10% de descuento (solo pruebas).</small>
+        </div>
+      </div>
+
       <p v-if="!isLoggedIn" class="text-danger mt-2 text-end">
         Debes iniciar sesión para poder pagar
       </p>
@@ -85,7 +107,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useCestaStore } from "@/store/cesta";
 import { loadStripe } from "@stripe/stripe-js";
@@ -93,6 +115,8 @@ import { loadStripe } from "@stripe/stripe-js";
 const router = useRouter();
 const cesta = useCestaStore();
 const isLoggedIn = computed(() => !!sessionStorage.getItem("token"));
+const cupon = ref("");
+const preciofinal = ref(0);
 
 const incrementar = (id) => {
   cesta.incrementar(id);
@@ -103,6 +127,19 @@ const decrementar = (id) => {
 const removeProducto = (id) => {
   cesta.removeProducto(id);
 };
+
+const aplicarCupon = () => {
+  console.log("Me ejecuté")
+  if (cupon.value.toUpperCase() === "DESCUENTO") {
+    preciofinal.value = cesta.totalPrecio - ((cesta.totalPrecio * 10) / 100);
+  } else {
+    preciofinal.value = cesta.totalPrecio
+  }
+};
+
+// Para que aparezca el precio al cargar
+aplicarCupon();
+
 const iniciarPago = async () => {
   // Requiere inicio de sesión
   const token = sessionStorage.getItem("token");
@@ -122,7 +159,7 @@ const iniciarPago = async () => {
   const response = await fetch("http://localhost:5000/crear-checkout-session", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ items: cesta.items, amount: cesta.totalPrecio }),
+    body: JSON.stringify({ items: cesta.items, amount: preciofinal.value }),
   });
 
   const session = await response.json();

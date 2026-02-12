@@ -144,6 +144,21 @@
         </div>
 
         <div class="col-12 col-md-2 d-flex align-items-center">
+          <label for="nivel_uso" class="form-label mb-0 me-3 text-nowrap"
+            >Nivel Uso:</label
+          >
+          <input
+            type="number"
+            id="nivel_uso"
+            v-model.number="vehiculo.nivel_uso"
+            class="form-control form-control-sm rounded-0 shadow-none border text-end"
+            min="0"
+            max="3"
+            required
+          />
+        </div>
+
+        <div class="col-12 col-md-2 d-flex align-items-center">
           <label for="precio" class="form-label mb-0 me-3 text-nowrap"
             >Precio (€):</label
           >
@@ -397,6 +412,7 @@
             <th>Matrícula</th>
             <th>Marca</th>
             <th>Modelo</th>
+            <th>Nivel Uso</th>
             <th>Estado</th>
             <th>Contacto</th>
             <th style="width: 80px">Acciones</th>
@@ -407,6 +423,9 @@
             <td class="text-center fw-bold">{{ v.matricula }}</td>
             <td>{{ v.marca }}</td>
             <td>{{ v.modelo }}</td>
+            <td class="text-center">
+              <span class="badge bg-info">{{ getNivelUsoTexto(v.nivel_uso) }}</span>
+            </td>
             <td class="text-center">
               <span
                 class="badge"
@@ -466,6 +485,7 @@ const vehiculo = ref({
   estado: "",
   kilometros: "",
   precio: "",
+  nivel_uso: 0,
   combustible: "",
   transmision: "",
   potencia_cv: "",
@@ -518,6 +538,7 @@ const limpiarFormulario = () => {
     estado: "disponible",
     kilometros: "",
     precio: "",
+    nivel_uso: 0,
     combustible: "",
     transmision: "",
     potencia_cv: "",
@@ -549,6 +570,7 @@ const cargarVehiculo = (v) => {
     estado: v.estado || "disponible",
     kilometros: v.kilometros || "",
     precio: v.precio || "",
+    nivel_uso: v.nivel_uso !== undefined ? v.nivel_uso : 0,
     combustible: v.combustible || "",
     transmision: v.transmision || "",
     potencia_cv: v.potencia_cv || "",
@@ -638,6 +660,22 @@ const capitalizarTexto = (campo) => {
       return palabra.charAt(0).toUpperCase() + palabra.slice(1);
     })
     .join(" ");
+};
+
+const getNivelUsoTexto = (nivel) => {
+  const nivelNum = parseInt(nivel ?? 0);
+  switch (nivelNum) {
+    case 0:
+      return "0 - Nuevo";
+    case 1:
+      return "1 - Excelente";
+    case 2:
+      return "2 - Bueno";
+    case 3:
+      return "3 - Regular";
+    default:
+      return "0 - Nuevo";
+  }
 };
 
 const capitalizarContacto = (campo) => {

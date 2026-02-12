@@ -290,22 +290,6 @@
     },
     {
       "tipo": "user",
-      "dni": "12345678Z",
-      "fecha_alta": "2022-09-30",
-      "nombre": "Laura",
-      "apellidos": "Gómez Fernández",
-      "email": "laura.gomez@example.com",
-      "movil": "645678902",
-      "direccion": "Calle Sánchez 18",
-      "provincia": "Valencia",
-      "municipio": "Xàtiva",
-      "historico": false,
-      "lopd": true,
-      "password": "",
-      "id": "bacd"
-    },
-    {
-      "tipo": "user",
       "dni": "87654321X",
       "fecha_alta": "2023-12-17",
       "nombre": "Luis",
@@ -532,6 +516,23 @@
       "tipoCliente": "empresa",
       "lopd": true,
       "contrasena": "$2b$10$aXcg1DtgJbdNuJVgQtba1uQa9cbGe4984ztO4WBHuW8TSdxikYiWe",
+      "tipo": "user"
+    },
+    {
+      "id": "6135",
+      "dni": "12345678Z",
+      "nombre": "User Normal",
+      "apellidos": "Adsda Asdasd ",
+      "email": "aman@gaml.com",
+      "movil": "666555444",
+      "direccion": "Asdasd",
+      "provincia": "Alicante",
+      "municipio": "Albatera",
+      "fecha_alta": "1212-12-21",
+      "historico": true,
+      "tipoCliente": "",
+      "lopd": true,
+      "contrasena": "$2b$10$vicNaPwF7lIjHzIIoIn/NuHFEjdBiUpDU778MT8qdY70IwjlMNjqa",
       "tipo": "user"
     }
   ],
