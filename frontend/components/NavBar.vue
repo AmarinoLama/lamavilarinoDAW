@@ -221,9 +221,26 @@ function logout() {
 /* CENTRADO REAL */
 .navbar-center {
   position: absolute;
-  left: 50%;
+  left: 46%;
   transform: translateX(-50%);
   display: flex;
+}
+
+@media (max-width: 991.98px) {
+  /* En pantallas pequeñas permitimos que el nav colapsado se comporte de forma normal
+     evitando que el centro absoluto solape la barra de búsqueda y el contenido derecho */
+  .navbar-center {
+    position: static;
+    transform: none;
+    display: flex;
+    justify-content: flex-start;
+    margin-right: auto;
+  }
+
+  /* Reducir el ancho del input de búsqueda en móviles para evitar solapamientos */
+  form[role="search"] input[type="search"] {
+    width: 100px !important;
+  }
 }
 
 .navbar-nav {

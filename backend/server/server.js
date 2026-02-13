@@ -43,7 +43,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 app.post("/crear-checkout-session", async (req, res) => {
     try {
-        const { items } = req.body;
+        const { items, amount } = req.body;
 
         const lineItems = items.map(item => ({
             price_data: {
@@ -51,7 +51,7 @@ app.post("/crear-checkout-session", async (req, res) => {
                 product_data: {
                     name: item.nombre,
                 },
-                unit_amount: Math.round(item.precio * 100),
+                unit_amount: amount*100,
             },
             quantity: item.cantidad,
         }));
