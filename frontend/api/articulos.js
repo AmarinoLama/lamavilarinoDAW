@@ -33,3 +33,8 @@ export const updateArticulo = (id, articuloActualizado) => {
   }).then(res => res.data)
 }
 
+export const updateEstadoArticulo = (id, estado) => {
+  return axios.patch(`${API_URL}/${id}/estado`, { estado })
+    .then(res => res.data);
+}
+

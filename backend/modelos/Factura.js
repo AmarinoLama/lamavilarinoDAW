@@ -10,7 +10,9 @@ const facturaSchema = new mongoose.Schema({
   }],
   total: { type: Number, required: true },
   fecha: { type: Date, default: Date.now },
-  estado: { type: String, default: 'pagada' }
+  estado: { type: String, default: 'pagada' },
+  dni: { type: String, required: false },
+  clienteNombre: { type: String, required: false }
 });
 
 export default mongoose.model('Factura', facturaSchema);

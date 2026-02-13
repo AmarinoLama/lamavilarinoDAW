@@ -112,17 +112,22 @@ export default {
       } catch (error) {
         console.error("Error en iniciarSesion:", error);
 
+        const backendMessage = error?.response?.data?.message;
         let mensajeError =
+          backendMessage ||
           "Error usuario o contraseña. Verifica tus credenciales.";
 
         // Mostrar mensaje específico según el error
-        if (error.message === "Usuario no encontrado") {
+        if (backendMessage === "Usuario no encontrado") {
           mensajeError = "El usuario no existe. Verifica tu DNI.";
-        } else if (error.message === "Usuario inactivo") {
+        } else if (backendMessage === "Usuario inactivo") {
           mensajeError =
             "Tu cuenta está inactiva. Contacta con el administrador.";
-        } else if (error.message === "Contraseña incorrecta") {
+        } else if (backendMessage === "Contraseña incorrecta") {
           mensajeError = "La contraseña es incorrecta.";
+        } else if (backendMessage === "Contraseña no configurada") {
+          mensajeError =
+            "Tu cuenta no tiene contraseña configurada. Contacta con el administrador.";
         }
 
         Swal.fire({

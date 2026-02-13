@@ -41,6 +41,34 @@ router.get("/", async (req, res) => {
     res.json(articulos);
 });
 
+// Actualizar solo el estado de un artículo
+router.patch("/:id/estado", async (req, res) => {
+    try {
+        const { estado } = req.body;
+        const estadoNormalizado = (estado || "").toString().toLowerCase().trim();
+        const estadosPermitidos = ["disponible", "reservado", "vendido"];
+
+        if (!estadoNormalizado || !estadosPermitidos.includes(estadoNormalizado)) {
+            return res.status(400).json({ error: "Estado inválido o no enviado" });
+        }
+
+        const actualizado = await Articulo.findByIdAndUpdate(
+            req.params.id,
+            { estado: estadoNormalizado },
+            { new: true }
+        );
+
+        if (!actualizado) {
+            return res.status(404).json({ error: "Artículo no encontrado" });
+        }
+
+        res.json(actualizado);
+    } catch (err) {
+        console.error("Error actualizando estado del artículo:", err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Guardar artículo con imagen
 router.post("/", upload.single('imagen'), async (req, res) => {
     try {

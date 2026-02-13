@@ -26,7 +26,9 @@
               ]"
               :readonly="editando"
               required
-              oninvalid="this.setCustomValidity('Por favor, rellene este campo')"
+              oninvalid="
+                this.setCustomValidity('Por favor, rellene este campo')
+              "
               oninput="this.setCustomValidity('')"
             />
             <button
@@ -422,7 +424,7 @@ import provmuniData from "../../backend/data/provmuni.json";
 import Swal from "sweetalert2";
 import bcrypt from "bcryptjs";
 import { jsPDF } from "jspdf";
-import "jspdf-autotable";
+import autoTable from "jspdf-autotable";
 import {
   getClientes,
   deleteCliente,
@@ -544,7 +546,7 @@ const guardarCliente = async () => {
       (cliente) =>
         cliente.dni === nuevoCliente.value.dni ||
         cliente.movil === nuevoCliente.value.movil ||
-        cliente.email === nuevoCliente.value.email
+        cliente.email === nuevoCliente.value.email,
     );
     if (duplicado) {
       Swal.fire({
@@ -583,7 +585,7 @@ const guardarCliente = async () => {
       const salt = await bcrypt.genSalt(10);
       const contrasenaHasheada = await bcrypt.hash(
         nuevoCliente.value.contrasena,
-        salt
+        salt,
       );
       clienteAGuardar = {
         ...nuevoCliente.value,
@@ -597,12 +599,12 @@ const guardarCliente = async () => {
 
       const clienteActualizado = await updateCliente(
         clienteEditandoId.value,
-        clienteAGuardar
+        clienteAGuardar,
       );
 
       // Actualiza el cliente en la lista local
       const index = clientes.value.findIndex(
-        (c) => c.id === clienteEditandoId.value
+        (c) => c.id === clienteEditandoId.value,
       );
       if (index !== -1) clientes.value[index] = clienteActualizado;
 
@@ -666,7 +668,7 @@ const eliminarCliente = async (movil) => {
   clientes.value = await getClientes();
   // Buscar cliente completo (que incluye el ID)
   const clienteAEliminar = clientes.value.find(
-    (cliente) => cliente.movil === movil
+    (cliente) => cliente.movil === movil,
   );
 
   if (!clienteAEliminar) {
@@ -1009,7 +1011,7 @@ const imprimirPDF = () => {
   ]);
 
   // Generar la tabla con estilos mejorados
-  doc.autoTable({
+  autoTable(doc, {
     startY: 38,
     head: headers,
     body: body,
@@ -1049,7 +1051,7 @@ const imprimirPDF = () => {
       `Página ${i} de ${pageCount}`,
       105,
       doc.internal.pageSize.height - 10,
-      { align: "center" }
+      { align: "center" },
     );
   }
 
@@ -1147,7 +1149,7 @@ const filtrarMunicipios = () => {
 
   // 3️⃣ filtrar los municipios cuyo id empiece por esos dos dígitos
   municipiosFiltrados.value = municipios.value.filter((m) =>
-    m.id.startsWith(codigoProv)
+    m.id.startsWith(codigoProv),
   );
 
   // 4️⃣ opcional: resetear el municipio si ya no corresponde

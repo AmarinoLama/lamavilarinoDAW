@@ -27,6 +27,8 @@
                         <span :class="['badge', estadoClass(car.estado)]">{{ car.estado }}</span>
                         <button
                             class="btn badge btn-sm btn-success ms-2"
+                            :disabled="!estaDisponible(car.estado)"
+                            :title="!estaDisponible(car.estado) ? 'No se puede añadir al carrito' : 'Añadir a la cesta'"
                             @click.stop="agregarACesta(car)"
                             >
                             <i class="bi bi-cart3 me-1"></i> Añadir Cesta
@@ -139,6 +141,8 @@ const formatearFecha = (fecha) => {
 };
 
 const agregarACesta = (vehiculo) => {
+    if (!estaDisponible(vehiculo.estado)) return;
+
     cestaStore.addProducto({
         id: vehiculo._id,
         nombre: `${vehiculo.marca} ${vehiculo.modelo}`,
@@ -160,6 +164,12 @@ const estadoClass = (estado) => {
         default:
             return 'bg-secondary';
     }
+};
+
+// Estado utilitario para controlar disponibilidad
+const estaDisponible = (estado) => {
+    const value = (estado || '').toString().toLowerCase().trim();
+    return value === 'disponible';
 };
 
 </script>

@@ -12,8 +12,15 @@ export const login = async (req, res) => {
 
         if (!user) return res.status(400).json({ message: 'Usuario no encontrado' });
 
-        const ok = await bcrypt.compare(password, user.contrasena);
+        const storedPassword = user.contrasena ?? user.password;
+        if (!storedPassword) {
+            return res.status(400).json({ message: 'Contraseña no configurada' });
+        }
 
+        const isBcryptHash = typeof storedPassword === "string" && /^\$2[aby]?\$/.test(storedPassword);
+        const ok = isBcryptHash
+            ? await bcrypt.compare(password, storedPassword)
+            : password === storedPassword;
 
         if (!ok) return res.status(400).json({ message: 'Contraseña incorrecta' });
 

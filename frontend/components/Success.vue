@@ -40,6 +40,7 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useCestaStore } from "@/store/cesta";
+import { updateEstadoArticulo } from "@/api/articulos";
 import logo from "@/assets/logoCochesTeis.png";
 
 export default {
@@ -81,6 +82,10 @@ export default {
           return;
         }
 
+        // Obtener DNI del cliente desde sessionStorage
+        const dniCliente = sessionStorage.getItem("dni") || "N/A";
+        const nombreCliente = sessionStorage.getItem("userName") || "N/A";
+
         const factura = {
           items: this.cartItems.map((item) => ({
             productoId: item._id || item.id || "N/A",
@@ -95,6 +100,8 @@ export default {
           ),
           fecha: new Date(),
           estado: "pagada",
+          dni: dniCliente,
+          clienteNombre: nombreCliente,
         };
 
         const response = await fetch("http://localhost:5000/api/facturas", {
@@ -112,10 +119,32 @@ export default {
         const data = await response.json();
         this.facturaId = data._id;
         console.log("Factura guardada con ID:", this.facturaId);
+
+        // Cambiar estado de los vehículos comprados a "reservado"
+        await this.reservarArticulos();
       } catch (error) {
         if (this.isUnmounting) return; // No procesar errores si el componente se está desmontando
         console.error("Error al guardar factura:", error);
         alert("Error al guardar la factura en la base de datos");
+      }
+    },
+
+    async reservarArticulos() {
+      const updates = this.cartItems
+        .map((item) => item._id || item.id)
+        .filter(Boolean)
+        .map((id) => updateEstadoArticulo(id, "reservado"));
+
+      if (updates.length === 0) return;
+
+      const resultados = await Promise.allSettled(updates);
+      const errores = resultados.filter((r) => r.status === "rejected");
+
+      if (errores.length) {
+        console.warn(
+          "Algunos vehículos no pudieron reservarse automáticamente",
+          errores,
+        );
       }
     },
 
@@ -167,11 +196,13 @@ export default {
           14,
           45,
         );
+        doc.text(`DNI Cliente: ${factura.dni || "N/A"}`, 14, 50);
+        doc.text(`Cliente: ${factura.clienteNombre || "N/A"}`, 14, 55);
 
         doc.setFontSize(9);
-        doc.text("Razón Social: Regalos Teis", 110, 50);
-        doc.text("Dirección: Avenida Galicia 101, Vigo - 36216", 110, 55);
-        doc.text("Tlfo: 986 666 333 - Email: regalos@example.com", 110, 60);
+        doc.text("Razón Social: Regalos Teis", 110, 65);
+        doc.text("Dirección: Avenida Galicia 101, Vigo - 36216", 110, 70);
+        doc.text("Tlfo: 986 666 333 - Email: regalos@example.com", 110, 75);
 
         const headers = [
           ["ID", "Producto", "Cantidad", "Precio Unitario", "Total"],
@@ -188,7 +219,7 @@ export default {
         console.log("Datos de tabla:", data);
 
         autoTable(doc, {
-          startY: 80,
+          startY: 95,
           head: headers,
           body: data,
           columnStyles: {
